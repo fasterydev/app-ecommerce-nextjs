@@ -1,3 +1,4 @@
+![Image](https://github.com/user-attachments/assets/4e677eef-0481-4275-8af4-0cc0773db120)
 # FasteryShop
 
 FasteryShop is a modern e-commerce platform built with cutting-edge technologies to deliver a fast, secure, and scalable shopping experience.
