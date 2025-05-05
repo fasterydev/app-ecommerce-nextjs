@@ -11,7 +11,7 @@ import { ModeToggle } from "../shared/mode-toggle";
 
 const Navbar = () => {
   return (
-    <nav className="flex items-center justify-between px-6 md:px-16 lg:px-32 py-3 border-b border-gray-300 ">
+    <nav className="flex items-center justify-between px-6 md:px-16 lg:px-32 py-3 border-b border-muted-foreground/20 ">
       <div>
         <LogoTheme />
       </div>
