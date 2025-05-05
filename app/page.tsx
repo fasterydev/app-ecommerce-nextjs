@@ -5,7 +5,6 @@ import HeaderSlider from "@/components/home/HeaderSlider";
 import HomeProducts from "@/components/home/HomeProducts";
 import Navbar from "@/components/home/Navbar";
 import NewsLetter from "@/components/home/NewsLetter";
-import { ModeToggle } from "@/components/shared/mode-toggle";
 
 export default function Home() {
   return (
@@ -19,7 +18,6 @@ export default function Home() {
         <NewsLetter />
       </div>
       <Footer />
-      <ModeToggle />
     </div>
   );
 }
