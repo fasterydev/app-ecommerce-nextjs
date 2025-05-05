@@ -1,7 +1,16 @@
 {
   "name": "nextjs-ecommerce-template",
-  "version": "0.1.0",
+  "description": "Private Next.js ecommerce template for exclusive use by fastery, LLC.",
+  "version": "1.0.0",
   "private": true,
+  "author": {
+    "name": "fasterydev, LLC",
+    "email": "info@fastery.dev"
+  },
+  "license": "UNLICENSED",
+  "engines": {
+    "node": "22.x"
+  },
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build",
