@@ -33,7 +33,7 @@ const Navbar = () => {
       <div className="flex items-center gap-3">
       <ModeToggle />
         <Link href="#">
-          <Button className="text-xs items-center text-center my-auto">
+          <Button className="text-sm items-center text-center my-auto">
             <UserCircleIcon />
             <div>Inicia sesión</div>
           </Button>
