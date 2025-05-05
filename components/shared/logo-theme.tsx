@@ -20,10 +20,10 @@ export function LogoTheme() {
   return (
     <>
       {isDarkMode && (
-        <div className="flex font-bold text-xl space-x-1">
+        <div className="flex font-semibold text-xl space-x-1">
           <Image
-            src="/fastery_icon.svg"
-            alt="fastery_icon"
+            src="/fastery_icon_dark.svg"
+            alt="fastery_icon_dark"
             width={20}
             height={20}
           />
@@ -32,10 +32,10 @@ export function LogoTheme() {
         </div>
       )}
       {isLightMode && (
-        <div className="flex font-bold text-xl space-x-1">
+        <div className="flex font-semibold text-xl space-x-1">
           <Image
-            src="/fastery_icon.svg"
-            alt="fastery_icon"
+            src="/fastery_icon_light.svg"
+            alt="fastery_icon_light"
             width={20}
             height={20}
           />

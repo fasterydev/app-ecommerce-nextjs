@@ -1,10 +1,12 @@
 import React from "react";
 import { assets } from "@/assets/assets";
 import Image from "next/image";
+import { Button } from "../ui/button";
+import { ArrowRightIcon } from "lucide-react";
 
 const Banner = () => {
   return (
-    <div className="flex flex-col md:flex-row items-center justify-between md:pl-20 py-14 md:py-0 bg-[#E6E9F2] my-16 rounded-xl overflow-hidden">
+    <div className="flex flex-col md:flex-row items-center justify-between md:pl-20 py-14 md:py-0 bg-muted my-16 rounded-xl overflow-hidden">
       <Image
         className="max-w-56"
         src={assets.jbl_soundbox_image}
@@ -12,15 +14,16 @@ const Banner = () => {
       />
       <div className="flex flex-col items-center justify-center text-center space-y-2 px-4 md:px-0">
         <h2 className="text-2xl md:text-3xl font-semibold max-w-[290px]">
-          Level Up Your Gaming Experience
+          Mejora tu experiencia de juego
         </h2>
-        <p className="max-w-[343px] font-medium text-gray-800/60">
-          From immersive sound to precise controls—everything you need to win
+        <p className="max-w-[343px] font-medium text-muted-foreground">
+          Desde un sonido envolvente hasta controles precisos: todo lo que
+          necesitas para ganar
         </p>
-        <button className="group flex items-center justify-center gap-1 px-12 py-2.5 bg-orange-600 rounded text-white">
-          Buy now
-          <Image className="group-hover:translate-x-1 transition" src={assets.arrow_icon_white} alt="arrow_icon_white" />
-        </button>
+        <Button className="group flex items-center justify-center gap-1 px-12 py-2.5 bg-primary">
+          <div>Comprar ahora</div>
+          <ArrowRightIcon />
+        </Button>
       </div>
       <Image
         className="hidden md:block max-w-80"
