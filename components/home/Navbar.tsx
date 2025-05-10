@@ -6,7 +6,7 @@ import Link from "next/link";
 // import Image from "next/image";
 import { LogoTheme } from "../shared/logo-theme";
 import { Button } from "../ui/button";
-import { UserCircleIcon } from "lucide-react";
+import { ShoppingCartIcon, UserCircleIcon } from "lucide-react";
 import { ModeToggle } from "../shared/mode-toggle";
 
 const Navbar = () => {
@@ -19,20 +19,26 @@ const Navbar = () => {
         <Link href="/">
           <Button variant={"ghost"}>Inicio</Button>
         </Link>
-        <Link href="/">
+        <Link href="/shop">
           <Button variant={"ghost"}>Tienda</Button>
         </Link>
-        <Link href="/">
+        <Link href="/about-us">
           <Button variant={"ghost"}>Quiénes Somos</Button>
         </Link>
-        <Link href="/">
+        <Link href="/contact-us">
           <Button variant={"ghost"}>Contacto</Button>
         </Link>
       </div>
 
-      <div className="flex items-center gap-3">
-      <ModeToggle />
-        <Link href="#">
+      <div className="flex items-center gap-2">
+        <ModeToggle />
+        <Button variant={"outline"}  className="relative">
+          <ShoppingCartIcon />
+          <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-primary text-[9px] font-bold text-white">
+            1
+          </span>
+        </Button>
+        <Link href="/auth/sign-in">
           <Button className="text-sm items-center text-center my-auto">
             <UserCircleIcon />
             <div>Inicia sesión</div>
