@@ -28,11 +28,5 @@ Set up the following environment variables:
 NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=
 CLERK_SECRET_KEY=
 
-# Nexus API
-NEXUS_API_KEY=
-
-# Tracking Plus API
-TRACKING_PLUS_API_KEY=
-
 # Backend API
 NEXT_PUBLIC_API_URL=
