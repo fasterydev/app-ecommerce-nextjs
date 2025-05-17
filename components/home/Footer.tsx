@@ -1,5 +1,6 @@
 import React from "react";
 import { LogoTheme } from "../shared/logo-theme";
+import { FacebookIcon, InstagramIcon, LinkedinIcon } from "lucide-react";
 
 const Footer = () => {
   return (
@@ -50,8 +51,19 @@ const Footer = () => {
           <div>
             <h2 className="font-medium text-primary mb-5">Contactos</h2>
             <div className="text-sm space-y-2">
-              <p>+1-234-567-890</p>
-              <p>info@fastery.dev</p>
+              <div>+1-234-567-890</div>
+              <div>info@fastery.dev</div>
+              <div className="flex items-center gap-2">
+                <div className="bg-primary rounded-full p-1.5">
+                  <FacebookIcon size={16} />
+                </div>
+                <div className="bg-primary rounded-full p-1.5">
+                  <LinkedinIcon size={16} />
+                </div>
+                <div className="bg-primary rounded-full p-1.5">
+                  <InstagramIcon size={16} />
+                </div>
+              </div>
             </div>
           </div>
         </div>
