@@ -34,7 +34,79 @@ export default function SignInPage() {
                         Inicia sesión en tu cuenta
                       </CardDescription>
                     </CardHeader>
+
                     <CardContent className="grid gap-y-4">
+                      <div className="grid grid-cols-3 gap-x-4">
+                        <Clerk.Connection name="apple" asChild>
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            type="button"
+                            disabled={isGlobalLoading}
+                          >
+                            <Clerk.Loading scope="provider:apple">
+                              {(isLoading) =>
+                                isLoading ? (
+                                  // <Icons.spinner className="size-4 animate-spin" />
+                                  <div>Cargando</div>
+                                ) : (
+                                  <>
+                                    {/* <Icons.gitHub className="mr-2 size-4" /> */}
+                                    Apple
+                                  </>
+                                )
+                              }
+                            </Clerk.Loading>
+                          </Button>
+                        </Clerk.Connection>
+                        <Clerk.Connection name="google" asChild>
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            type="button"
+                            disabled={isGlobalLoading}
+                          >
+                            <Clerk.Loading scope="provider:google">
+                              {(isLoading) =>
+                                isLoading ? (
+                                  // <Icons.spinner className="size-4 animate-spin" />
+                                  <div>Cargando</div>
+                                ) : (
+                                  <>
+                                    {/* <Icons.google className="mr-2 size-4" /> */}
+                                    Google
+                                  </>
+                                )
+                              }
+                            </Clerk.Loading>
+                          </Button>
+                        </Clerk.Connection>
+                        <Clerk.Connection name="facebook" asChild>
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            type="button"
+                            disabled={isGlobalLoading}
+                          >
+                            <Clerk.Loading scope="provider:facebook">
+                              {(isLoading) =>
+                                isLoading ? (
+                                  // <Icons.spinner className="size-4 animate-spin" />
+                                  <div>Cargando</div>
+                                ) : (
+                                  <>
+                                    {/* <Icons.google className="mr-2 size-4" /> */}
+                                    Facebook
+                                  </>
+                                )
+                              }
+                            </Clerk.Loading>
+                          </Button>
+                        </Clerk.Connection>
+                      </div>
+                      <p className="flex items-center gap-x-3 text-sm text-muted-foreground before:h-px before:flex-1 before:bg-border after:h-px after:flex-1 after:bg-border">
+                        or
+                      </p>
                       <Clerk.Field name="identifier" className="space-y-2">
                         <Clerk.Label asChild>
                           <Label>Correo electrónico</Label>
@@ -264,9 +336,7 @@ export default function SignInPage() {
           </div>
           <div className="justify-between flex items-center gap-2">
             <div>Correo:</div>
-            <div className="text-muted-foreground">
-              user@fastery.dev
-            </div>
+            <div className="text-muted-foreground">user@fastery.dev</div>
           </div>
           <div className="justify-between flex items-center gap-2">
             <div>Contraseña:</div>
@@ -278,9 +348,7 @@ export default function SignInPage() {
           </div>
           <div className="justify-between flex items-center gap-2">
             <div>Correo:</div>
-            <div className="text-muted-foreground">
-              admin@fastery.dev
-            </div>
+            <div className="text-muted-foreground">admin@fastery.dev</div>
           </div>
           <div className="justify-between flex items-center gap-2">
             <div>Contraseña:</div>
