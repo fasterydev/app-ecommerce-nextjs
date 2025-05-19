@@ -3,7 +3,6 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
@@ -29,7 +28,7 @@ import {
   SheetClose,
 } from "@/components/ui/sheet";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Card, CardContent, CardFooter } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import {
   Pagination,
   PaginationContent,
@@ -98,7 +97,7 @@ export default function ProductsPage() {
   const [productsPerPage] = useState(12);
 
   // Estado para mostrar filtros en móvil
-  const [showMobileFilters, setShowMobileFilters] = useState(false);
+//   const [showMobileFilters, setShowMobileFilters] = useState(false);
 
   // Categorías disponibles
   const availableCategories = [
@@ -152,6 +151,7 @@ export default function ProductsPage() {
       setFilteredProducts(generatedProducts);
       setIsLoading(false);
     }, 1000);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Aplicar filtros y ordenamiento
@@ -524,7 +524,7 @@ export default function ProductsPage() {
                     variant="outline"
                     size="sm"
                     className="flex md:hidden"
-                    onClick={() => setShowMobileFilters(true)}
+                    // onClick={() => setShowMobileFilters(true)}
                   >
                     <Filter className="mr-2 h-4 w-4" />
                     Filtrar
