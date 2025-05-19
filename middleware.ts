@@ -1,45 +1,50 @@
 import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 
+// Rutas públicas accesibles sin login
 const isPublicRoute = createRouteMatcher([
   "/",
+  "/terminos-y-condiciones",
+  "/tracking(.*)",
+]);
+
+// Rutas del sistema de auth de Clerk
+const isAuthRoute = createRouteMatcher([
   "/auth/sign-in(.*)",
   "/auth/sign-up(.*)",
   "/auth/forgot-password(.*)",
-  "/terminos-y-condiciones",
 ]);
 
+// Rutas privadas por rol
 const isAdminRoute = createRouteMatcher(["/admin(.*)"]);
 const isUserRoute = createRouteMatcher(["/user(.*)"]);
 
 export default clerkMiddleware(async (auth, request) => {
   const session = await auth();
-  const url = new URL(request.url);
-
+  
   const role =
     session.sessionClaims?.metadata?.role ||
     session.sessionClaims?.metadefault?.role;
 
-  // No sesión activa
+  // 🔓 Usuario no logeado
   if (!session.userId) {
-    if (!isPublicRoute(request)) {
-      return NextResponse.redirect(new URL("/auth/sign-in", request.url));
+    if (isPublicRoute(request) || isAuthRoute(request)) {
+      return NextResponse.next();
     }
-    return NextResponse.next(); // Deja pasar /auth/*
+    return NextResponse.redirect(new URL("/auth/sign-in", request.url));
   }
 
-  // Redirección por rol si el usuario entra a rutas públicas
-  if ((isPublicRoute(request) && !url.pathname.startsWith("/tracking") && !url.pathname.startsWith("/terminos-y-condiciones")) || url.pathname === "/") {
+  if (isAuthRoute(request)) {
     if (role === "admin") {
-      return NextResponse.redirect(new URL("/admin/packages", request.url));
+      return NextResponse.redirect(new URL("/admin", request.url));
     } else if (role === "user") {
       return NextResponse.redirect(new URL("/user", request.url));
     }
   }
 
-  // Protege rutas específicas por rol
+  // 🔐 Rutas protegidas por rol
   if (isAdminRoute(request) && role !== "admin") {
-    return NextResponse.redirect(new URL("/admin/packages", request.url));
+    return NextResponse.redirect(new URL("/admin", request.url));
   }
 
   if (isUserRoute(request) && role !== "user") {
