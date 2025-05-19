@@ -1,6 +1,7 @@
 import React from "react";
 import ProductCard from "../ProductCard";
 import { Button } from "../ui/button";
+import Link from "next/link";
 
 const HomeProducts = () => {
   const products = [
@@ -169,7 +170,9 @@ const HomeProducts = () => {
           <ProductCard key={index} product={product} />
         ))}
       </div>
+      <Link href="/shop">
       <Button className="px-12 py-2.5">Ver más productos</Button>
+      </Link>
     </div>
   );
 };
