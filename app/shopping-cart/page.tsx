@@ -18,6 +18,13 @@ const initialCartItems = [
     quantity: 1,
     image: "https://res.cloudinary.com/djbvf02yt/image/upload/v1738667237/lrllaprpos2pnp5c9pyy.png",
   },
+  {
+    id: 2,
+    name: "Minimalist Leather Watch",
+    price: 129.99,
+    quantity: 1,
+    image: "https://res.cloudinary.com/djbvf02yt/image/upload/v1738667237/lrllaprpos2pnp5c9pyy.png",
+  },
 ]
 
 export default function CartPage() {
