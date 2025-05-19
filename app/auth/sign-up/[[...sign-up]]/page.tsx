@@ -13,7 +13,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
-import { RefreshCcwIcon } from "lucide-react";
+import { LoaderCircleIcon, RefreshCcwIcon } from "lucide-react";
 import { LogoTheme } from "@/components/shared/logo-theme";
 
 export default function SignUpPage() {
@@ -35,6 +35,77 @@ export default function SignUpPage() {
                       </CardDescription>
                     </CardHeader>
                     <CardContent className="grid gap-y-4">
+                      <div className="grid grid-cols-3 gap-x-4">
+                        <Clerk.Connection name="apple" asChild>
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            type="button"
+                            disabled={isGlobalLoading}
+                          >
+                            <Clerk.Loading scope="provider:apple">
+                              {(isLoading) =>
+                                isLoading ? (
+                                  // <Icons.spinner className="size-4 animate-spin" />
+                                  <div>Cargando</div>
+                                ) : (
+                                  <>
+                                    {/* <Icons.gitHub className="mr-2 size-4" /> */}
+                                    Apple
+                                  </>
+                                )
+                              }
+                            </Clerk.Loading>
+                          </Button>
+                        </Clerk.Connection>
+                        <Clerk.Connection name="google" asChild>
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            type="button"
+                            disabled={isGlobalLoading}
+                          >
+                            <Clerk.Loading scope="provider:google">
+                              {(isLoading) =>
+                                isLoading ? (
+                                  // <Icons.spinner className="size-4 animate-spin" />
+                                  <div>Cargando</div>
+                                ) : (
+                                  <>
+                                    {/* <Icons.google className="mr-2 size-4" /> */}
+                                    Google
+                                  </>
+                                )
+                              }
+                            </Clerk.Loading>
+                          </Button>
+                        </Clerk.Connection>
+                        <Clerk.Connection name="facebook" asChild>
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            type="button"
+                            disabled={isGlobalLoading}
+                          >
+                            <Clerk.Loading scope="provider:facebook">
+                              {(isLoading) =>
+                                isLoading ? (
+                                  // <Icons.spinner className="size-4 animate-spin" />
+                                  <div>Cargando</div>
+                                ) : (
+                                  <>
+                                    {/* <Icons.google className="mr-2 size-4" /> */}
+                                    Facebook
+                                  </>
+                                )
+                              }
+                            </Clerk.Loading>
+                          </Button>
+                        </Clerk.Connection>
+                      </div>
+                      <p className="flex items-center gap-x-3 text-sm text-muted-foreground before:h-px before:flex-1 before:bg-border after:h-px after:flex-1 after:bg-border">
+                        ó
+                      </p>
                       <Clerk.Field name="emailAddress" className="space-y-2">
                         <Clerk.Label asChild>
                           <Label>
@@ -68,7 +139,7 @@ export default function SignUpPage() {
                             <Clerk.Loading>
                               {(isLoading) => {
                                 return isLoading ? (
-                                  <RefreshCcwIcon className="size-4 animate-spin" />
+                                  <LoaderCircleIcon className="size-4 animate-spin" />
                                 ) : (
                                   "Continuar"
                                 );

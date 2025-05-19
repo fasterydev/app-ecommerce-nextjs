@@ -14,7 +14,13 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Link from "next/link";
 import { LogoTheme } from "@/components/shared/logo-theme";
-import { ShieldIcon, User2Icon } from "lucide-react";
+import {
+  FacebookIcon,
+  LoaderCircleIcon,
+  ShieldIcon,
+  User2Icon,
+} from "lucide-react";
+import { Icons } from "@/components/icons";
 
 export default function SignInPage() {
   return (
@@ -47,12 +53,11 @@ export default function SignInPage() {
                             <Clerk.Loading scope="provider:apple">
                               {(isLoading) =>
                                 isLoading ? (
-                                  // <Icons.spinner className="size-4 animate-spin" />
-                                  <div>Cargando</div>
+                                  <LoaderCircleIcon className="size-4 animate-spin" />
                                 ) : (
                                   <>
-                                    {/* <Icons.gitHub className="mr-2 size-4" /> */}
-                                    Apple
+                                    <Icons.apple />
+                                    <>Apple</>
                                   </>
                                 )
                               }
@@ -69,12 +74,11 @@ export default function SignInPage() {
                             <Clerk.Loading scope="provider:google">
                               {(isLoading) =>
                                 isLoading ? (
-                                  // <Icons.spinner className="size-4 animate-spin" />
-                                  <div>Cargando</div>
+                                  <LoaderCircleIcon className="size-4 animate-spin" />
                                 ) : (
                                   <>
-                                    {/* <Icons.google className="mr-2 size-4" /> */}
-                                    Google
+                                    <Icons.google />
+                                    <>Google</>
                                   </>
                                 )
                               }
@@ -91,11 +95,10 @@ export default function SignInPage() {
                             <Clerk.Loading scope="provider:facebook">
                               {(isLoading) =>
                                 isLoading ? (
-                                  // <Icons.spinner className="size-4 animate-spin" />
-                                  <div>Cargando</div>
+                                  <LoaderCircleIcon className="size-4 animate-spin" />
                                 ) : (
                                   <>
-                                    {/* <Icons.google className="mr-2 size-4" /> */}
+                                    <FacebookIcon />
                                     Facebook
                                   </>
                                 )
@@ -105,7 +108,7 @@ export default function SignInPage() {
                         </Clerk.Connection>
                       </div>
                       <p className="flex items-center gap-x-3 text-sm text-muted-foreground before:h-px before:flex-1 before:bg-border after:h-px after:flex-1 after:bg-border">
-                        or
+                        ó
                       </p>
                       <Clerk.Field name="identifier" className="space-y-2">
                         <Clerk.Label asChild>
@@ -329,7 +332,7 @@ export default function SignInPage() {
             )}
           </Clerk.Loading>
         </SignIn.Root>
-        <Card className="p-4 text-xs grid gap-1.5">
+        <Card className="p-4 text-xs hidden gap-1.5 ">
           <div className="flex items-center mx-auto gap-2">
             <User2Icon size={15} />
             <div>Usuario de Prueba</div>
