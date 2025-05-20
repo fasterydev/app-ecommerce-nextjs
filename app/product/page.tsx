@@ -3,6 +3,7 @@ import { getProducts } from "@/actions";
 import { assets } from "@/assets/assets";
 import { Product } from "@/components/product/product";
 import ProductCard from "@/components/product/product-card";
+import ProductCardSkeleton from "@/components/product/product-card-skeleton";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { CreditCardIcon, ShoppingCartIcon } from "lucide-react";
@@ -164,6 +165,10 @@ const ProductPage = () => {
             {products.slice(0, 5).map((product, index) => (
               <ProductCard key={index} product={product} />
             ))}
+            {loading &&
+              Array.from({ length: 5 }, (_, i) => (
+                <ProductCardSkeleton key={i} />
+              ))}
           </div>
           <Button>Ver más productoss</Button>
         </div>
