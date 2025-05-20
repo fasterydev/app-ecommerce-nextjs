@@ -12,9 +12,9 @@
     "node": "22.x"
   },
   "scripts": {
-    "predev": "node nest.js",
-    "prebuild": "node nest.js",
-    "prestart": "node nest.js",
+    "predev": "node next.config.js",
+    "prebuild": "node next.config.js",
+    "prestart": "node next.config.js",
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
