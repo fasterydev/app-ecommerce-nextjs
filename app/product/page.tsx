@@ -1,6 +1,6 @@
 "use client";
 import { assets } from "@/assets/assets";
-import ProductCard from "@/components/ProductCard";
+import ProductCard from "@/components/product/product-card";
 import Image from "next/image";
 import React from "react";
 

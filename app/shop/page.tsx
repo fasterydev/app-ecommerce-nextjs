@@ -28,7 +28,6 @@ import {
   SheetClose,
 } from "@/components/ui/sheet";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Card, CardContent } from "@/components/ui/card";
 import {
   Pagination,
   PaginationContent,
@@ -38,30 +37,10 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
-import {
-  Filter,
-  Heart,
-  Home,
-  Search,
-  ShoppingCart,
-  Star,
-  X,
-} from "lucide-react";
-import Image from "next/image";
-
-// Tipos
-type Product = {
-  id: number;
-  name: string;
-  category: string;
-  brand: string;
-  price: number;
-  rating: number;
-  image: string;
-  discount?: number;
-  isNew?: boolean;
-  isBestseller?: boolean;
-};
+import { Filter, Home, Search, Star, X } from "lucide-react";
+import ProductCard from "@/components/product/product-card";
+import { Product } from "@/components/product/product";
+import ProductCardSkeleton from "@/components/product/product-card-skeleton";
 
 type FilterState = {
   categories: string[];
@@ -97,7 +76,7 @@ export default function ProductsPage() {
   const [productsPerPage] = useState(12);
 
   // Estado para mostrar filtros en móvil
-//   const [showMobileFilters, setShowMobileFilters] = useState(false);
+  //   const [showMobileFilters, setShowMobileFilters] = useState(false);
 
   // Categorías disponibles
   const availableCategories = [
@@ -128,30 +107,39 @@ export default function ProductsPage() {
       const generatedProducts: Product[] = Array.from(
         { length: 50 },
         (_, i) => ({
-          id: i + 1,
+          id: `product-${i + 1}`,
           name: `Producto ${i + 1}`,
+          description: `Descripción del producto ${i + 1}`,
           category:
             availableCategories[
               Math.floor(Math.random() * availableCategories.length)
             ],
-          brand:
-            availableBrands[Math.floor(Math.random() * availableBrands.length)],
-          price: Math.floor(Math.random() * 900) + 99,
+          subName: `Subproducto ${i + 1}`,
+          cost: Math.floor(Math.random() * 900) + 99,
+          revenueAdmin: Math.floor(Math.random() * 900) + 99,
+          variants: "Talla, Color",
           rating: Math.floor(Math.random() * 5) + 1,
           image: `https://res.cloudinary.com/djbvf02yt/image/upload/v1738667237/lrllaprpos2pnp5c9pyy.png`,
-          discount:
-            Math.random() > 0.7
-              ? Math.floor(Math.random() * 50) + 10
-              : undefined,
-          isNew: Math.random() > 0.9,
-          isBestseller: Math.random() > 0.85,
+          discount: 866,
+          isNew: true,
+          isBestSeller: true,
+          status: "active",
+          images: [
+            `https://res.cloudinary.com/djbvf02yt/image/upload/v1738667237/lrllaprpos2pnp5c9pyy.png`,
+          ],
+          sku: `SKU${i + 1}`,
+          barcode: `BARCODE${i + 1}`,
+          stock: Math.floor(Math.random() * 100) + 1,
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString(),
+          deletedAt: null,
         })
       );
       setProducts(generatedProducts);
       setFilteredProducts(generatedProducts);
       setIsLoading(false);
     }, 1000);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Aplicar filtros y ordenamiento
@@ -163,30 +151,30 @@ export default function ProductsPage() {
       result = result.filter(
         (product) =>
           product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          product.brand.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          product.category.toLowerCase().includes(searchQuery.toLowerCase())
+          product.subName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          product.subName.toLowerCase().includes(searchQuery.toLowerCase())
       );
     }
 
     // Aplicar filtros de categoría
     if (filters.categories.length > 0) {
       result = result.filter((product) =>
-        filters.categories.includes(product.category)
+        filters.categories.includes(product.subName)
       );
     }
 
     // Aplicar filtros de marca
     if (filters.brands.length > 0) {
       result = result.filter((product) =>
-        filters.brands.includes(product.brand)
+        filters.brands.includes(product.subName)
       );
     }
 
     // Aplicar filtro de precio
     result = result.filter(
       (product) =>
-        product.price >= filters.priceRange[0] &&
-        product.price <= filters.priceRange[1]
+        product.cost >= filters.priceRange[0] &&
+        product.cost <= filters.priceRange[1]
     );
 
     // Aplicar filtro de valoración
@@ -205,10 +193,10 @@ export default function ProductsPage() {
     // Aplicar ordenamiento
     switch (sortOption) {
       case "price-low":
-        result.sort((a, b) => a.price - b.price);
+        result.sort((a, b) => a.cost - b.cost);
         break;
       case "price-high":
-        result.sort((a, b) => b.price - a.price);
+        result.sort((a, b) => b.cost - a.cost);
         break;
       case "rating":
         result.sort((a, b) => b.rating - a.rating);
@@ -219,7 +207,7 @@ export default function ProductsPage() {
       default:
         // Por defecto, los más vendidos primero
         result.sort(
-          (a, b) => (b.isBestseller ? 1 : 0) - (a.isBestseller ? 1 : 0)
+          (a, b) => (b.isBestSeller ? 1 : 0) - (a.isBestSeller ? 1 : 0)
         );
     }
 
@@ -650,14 +638,7 @@ export default function ProductsPage() {
                 // Estado de carga
                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                   {Array.from({ length: 12 }).map((_, index) => (
-                    <Card key={index} className="overflow-hidden">
-                      <div className="aspect-square animate-pulse bg-gray-200" />
-                      <CardContent className="p-4">
-                        <div className="h-4 w-3/4 animate-pulse rounded bg-gray-200" />
-                        <div className="mt-2 h-4 w-1/2 animate-pulse rounded bg-gray-200" />
-                        <div className="mt-4 h-6 w-1/3 animate-pulse rounded bg-gray-200" />
-                      </CardContent>
-                    </Card>
+                    <ProductCardSkeleton key={index} />
                   ))}
                 </div>
               ) : filteredProducts.length === 0 ? (
@@ -685,103 +666,7 @@ export default function ProductsPage() {
                   </p>
                   <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                     {currentProducts.map((product) => (
-                      <Link href={`/productos/${product.id}`} key={product.id}>
-                        <Card className="group overflow-hidden transition-all hover:shadow-md mb-auto">
-                          <div className="relative aspect-square overflow-hidden">
-                            <Image
-                              width={300}
-                              height={300}
-                              src={`https://res.cloudinary.com/djbvf02yt/image/upload/v1738667237/lrllaprpos2pnp5c9pyy.png`}
-                              alt={product.name}
-                              className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105 -pt-4"
-                            />
-
-                            {/* Badges */}
-                            <div className="absolute left-2 top-2 flex flex-col gap-1">
-                              {product.discount && (
-                                <Badge className="bg-red-500 text-xs font-medium text-white hover:bg-red-500">
-                                  -{product.discount}%
-                                </Badge>
-                              )}
-                              {product.isNew && (
-                                <Badge className="bg-green-500 text-xs font-medium text-white hover:bg-green-500">
-                                  Nuevo
-                                </Badge>
-                              )}
-                              {product.isBestseller && (
-                                <Badge className="bg-amber-500 text-xs font-medium text-white hover:bg-amber-500">
-                                  Top ventas
-                                </Badge>
-                              )}
-                            </div>
-
-                            {/* Botón favorito */}
-                            <Button
-                              size="icon"
-                              variant="ghost"
-                              className="absolute right-2 top-2 h-8 w-8 rounded-full /80 opacity-0 transition-opacity hover: hover:text-red-500 group-hover:opacity-100"
-                              onClick={(e) => {
-                                e.preventDefault();
-                                // Añadir a favoritos
-                              }}
-                            >
-                              <Heart className="h-4 w-4" />
-                            </Button>
-                          </div>
-                          <CardContent className="px-4">
-                            <div className="mb-1 text-xs text-gray-500">
-                              {product.brand}
-                            </div>
-                            <h3 className="mb-1 font-medium line-clamp-1">
-                              {product.name}
-                            </h3>
-                            <div className="mb-2 flex items-center">
-                              {Array.from({ length: 5 }, (_, i) => (
-                                <Star
-                                  key={i}
-                                  className={`h-3.5 w-3.5 ${
-                                    i < product.rating
-                                      ? "fill-yellow-400 text-yellow-400"
-                                      : "text-gray-300"
-                                  }`}
-                                />
-                              ))}
-                              <span className="ml-1 text-xs text-gray-500">
-                                (24)
-                              </span>
-                            </div>
-                            <div className="flex items-center">
-                              {product.discount ? (
-                                <>
-                                  <span className="font-medium text-red-600">
-                                    $
-                                    {(
-                                      product.price -
-                                      (product.price * product.discount) / 100
-                                    ).toFixed(2)}
-                                  </span>
-                                  <span className="ml-2 text-sm text-gray-500 line-through">
-                                    ${product.price.toFixed(2)}
-                                  </span>
-                                </>
-                              ) : (
-                                <span className="font-medium">
-                                  ${product.price.toFixed(2)}
-                                </span>
-                              )}
-                            </div>
-                          </CardContent>
-                          {/* <CardFooter className="border-t p-0 bg-red-400"> */}
-                          <Button
-                            variant="ghost"
-                            className="relative h-12 w-full rounded-none hover:bg-gray-100"
-                          >
-                            <ShoppingCart className="mr-2 h-4 w-4" />
-                            Añadir al carrito
-                          </Button>
-                          {/* </CardFooter> */}
-                        </Card>
-                      </Link>
+                      <ProductCard product={product} key={product.id} />
                     ))}
                   </div>
 
