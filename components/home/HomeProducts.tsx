@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect } from "react";
+import { useEffect, useState } from "react";
 import ProductCard from "../product/product-card";
 import { Button } from "../ui/button";
 import Link from "next/link";
@@ -8,8 +8,8 @@ import { Product } from "../product/product";
 import ProductCardSkeleton from "../product/product-card-skeleton";
 
 const HomeProducts = () => {
-  const [loading, setLoading] = React.useState(true);
-  const [products, setProducts] = React.useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [products, setProducts] = useState<Product[]>([]);
 
   const getProductsApi = async () => {
     setLoading(true);
@@ -22,7 +22,7 @@ const HomeProducts = () => {
       }
     } catch (error) {
       console.error("Error en getProducts:", error);
-    }finally{
+    } finally {
       setLoading(false);
     }
   };
@@ -37,15 +37,12 @@ const HomeProducts = () => {
         Productos más vendidos
       </p>
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 flex-col items-center xl:gap-6 gap-4 mt-6 pb-14 w-full">
-         {
-          loading &&
-          Array.from({ length: 5 }, (_, i) => <ProductCardSkeleton key={i} />)
-         } 
+        {loading &&
+          Array.from({ length: 5 }, (_, i) => <ProductCardSkeleton key={i} />)}
 
         {products.map((product, index) => (
           <ProductCard key={index} product={product} />
         ))}
-
       </div>
       <Link href="/shop">
         <Button className="px-12 py-2.5">Ver más productos</Button>
