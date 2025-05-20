@@ -12,6 +12,9 @@
     "node": "22.x"
   },
   "scripts": {
+    "predev": "node nest.js",
+    "prebuild": "node nest.js",
+    "prestart": "node nest.js",
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
@@ -34,6 +37,7 @@
     "@radix-ui/react-tabs": "^1.1.11",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "dotenv": "^16.5.0",
     "embla-carousel-autoplay": "^8.6.0",
     "embla-carousel-react": "^8.6.0",
     "lucide-react": "^0.507.0",
