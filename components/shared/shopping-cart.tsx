@@ -2,7 +2,7 @@
 
 import { Minus, Plus, ShoppingCartIcon, Trash2, X } from "lucide-react";
 import Image from "next/image";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -15,15 +15,17 @@ import Link from "next/link";
 import { useCartStore } from "@/stores/cart-store";
 
 export function ShoppingCartIconHome() {
-  const { cartItems, fetchCart } = useCartStore();
+  const [open, setOpen] = useState(false);
+  const { cartItems, fetchCart, addItem, decreaseItem, removeItem } =
+    useCartStore();
 
   useEffect(() => {
     fetchCart();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
-    <DropdownMenu>
+    <DropdownMenu open={open} onOpenChange={setOpen}>
       <DropdownMenuTrigger asChild>
         <Button variant="outline" size="icon" className="relative">
           <ShoppingCartIcon className="h-5 w-5" />
@@ -35,12 +37,17 @@ export function ShoppingCartIconHome() {
           <span className="sr-only">Shopping cart</span>
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-80">
+      <DropdownMenuContent align="end" className="w-100  overflow-hidden ">
         <div className="flex items-center justify-between p-2">
           <span className="text-sm font-medium">
             Mi carrito ({cartItems.length})
           </span>
-          <Button variant="ghost" size="icon" className="h-8 w-8">
+          <Button
+            onClick={() => setOpen(false)}
+            variant="ghost"
+            size="icon"
+            className="h-8 w-8"
+          >
             <X className="h-4 w-4" />
             <span className="sr-only">Close</span>
           </Button>
@@ -77,12 +84,10 @@ export function ShoppingCartIconHome() {
                         variant="outline"
                         size="icon"
                         className="h-6 w-6"
-                        // onClick={() =>
-                        //   updateQuantity(item.id, item.quantity - 1)
-                        // }
+                        onClick={() => decreaseItem(item.product.id)}
                       >
                         <Minus className="h-3 w-3" />
-                        <span className="sr-only">Decrease quantity</span>
+                        <span className="sr-only">Disminuir la cantidad</span>
                       </Button>
                       <span className="text-xs w-4 text-center">
                         {item.quantity}
@@ -91,21 +96,19 @@ export function ShoppingCartIconHome() {
                         variant="outline"
                         size="icon"
                         className="h-6 w-6"
-                        // onClick={() =>
-                        //   updateQuantity(item.id, item.quantity + 1)
-                        // }
+                        onClick={() => addItem(item.product.id)}
                       >
                         <Plus className="h-3 w-3" />
-                        <span className="sr-only">Increase quantity</span>
+                        <span className="sr-only">Aumentar la cantidad</span>
                       </Button>
                       <Button
                         variant="ghost"
                         size="icon"
                         className="h-6 w-6 ml-auto"
-                        // onClick={() => removeItem(item.id)}
+                        onClick={() => removeItem(item.product.id)}
                       >
                         <Trash2 className="h-3 w-3" />
-                        <span className="sr-only">Remove item</span>
+                        <span className="sr-only">Eliminar elemento</span>
                       </Button>
                     </div>
                   </div>
@@ -134,7 +137,11 @@ export function ShoppingCartIconHome() {
           </div>
           <Button className="w-full">Finalizar compra</Button>
           <Link href="/shopping-cart">
-            <Button variant="outline" className="w-full">
+            <Button
+              onClick={() => setOpen(false)}
+              variant="outline"
+              className="w-full"
+            >
               Ver carrito
             </Button>
           </Link>
