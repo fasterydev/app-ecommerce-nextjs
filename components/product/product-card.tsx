@@ -4,7 +4,10 @@ import Image from "next/image";
 import { Button } from "../ui/button";
 import {
   BadgeCheckIcon,
+  CheckCircle2Icon,
   HeartIcon,
+  Loader2Icon,
+  PlusIcon,
   ShoppingCartIcon,
   StarIcon,
 } from "lucide-react";
@@ -18,7 +21,29 @@ import { useCartStore } from "@/stores/cart-store";
 
 const ProductCard = ({ product }: { product: Product }) => {
   const [isFavorite, setIsFavorite] = useState(false);
-  const { addItem } = useCartStore();
+  const [isAddingToCart, setIsAddingToCart] = useState(false);
+  const [isAddedToCart, setIsAddedToCart] = useState(false);
+  const { addItem, cartItems } = useCartStore();
+
+  const handleAddToCart = () => {
+    addItem(product.id);
+    setIsAddingToCart(true);
+
+    // Simulate loading for 2 seconds
+    setTimeout(() => {
+      setIsAddingToCart(false);
+      setIsAddedToCart(true);
+
+      // Reset the added state after 2 seconds
+      setTimeout(() => {
+        setIsAddedToCart(false);
+      }, 2000);
+    }, 2000);
+  };
+
+  const isProductInCart = cartItems.some(
+    (item) => item.product.id === product.id
+  );
 
   return (
     <Card className="xl:px-4 px-3 pb-3 relative">
@@ -71,46 +96,6 @@ const ProductCard = ({ product }: { product: Product }) => {
             {isFavorite && (
               <span className="absolute inset-0 rounded-full animate-ping-slow bg-rose-400 opacity-75"></span>
             )}
-
-            <style jsx global>{`
-              @keyframes heartbeat {
-                0% {
-                  transform: scale(1);
-                }
-                15% {
-                  transform: scale(1.25);
-                }
-                30% {
-                  transform: scale(1);
-                }
-                45% {
-                  transform: scale(1.15);
-                }
-                60% {
-                  transform: scale(1);
-                }
-              }
-
-              @keyframes ping-slow {
-                0% {
-                  transform: scale(0.95);
-                  opacity: 1;
-                }
-                75%,
-                100% {
-                  transform: scale(1.5);
-                  opacity: 0;
-                }
-              }
-
-              .animate-heartbeat {
-                animation: heartbeat 0.8s ease-in-out;
-              }
-
-              .animate-ping-slow {
-                animation: ping-slow 1.5s cubic-bezier(0, 0, 0.2, 1) infinite;
-              }
-            `}</style>
           </button>
         </div>
         <p className="w-full text-xs pt-2 text-muted-foreground flex items-center truncate">
@@ -156,14 +141,43 @@ const ProductCard = ({ product }: { product: Product }) => {
         </div>
       </div>
       {/* </Link> */}
+
       <div className="-mt-5.5">
         <Button
-          onClick={() => addItem(product.id)}
+          onClick={handleAddToCart}
           variant={"secondary"}
-          className="max-sm:hidden mt-2 px-4 py-1.5 border-gray-500/20 rounded-full text-xs transition w-full"
+          disabled={isAddingToCart}
+          className={cn(
+            "max-sm:hidden mt-2 px-4 py-1.5 border-gray-500/20 rounded-full text-xs transition w-full",
+            isAddedToCart &&
+              "bg-green-100 hover:bg-green-100 text-green-700 hover:text-green-700 border-green-200 hover:border-green-200"
+          )}
         >
-          <ShoppingCartIcon />
-          Añadir al carrito
+          {isAddingToCart ? (
+            <>
+              <Loader2Icon className="h-4 w-4 animate-spin" />
+              Cargando...
+            </>
+          ) : isAddedToCart ? (
+            <>
+              <CheckCircle2Icon className=" h-4 w-4 animate-appear" />
+              Añadido
+            </>
+          ) : (
+            <>
+              {isProductInCart ? (
+                <>
+                  <PlusIcon className="h-4 w-4" />
+                  Añadir uno más
+                </>
+              ) : (
+                <>
+                  <ShoppingCartIcon className="h-4 w-4" />
+                  Añadir al carrito
+                </>
+              )}
+            </>
+          )}
         </Button>
       </div>
     </Card>
