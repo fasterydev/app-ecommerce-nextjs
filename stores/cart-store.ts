@@ -56,7 +56,7 @@ export const useCartStore = create<CartStore>((set, get) => ({
       const res = await addItemToCart(productId);
       if (res.statusCode === 201) {
         await get().fetchCart();
-        // toast.success("Producto agregado");
+        // toast.success("Producto agregado al carrito");
       } else {
         set({ cartItems: prevItems });
         toast.error(res.message || "Error al agregar el producto");
