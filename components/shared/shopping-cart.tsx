@@ -2,8 +2,7 @@
 
 import { Minus, Plus, ShoppingCartIcon, Trash2, X } from "lucide-react";
 import Image from "next/image";
-import { useEffect, useState } from "react";
-
+import { useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -13,49 +12,14 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import Link from "next/link";
-import { getShoppingCart } from "@/actions";
-import { ShoppingCart } from "../shopping-cart/shopping-cart";
+import { useCartStore } from "@/stores/cart-store";
 
 export function ShoppingCartIconHome() {
-  const [cartItems, setCartItems] = useState<ShoppingCart[]>([]);
-//   const [cartItems, setCartItems] = useState(initialCartItems);
-
-//   const totalItems = cartItems.reduce(
-//     (total, item) => total + item.quantity,
-//     0
-//   );
-//   const subtotal = cartItems.reduce(
-//     (total, item) => total + item.price * item.quantity,
-//     0
-//   );
-
-//   const updateQuantity = (id: number, newQuantity: number) => {
-//     if (newQuantity < 1) return;
-//     setCartItems(
-//       cartItems.map((item) =>
-//         item.id === id ? { ...item, quantity: newQuantity } : item
-//       )
-//     );
-//   };
-
-//   const removeItem = (id: number) => {
-//     setCartItems(cartItems.filter((item) => item.id !== id));
-//   };
-
-  const getShoppingCartApi = async () => {
-    try {
-      const res = await getShoppingCart();
-      if (res.statusCode == 200) {
-        setCartItems(res.shoppingCart.items);
-      }
-    } catch (error) {
-      console.error("Error en getShoppingCartApi:", error);
-      throw new Error("Error al obtener el carrito de compras");
-    }
-  };
+  const { cartItems, fetchCart } = useCartStore();
 
   useEffect(() => {
-    getShoppingCartApi();
+    fetchCart();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -73,7 +37,9 @@ export function ShoppingCartIconHome() {
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-80">
         <div className="flex items-center justify-between p-2">
-          <span className="text-sm font-medium">Mi carrito ({cartItems.length})</span>
+          <span className="text-sm font-medium">
+            Mi carrito ({cartItems.length})
+          </span>
           <Button variant="ghost" size="icon" className="h-8 w-8">
             <X className="h-4 w-4" />
             <span className="sr-only">Close</span>
@@ -105,9 +71,7 @@ export function ShoppingCartIconHome() {
                   </div>
                   <div className="flex-1 space-y-1">
                     <h4 className="text-sm font-medium">{item.product.name}</h4>
-                    <p className="text-sm font-medium">
-                      ${item.product.cost}
-                    </p>
+                    <p className="text-sm font-medium">${item.product.cost}</p>
                     <div className="flex items-center gap-2">
                       <Button
                         variant="outline"
