@@ -12,9 +12,6 @@
     "node": "22.x"
   },
   "scripts": {
-    "predev": "node sys.config.js",
-    "prebuild": "node sys.config.js",
-    "prestart": "node sys.config.js",
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
