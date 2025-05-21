@@ -17,25 +17,6 @@ import { ShoppingCart } from "@/components/shopping-cart/shopping-cart";
 
 export default function ShoppingCartPage() {
   const [cartItems, setCartItems] = useState<ShoppingCart[]>([]);
-  // const [loading, setLoading] = useState(true);
-
-  // const subtotal = cartItems.reduce(
-  //   (total, item) => total + item.price * item.quantity,
-  //   0
-  // );
-
-  // const updateQuantity = (id: number, newQuantity: number) => {
-  //   if (newQuantity < 1) return;
-  //   setCartItems(
-  //     cartItems.map((item) =>
-  //       item.id === id ? { ...item, quantity: newQuantity } : item
-  //     )
-  //   );
-  // };
-
-  // const removeItem = (id: number) => {
-  //   setCartItems(cartItems.filter((item) => item.id !== id));
-  // };
 
   const getShoppingCartApi = async () => {
     try {
@@ -48,18 +29,6 @@ export default function ShoppingCartPage() {
       throw new Error("Error al obtener el carrito de compras");
     }
   };
-
-  // const createShoppingCartApi = async () => {
-  //   try {
-  //     const rest = await createShoppingCart();
-  //     if (rest.statusCode == 200) {
-  //       setCartItems(rest.shoppingCart);
-  //     }
-  //   } catch (error) {
-  //     console.error("Error en createShoppingCartApi:", error);
-  //     throw new Error("Error al crear el carrito de compras");
-  //   }
-  // };
 
   useEffect(() => {
     getShoppingCartApi();
