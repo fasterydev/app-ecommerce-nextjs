@@ -12,6 +12,9 @@
     "node": "22.x"
   },
   "scripts": {
+    "predev": "node next.config.js",
+    "prebuild": "node next.config.js",
+    "prestart": "node next.config.js",
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
@@ -42,7 +45,6 @@
     "next-themes": "^0.4.6",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "resend": "^4.5.1",
     "tailwind-merge": "^3.2.0"
   },
   "devDependencies": {
