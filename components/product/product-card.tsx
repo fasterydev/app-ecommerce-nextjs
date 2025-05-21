@@ -13,10 +13,30 @@ import { Product } from "./product";
 import { Card } from "../ui/card";
 import { Badge } from "../ui/badge";
 import { convertFromMilliunits } from "@/utils/covertAmountMiliunits";
+import { addItemToCart } from "@/actions";
+import { toast } from "sonner";
+import { useCartStore } from "@/stores/cart-store";
 // import Link from "next/link";
 
 const ProductCard = ({ product }: { product: Product }) => {
   const [isFavorite, setIsFavorite] = useState(false);
+
+  const handleAddToCart = async (productId: string) => {
+    try {
+      const response = await addItemToCart(productId);
+      if (response.statusCode === 201) {
+        toast.success(response.message || "Producto agregado al carrito");
+        await useCartStore.getState().fetchCart();
+      } else {
+        toast.error(
+          response.message || "Error al agregar el producto al carrito"
+        );
+      }
+    } catch (error) {
+      console.error("Error al agregar el producto al carrito:", error);
+    } finally {
+    }
+  };
 
   return (
     <Card className="xl:px-4 px-3 pb-3 relative">
@@ -156,6 +176,7 @@ const ProductCard = ({ product }: { product: Product }) => {
       {/* </Link> */}
       <div className="-mt-5.5">
         <Button
+          onClick={() => handleAddToCart(product.id)}
           variant={"secondary"}
           className="max-sm:hidden mt-2 px-4 py-1.5 border-gray-500/20 rounded-full text-xs transition w-full"
         >

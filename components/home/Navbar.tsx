@@ -5,7 +5,7 @@ import { LogoTheme } from "../shared/logo-theme";
 import { Button } from "../ui/button";
 import { ModeToggle } from "../shared/mode-toggle";
 import { DropdownMenuHome } from "../shared/dropdown-menu";
-import { ShoppingCart } from "../shared/shopping-cart";
+import { ShoppingCartIconHome } from "../shared/shopping-cart";
 
 const Navbar = () => {
   return (
@@ -32,7 +32,7 @@ const Navbar = () => {
 
       <div className="flex items-center gap-2">
         <ModeToggle />
-        <ShoppingCart />
+        <ShoppingCartIconHome />
 
         <DropdownMenuHome />
         {/* {isLoaded  ? (

@@ -2,8 +2,7 @@
 
 import { Minus, Plus, ShoppingCartIcon, Trash2, X } from "lucide-react";
 import Image from "next/image";
-import { useState } from "react";
-
+import { useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -13,60 +12,24 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import Link from "next/link";
+import { useCartStore } from "@/stores/cart-store";
 
-// Sample cart items - in a real app, this would come from state management
-const initialCartItems = [
-  {
-    id: 1,
-    name: "Minimalist Leather Watch",
-    price: 129.99,
-    quantity: 1,
-    image:
-      "https://res.cloudinary.com/djbvf02yt/image/upload/v1738667237/lrllaprpos2pnp5c9pyy.png",
-  },
-  {
-    id: 2,
-    name: "Minimalist Leather Watch",
-    price: 129.99,
-    quantity: 1,
-    image:
-      "https://res.cloudinary.com/djbvf02yt/image/upload/v1738667237/lrllaprpos2pnp5c9pyy.png",
-  },
-];
+export function ShoppingCartIconHome() {
+  const { cartItems, fetchCart } = useCartStore();
 
-export function ShoppingCart() {
-  const [cartItems, setCartItems] = useState(initialCartItems);
-
-  const totalItems = cartItems.reduce(
-    (total, item) => total + item.quantity,
-    0
-  );
-  const subtotal = cartItems.reduce(
-    (total, item) => total + item.price * item.quantity,
-    0
-  );
-
-  const updateQuantity = (id: number, newQuantity: number) => {
-    if (newQuantity < 1) return;
-    setCartItems(
-      cartItems.map((item) =>
-        item.id === id ? { ...item, quantity: newQuantity } : item
-      )
-    );
-  };
-
-  const removeItem = (id: number) => {
-    setCartItems(cartItems.filter((item) => item.id !== id));
-  };
+  useEffect(() => {
+    fetchCart();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="outline" size="icon" className="relative">
           <ShoppingCartIcon className="h-5 w-5" />
-          {totalItems > 0 && (
+          {cartItems.length > 0 && (
             <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-primary-foreground">
-              {totalItems}
+              {cartItems.length}
             </span>
           )}
           <span className="sr-only">Shopping cart</span>
@@ -74,7 +37,9 @@ export function ShoppingCart() {
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-80">
         <div className="flex items-center justify-between p-2">
-          <span className="text-sm font-medium">Mi carrito ({totalItems})</span>
+          <span className="text-sm font-medium">
+            Mi carrito ({cartItems.length})
+          </span>
           <Button variant="ghost" size="icon" className="h-8 w-8">
             <X className="h-4 w-4" />
             <span className="sr-only">Close</span>
@@ -97,26 +62,24 @@ export function ShoppingCart() {
                 <div key={item.id} className="flex items-center gap-3">
                   <div className="h-20 w-20 overflow-hidden rounded-md border">
                     <Image
-                      src={item.image || "/placeholder.svg"}
-                      alt={item.name}
+                      src={item.product.images[0] || "/placeholder.svg"}
+                      alt={item.product.id}
                       width={80}
                       height={80}
                       className="h-full w-full object-cover"
                     />
                   </div>
                   <div className="flex-1 space-y-1">
-                    <h4 className="text-sm font-medium">{item.name}</h4>
-                    <p className="text-sm font-medium">
-                      ${item.price.toFixed(2)}
-                    </p>
+                    <h4 className="text-sm font-medium">{item.product.name}</h4>
+                    <p className="text-sm font-medium">${item.product.cost}</p>
                     <div className="flex items-center gap-2">
                       <Button
                         variant="outline"
                         size="icon"
                         className="h-6 w-6"
-                        onClick={() =>
-                          updateQuantity(item.id, item.quantity - 1)
-                        }
+                        // onClick={() =>
+                        //   updateQuantity(item.id, item.quantity - 1)
+                        // }
                       >
                         <Minus className="h-3 w-3" />
                         <span className="sr-only">Decrease quantity</span>
@@ -128,9 +91,9 @@ export function ShoppingCart() {
                         variant="outline"
                         size="icon"
                         className="h-6 w-6"
-                        onClick={() =>
-                          updateQuantity(item.id, item.quantity + 1)
-                        }
+                        // onClick={() =>
+                        //   updateQuantity(item.id, item.quantity + 1)
+                        // }
                       >
                         <Plus className="h-3 w-3" />
                         <span className="sr-only">Increase quantity</span>
@@ -139,7 +102,7 @@ export function ShoppingCart() {
                         variant="ghost"
                         size="icon"
                         className="h-6 w-6 ml-auto"
-                        onClick={() => removeItem(item.id)}
+                        // onClick={() => removeItem(item.id)}
                       >
                         <Trash2 className="h-3 w-3" />
                         <span className="sr-only">Remove item</span>
@@ -156,7 +119,7 @@ export function ShoppingCart() {
         <div className="p-4 space-y-4">
           <div className="flex items-center justify-between text-sm">
             <span>Subtotal</span>
-            <span className="font-medium">${subtotal.toFixed(2)}</span>
+            {/* <span className="font-medium">${subtotal.toFixed(2)}</span> */}
           </div>
           <div className="flex items-center justify-between text-sm">
             <span>Envío</span>
@@ -167,7 +130,7 @@ export function ShoppingCart() {
           <DropdownMenuSeparator />
           <div className="flex items-center justify-between font-medium">
             <span>Total</span>
-            <span>${subtotal.toFixed(2)}</span>
+            {/* <span>${subtotal.toFixed(2)}</span> */}
           </div>
           <Button className="w-full">Finalizar compra</Button>
           <Link href="/shopping-cart">

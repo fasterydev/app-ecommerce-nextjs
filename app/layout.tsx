@@ -6,6 +6,8 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { esMX } from "@clerk/localizations";
 import Footer from "@/components/home/Footer";
 import Navbar from "@/components/home/Navbar";
+import { Toaster } from "sonner";
+
 const outfit = Outfit({ subsets: ["latin"], weight: ["300", "400", "500"] });
 
 export const metadata: Metadata = {
@@ -32,6 +34,7 @@ export default function RootLayout({
             <Navbar />
             <main className="px-6 md:px-16 lg:px-32">{children}</main>
             <Footer />
+            <Toaster expand={false} position="top-center" richColors />
           </ThemeProvider>
         </body>
       </html>
