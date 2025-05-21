@@ -1,12 +1,13 @@
 import type { Metadata } from "next";
-import { Outfit } from "next/font/google";
+// import { Outfit } from "next/font/google";
 import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
 import { ThemeProvider } from "@/components/theme-provider";
 import { esMX } from "@clerk/localizations";
 import Footer from "@/components/home/Footer";
 import Navbar from "@/components/home/Navbar";
-const outfit = Outfit({ subsets: ["latin"], weight: ["300", "400", "500"] });
+
+// const outfit = Outfit({ subsets: ["latin"], weight: ["300", "400", "500"] });
 
 export const metadata: Metadata = {
   title: "Fastery Shop Template",
@@ -21,7 +22,8 @@ export default function RootLayout({
   return (
     <ClerkProvider localization={esMX}>
       <html lang="es" suppressHydrationWarning>
-        <body className={`${outfit.className} antialiased`}>
+        {/* <body className={`${outfit.className} antialiased`}> */}
+        <body className={`antialiased`}>
           <ThemeProvider
             attribute="class"
             defaultTheme="system"
