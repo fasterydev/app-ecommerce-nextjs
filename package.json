@@ -13,7 +13,7 @@
   },
   "scripts": {
     "dev": "next dev --turbopack",
-    "build": "rm -rf node_modules .next .turbo && npm install && next build",
+    "build": "next build",
     "start": "next start",
     "lint": "next lint"
   },
