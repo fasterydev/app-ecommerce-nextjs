@@ -73,7 +73,6 @@ export const useCartStore = create<CartStore>((set, get) => ({
     const existingItem = prevItems.find(
       (item) => item.product.id === productId
     );
-    // SI TIEN CANTIDAD 1 Y NO SE PUEDE DISMINUIR DEBE ELIMINAR
     if (existingItem && existingItem.quantity === 1) {
       set({
         cartItems: prevItems.filter((item) => item.product.id !== productId),
@@ -92,7 +91,6 @@ export const useCartStore = create<CartStore>((set, get) => ({
       const res = await decreaseItemQuantity(productId);
       if (res.statusCode === 201) {
         await get().fetchCart();
-        // toast.success("Producto eliminado");
       } else {
         set({ cartItems: prevItems });
         toast.error(res.message || "Error al eliminar el producto");
