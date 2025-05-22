@@ -1,5 +1,6 @@
 import {
   CreditCard,
+  HeartIcon,
   LifeBuoy,
   LoaderCircleIcon,
   LogOut,
@@ -69,6 +70,12 @@ export function DropdownMenuHome() {
           <DropdownMenuItem onClick={() => router.push("/s")}>
             <CreditCard />
             <span>Mis Pedidos</span>
+          </DropdownMenuItem>
+          <DropdownMenuItem onClick={() => router.push("/s")}>
+            <HeartIcon />
+            <span>
+              Favoritos
+            </span>
           </DropdownMenuItem>
           <DropdownMenuItem onClick={() => router.push("/settings")}>
             <Settings />
