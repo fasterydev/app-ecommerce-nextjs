@@ -34,7 +34,7 @@ export default clerkMiddleware(async (auth, request) => {
     if (role === "admin") {
       return NextResponse.redirect(new URL("/admin", request.url));
     } else if (role === "user") {
-      return NextResponse.redirect(new URL("/user", request.url));
+      return NextResponse.redirect(new URL("/", request.url));
     }
   }
 
@@ -44,7 +44,7 @@ export default clerkMiddleware(async (auth, request) => {
   }
 
   if (isUserRoute(request) && role !== "user") {
-    return NextResponse.redirect(new URL("/user", request.url));
+    return NextResponse.redirect(new URL("/", request.url));
   }
 
   return NextResponse.next();
