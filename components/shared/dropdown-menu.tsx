@@ -71,7 +71,7 @@ export function DropdownMenuHome() {
             <CreditCard />
             <span>Mis Pedidos</span>
           </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => router.push("/s")}>
+          <DropdownMenuItem onClick={() => router.push("/favorites")}>
             <HeartIcon />
             <span>
               Favoritos
