@@ -4,7 +4,6 @@ import {
   LifeBuoy,
   LoaderCircleIcon,
   LogOut,
-  Settings,
   User,
   UserCircleIcon,
 } from "lucide-react";
@@ -76,10 +75,6 @@ export function DropdownMenuHome() {
             <span>
               Favoritos
             </span>
-          </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => router.push("/settings")}>
-            <Settings />
-            <span>Configuración</span>
           </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
