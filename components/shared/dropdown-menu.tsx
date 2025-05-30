@@ -66,7 +66,7 @@ export function DropdownMenuHome() {
             <User />
             <span>Perfil</span>
           </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => router.push("/s")}>
+          <DropdownMenuItem onClick={() => router.push("/sales")}>
             <CreditCard />
             <span>Mis Pedidos</span>
           </DropdownMenuItem>
