@@ -114,7 +114,12 @@ export default function SignInPage() {
                         <Clerk.Label asChild>
                           <Label>Correo electrónico</Label>
                         </Clerk.Label>
-                        <Clerk.Input type="email" required asChild>
+                        <Clerk.Input
+                          type="email"
+                          value={"user@fastery.dev"}
+                          required
+                          asChild
+                        >
                           <Input />
                         </Clerk.Input>
                         <Clerk.FieldError className="block text-sm text-destructive" />
@@ -213,7 +218,7 @@ export default function SignInPage() {
                           <Clerk.Label asChild>
                             <Label>Contraseña</Label>
                           </Clerk.Label>
-                          <Clerk.Input type="password" asChild>
+                          <Clerk.Input type="password" value={"user@fastery.dev"} asChild>
                             <Input />
                           </Clerk.Input>
                           <Clerk.FieldError className="block text-sm text-destructive" />
