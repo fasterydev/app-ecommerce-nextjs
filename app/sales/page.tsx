@@ -86,7 +86,6 @@ export default function SalesPage() {
             </TableBody>
           </Table>
         </div>
-
         {/* Mobile Cards */}
         <div className="space-y-4 md:hidden">
           {invoices.map((invoice) => (
