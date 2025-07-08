@@ -5,37 +5,37 @@ import HeaderSlider from "@/components/home/HeaderSlider";
 import HomeProducts from "@/components/home/HomeProducts";
 import NewsLetter from "@/components/home/NewsLetter";
 import { MessageCircle } from "lucide-react";
-import { useEffect } from "react";
-import { toast } from "sonner";
+// import { useEffect } from "react";
+// import { toast } from "sonner";
 
 export default function Home() {
-  useEffect(() => {
-    const checkServer = async () => {
-      try {
-        const response = await fetch(
-          "https://api-ecommerce-nestjs.onrender.com/api/health"
-        );
+  // useEffect(() => {
+  //   const checkServer = async () => {
+  //     try {
+  //       const response = await fetch(
+  //         "https://api-ecommerce-nestjs.onrender.com/api/health"
+  //       );
 
-        if (response.ok) {
-          const data = await response.json();
-          console.log("Estado del servidor:", data);
-          if (data.status === "ok") {
-            clearInterval(intervalId);
-          }
-        } else {
-          toast.info("En 1 minuto se activarán los servidores...");
-          console.log("La API todavía está apagada.");
-        }
-      } catch (error) {
-        console.error("Error al conectar con la API:", error);
-        toast.info("En 1 minuto se activarán los servidores...");
-      }
-    };
+  //       if (response.ok) {
+  //         const data = await response.json();
+  //         console.log("Estado del servidor:", data);
+  //         if (data.status === "ok") {
+  //           clearInterval(intervalId);
+  //         }
+  //       } else {
+  //         toast.info("En 1 minuto se activarán los servidores...");
+  //         console.log("La API todavía está apagada.");
+  //       }
+  //     } catch (error) {
+  //       console.error("Error al conectar con la API:", error);
+  //       toast.info("En 1 minuto se activarán los servidores...");
+  //     }
+  //   };
 
-    const intervalId = setInterval(checkServer, 5000);
+  //   const intervalId = setInterval(checkServer, 5000);
 
-    return () => clearInterval(intervalId);
-  }, []);
+  //   return () => clearInterval(intervalId);
+  // }, []);
 
   return (
     <>
