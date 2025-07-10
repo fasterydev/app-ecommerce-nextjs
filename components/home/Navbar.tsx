@@ -33,20 +33,7 @@ const Navbar = () => {
       <div className="flex items-center gap-2">
         <ModeToggle />
         <ShoppingCartIconHome />
-
         <DropdownMenuHome />
-        {/* {isLoaded  ? (
-          <Link href="/sales">
-            <Button className="text-sm items-center text-center my-auto">
-              <UserCircleIcon />
-              <div>{user ? user.firstName : "Inicia sesión"}</div>
-            </Button>
-          </Link>
-        ) : (
-          <Button disabled className="text-sm items-center">
-            <LoaderCircleIcon className="size-4 animate-spin" />
-          </Button>
-        )} */}
       </div>
     </nav>
   );

@@ -1,9 +1,9 @@
 import {
-  CreditCard,
   HeartIcon,
   LifeBuoy,
   LoaderCircleIcon,
   LogOut,
+  ShoppingBagIcon,
   User,
   UserCircleIcon,
 } from "lucide-react";
@@ -58,7 +58,7 @@ export function DropdownMenuHome() {
           </Button>
         )}
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-56">
+      <DropdownMenuContent className="xl:w-56 w-48" align="end">
         <DropdownMenuLabel>Mi Cuenta</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
@@ -67,14 +67,12 @@ export function DropdownMenuHome() {
             <span>Perfil</span>
           </DropdownMenuItem>
           <DropdownMenuItem onClick={() => router.push("/sales")}>
-            <CreditCard />
+            <ShoppingBagIcon />
             <span>Mis Pedidos</span>
           </DropdownMenuItem>
           <DropdownMenuItem onClick={() => router.push("/favorites")}>
             <HeartIcon />
-            <span>
-              Favoritos
-            </span>
+            <span>Favoritos</span>
           </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />

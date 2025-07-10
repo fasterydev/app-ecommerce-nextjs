@@ -32,7 +32,7 @@ export default function RootLayout({
           >
             <header></header>
             <Navbar />
-            <main className="px-6 md:px-16 lg:px-32">{children}</main>
+            <main className="px-4 md:px-16 lg:px-32">{children}</main>
             <Footer />
             <Toaster expand={false} position="top-center" richColors />
           </ThemeProvider>
