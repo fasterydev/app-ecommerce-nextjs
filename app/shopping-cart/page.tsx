@@ -34,7 +34,7 @@ export default function ShoppingCartPage() {
   }, [cartItems]);
 
   return (
-    <main className="container mx-auto py-10 px-4">
+    <main className="container mx-auto xl:py-10 py-5">
       {cartItems.length === 0 ? (
         <div className="flex flex-col items-center justify-center py-12 text-center">
           <ShoppingCartIcon className="mb-4 h-16 w-16 text-muted-foreground" />
