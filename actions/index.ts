@@ -6,3 +6,5 @@ export * from "./shopping-carts/create-shopping-cart";
 export * from "./shopping-carts/add-Item-to-cart";
 export * from "./shopping-carts/remove-item-from-cart";
 export * from "./shopping-carts/decrease-item-quantity";
+// SALES
+export * from "./sales/create-sale";

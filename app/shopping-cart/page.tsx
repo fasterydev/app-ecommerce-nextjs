@@ -15,8 +15,14 @@ import { Separator } from "@/components/ui/separator";
 import { useCartStore } from "@/stores/cart-store";
 
 export default function ShoppingCartPage() {
-  const { cartItems, isLoading, addItem, decreaseItem, removeItem } =
-    useCartStore();
+  const {
+    cartItems,
+    isLoading,
+    addItem,
+    decreaseItem,
+    removeItem,
+    createSale,
+  } = useCartStore();
   const [subtotal, setSubtotal] = useState(0);
   const [total, setTotal] = useState(0);
 
@@ -136,12 +142,26 @@ export default function ShoppingCartPage() {
                 </div>
               </CardContent>
               <CardFooter>
-                <Button className="w-full">Finalizar compra</Button>
+                <Button
+                  onClick={createSale.bind(null, cartItems)}
+                  className="w-full"
+                >
+                  Finalizar compra
+                </Button>
               </CardFooter>
             </Card>
           </div>
         </div>
       )}
+      <pre>
+        {JSON.stringify(
+          {
+            cartItems,
+          },
+          null,
+          2
+        )}
+      </pre>
     </main>
   );
 }
