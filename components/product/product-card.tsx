@@ -29,7 +29,6 @@ const ProductCard = ({ product }: { product: Product }) => {
   const router = useRouter();
   const handleAddToCart = () => {
     if (user === null && isLoaded) {
-      console.log("User is logged in:", user);
       router.push("/auth/sign-in");
       return;
     }

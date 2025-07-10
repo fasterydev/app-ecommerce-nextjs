@@ -4,6 +4,7 @@ import {
   addItemToCart,
   removeItemFromCart,
   decreaseItemQuantity,
+  createSale,
 } from "@/actions";
 import { Product } from "@/components/product/product";
 import { toast } from "sonner";
@@ -23,6 +24,7 @@ type CartStore = {
   addItem: (productId: string) => Promise<void>;
   decreaseItem: (productId: string) => Promise<void>;
   removeItem: (productId: string) => Promise<void>;
+  createSale: (items: ShoppingCartItem[]) => Promise<void>;
 };
 
 export const useCartStore = create<CartStore>((set, get) => ({
@@ -135,6 +137,24 @@ export const useCartStore = create<CartStore>((set, get) => ({
       console.error("Error al eliminar el producto:", err);
       set({ cartItems: prevItems });
       toast.error("Error de red al eliminar el producto");
+    } finally {
+      set({ isLoading: false });
+    }
+  },
+
+  createSale: async (items) => {
+    set({ isLoading: true });
+    try {
+      const itemsSale = items.map((item) => ({
+        productId: item.product.id,
+        quantity: Number(item.quantity),
+      }));
+      const res = await createSale(itemsSale);
+      console.log("Respuesta de crear venta:", res);
+      toast.success(res.message || "Venta creada exitosamente");
+    } catch (err) {
+      console.error("Error al crear la venta:", err);
+      toast.error("Error al crear la venta");
     } finally {
       set({ isLoading: false });
     }

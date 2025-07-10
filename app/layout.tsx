@@ -13,6 +13,21 @@ const outfit = Outfit({ subsets: ["latin"], weight: ["300", "400", "500"] });
 export const metadata: Metadata = {
   title: "Fastery Shop Template",
   description: "A simple ecommerce template built with Next.js and Clerk",
+  openGraph: {
+    title: "Fastery Shop Template",
+    description: "A simple ecommerce template built with Next.js and Clerk",
+    url: "https://fastery-shop-template.vercel.app",
+    siteName: "Fastery Shop Template",
+    images: [
+      {
+        url: "https://fastery-shop-template.vercel.app/og-image.png",
+        width: 1200,
+        height: 630,
+      },
+    ],
+    locale: "es_MX",
+    type: "website",
+  },
 };
 
 export default function RootLayout({
@@ -26,8 +41,9 @@ export default function RootLayout({
         <body className={`${outfit.className} antialiased`}>
           <ThemeProvider
             attribute="class"
-            defaultTheme="system"
-            enableSystem
+            defaultTheme="light"
+            enableSystem={true}
+            themes={["light", "dark", "system"]}
             disableTransitionOnChange
           >
             <header></header>
