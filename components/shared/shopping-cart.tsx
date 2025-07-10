@@ -18,6 +18,22 @@ export function ShoppingCartIconHome() {
   const [open, setOpen] = useState(false);
   const { cartItems, fetchCart, addItem, decreaseItem, removeItem } =
     useCartStore();
+  const [subtotal, setSubtotal] = useState(0);
+  const [total, setTotal] = useState(0);
+
+  const calculateSubtotal = () => {
+    const subtotalValue = cartItems.reduce(
+      (acc, item) => acc + item.product.cost * item.quantity,
+      0
+    );
+    setSubtotal(subtotalValue);
+    setTotal(subtotalValue);
+  };
+
+  useEffect(() => {
+    calculateSubtotal();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [cartItems]);
 
   useEffect(() => {
     fetchCart();
@@ -119,30 +135,25 @@ export function ShoppingCartIconHome() {
         )}
 
         <DropdownMenuSeparator />
-        <div className="p-4 space-y-4">
+        <div className="p-4 space-y-2">
           <div className="flex items-center justify-between text-sm">
-            <span>Subtotal</span>
-            {/* <span className="font-medium">${subtotal.toFixed(2)}</span> */}
+            <span>Subtotal:</span>
+            <span className="font-medium">${subtotal.toFixed(2)}</span>
           </div>
           <div className="flex items-center justify-between text-sm">
-            <span>Envío</span>
+            <span>Envío:</span>
             <span className="font-medium">
               Calculado al finalizar la compra
             </span>
           </div>
           <DropdownMenuSeparator />
           <div className="flex items-center justify-between font-medium">
-            <span>Total</span>
-            {/* <span>${subtotal.toFixed(2)}</span> */}
+            <span>Total:</span>
+            <span>${total.toFixed(2)}</span>
           </div>
-          <Button className="w-full">Finalizar compra</Button>
           <Link href="/shopping-cart">
-            <Button
-              onClick={() => setOpen(false)}
-              variant="outline"
-              className="w-full"
-            >
-              Ver carrito
+            <Button onClick={() => setOpen(false)} className="w-full">
+              Finalizar compra
             </Button>
           </Link>
         </div>
