@@ -12,41 +12,29 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { getShoppingCart } from "@/actions";
-import { ShoppingCart } from "@/components/shopping-cart/shopping-cart";
+import { useCartStore } from "@/stores/cart-store";
 
 export default function ShoppingCartPage() {
-  const [cartItems, setCartItems] = useState<ShoppingCart[]>([]);
-
-  const getShoppingCartApi = async () => {
-    try {
-      const res = await getShoppingCart();
-      if (res.statusCode == 200) {
-        setCartItems(res.shoppingCart.items);
-      }
-    } catch (error) {
-      console.error("Error en getShoppingCartApi:", error);
-      throw new Error("Error al obtener el carrito de compras");
-    }
-  };
+  const { cartItems, isLoading, addItem, decreaseItem, removeItem } =
+    useCartStore();
+  const [subtotal, setSubtotal] = useState(0);
+  const [total, setTotal] = useState(0);
 
   useEffect(() => {
-    getShoppingCartApi();
-  }, []);
+    const calculateSubtotal = () => {
+      const subtotalValue = cartItems.reduce(
+        (acc, item) => acc + item.product.cost * item.quantity,
+        0
+      );
+      setSubtotal(subtotalValue);
+      setTotal(subtotalValue);
+    };
+
+    calculateSubtotal();
+  }, [cartItems]);
 
   return (
     <main className="container mx-auto py-10 px-4">
-      <div className="flex items-center mb-6">
-        {/* <Link href="/" className="mr-4">
-          <Button variant="outline" size="sm">
-            &larr; Back
-          </Button>
-        </Link> */}
-        <h1 className="text-2xl font-bold">Carrito de compras</h1>
-      </div>
-
-      {/* <Button onClick={() => createShoppingCartApi()}>Test</Button> */}
-
       {cartItems.length === 0 ? (
         <div className="flex flex-col items-center justify-center py-12 text-center">
           <ShoppingCartIcon className="mb-4 h-16 w-16 text-muted-foreground" />
@@ -63,7 +51,7 @@ export default function ShoppingCartPage() {
           <div className="md:col-span-2">
             <Card>
               <CardHeader>
-                <CardTitle>Artículos del carrito</CardTitle>
+                <CardTitle>Carrito de compras</CardTitle>
               </CardHeader>
               <CardContent className="space-y-6">
                 {cartItems.map((item) => (
@@ -85,36 +73,34 @@ export default function ShoppingCartPage() {
                       <p className="font-medium">${item.product.cost}</p>
                       <div className="flex items-center gap-2">
                         <Button
+                          disabled={isLoading}
                           variant="outline"
                           size="icon"
                           className="h-8 w-8"
-                          // onClick={() =>
-                          //   updateQuantity(item.id, item.quantity - 1)
-                          // }
+                          onClick={() => decreaseItem(item.product.id)}
                         >
                           <Minus className="h-4 w-4" />
                           <span className="sr-only">Decrease quantity</span>
                         </Button>
                         <span className="w-8 text-center">{item.quantity}</span>
                         <Button
+                          disabled={isLoading}
                           variant="outline"
                           size="icon"
                           className="h-8 w-8"
-                          // onClick={() =>
-                          //   updateQuantity(item.id, item.quantity + 1)
-                          // }
+                          onClick={() => addItem(item.product.id)}
                         >
                           <Plus className="h-4 w-4" />
                           <span className="sr-only">Increase quantity</span>
                         </Button>
                         <Button
-                          variant="ghost"
-                          size="sm"
+                          disabled={isLoading}
+                          variant="destructive"
+                          size="icon"
                           className="ml-auto"
-                          // onClick={() => removeItem(item.id)}
+                          onClick={() => removeItem(item.product.id)}
                         >
-                          <Trash2 className="mr-2 h-4 w-4" />
-                          Eliminar
+                          <Trash2 className="h-4 w-4" />
                         </Button>
                       </div>
                     </div>
@@ -128,17 +114,21 @@ export default function ShoppingCartPage() {
               <CardHeader>
                 <CardTitle>Resumen del pedido</CardTitle>
               </CardHeader>
-              <CardContent className="space-y-4">
+              <CardContent className="space-y-2">
                 <div className="flex justify-between">
-                  <span>Subtotal</span>
-                  {/* <span>${subtotal.toFixed(2)}</span> */}
+                  <span>Subtotal:</span>
+                  <span>${subtotal.toFixed(2)}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span>Envío</span>
+                  <span>Total:</span>
+                  <span>${total.toFixed(2)}</span>
+                </div>
+                {/* <div className="flex justify-between">
+                  <span>Envío:</span>
                   <span className="text-sm">
                     Calculado al finalizar la compra
                   </span>
-                </div>
+                </div> */}
                 <Separator />
                 <div className="flex justify-between font-medium">
                   <span>Total</span>

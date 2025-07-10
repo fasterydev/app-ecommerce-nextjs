@@ -17,15 +17,23 @@ import { Card } from "../ui/card";
 import { Badge } from "../ui/badge";
 import { convertFromMilliunits } from "@/utils/covertAmountMiliunits";
 import { useCartStore } from "@/stores/cart-store";
-// import Link from "next/link";
+import { useUser } from "@clerk/nextjs";
+import { useRouter } from "next/navigation";
 
 const ProductCard = ({ product }: { product: Product }) => {
   const [isFavorite, setIsFavorite] = useState(false);
   const [isAddingToCart, setIsAddingToCart] = useState(false);
   const [isAddedToCart, setIsAddedToCart] = useState(false);
   const { addItem, cartItems } = useCartStore();
-
+  const { user, isLoaded } = useUser();
+  const router = useRouter();
   const handleAddToCart = () => {
+    if (user === null && isLoaded) {
+      console.log("User is logged in:", user);
+      router.push("/auth/sign-in");
+      return;
+    }
+
     addItem(product.id);
     setIsAddingToCart(true);
 
@@ -145,7 +153,7 @@ const ProductCard = ({ product }: { product: Product }) => {
       <div className="-mt-5.5">
         <Button
           onClick={handleAddToCart}
-          variant={"secondary"}
+          // variant={"secondary"}
           disabled={isAddingToCart}
           className={cn(
             "max-sm:hidden mt-2 px-4 py-1.5 border-gray-500/20 rounded-full text-xs transition w-full",
