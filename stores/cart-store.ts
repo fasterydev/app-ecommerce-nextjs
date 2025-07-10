@@ -16,8 +16,8 @@ type ShoppingCartItem = {
 
 type CartStore = {
   cartItems: ShoppingCartItem[];
+  isLoading: boolean;
 
-  // acciones
   fetchCart: () => Promise<void>;
   setCartItems: (items: ShoppingCartItem[]) => void;
   addItem: (productId: string) => Promise<void>;
@@ -27,13 +27,21 @@ type CartStore = {
 
 export const useCartStore = create<CartStore>((set, get) => ({
   cartItems: [],
+  isLoading: false,
 
   setCartItems: (items) => set({ cartItems: items }),
 
   fetchCart: async () => {
-    const res = await getShoppingCart();
-    if (res.statusCode === 200) {
-      set({ cartItems: res.shoppingCart.items });
+    set({ isLoading: true });
+    try {
+      const res = await getShoppingCart();
+      if (res.statusCode === 200) {
+        set({ cartItems: res.shoppingCart.items });
+      }
+    } catch (err) {
+      console.error("Error al obtener el carrito:", err);
+    } finally {
+      set({ isLoading: false });
     }
   },
 
@@ -42,6 +50,7 @@ export const useCartStore = create<CartStore>((set, get) => ({
     const existingItem = prevItems.find(
       (item) => item.product.id === productId
     );
+
     if (existingItem) {
       set({
         cartItems: prevItems.map((item) =>
@@ -52,6 +61,7 @@ export const useCartStore = create<CartStore>((set, get) => ({
       });
     }
 
+    set({ isLoading: true });
     try {
       const res = await addItemToCart(productId);
       if (res.statusCode === 201) {
@@ -65,6 +75,8 @@ export const useCartStore = create<CartStore>((set, get) => ({
       console.error("Error al agregar el producto:", err);
       set({ cartItems: prevItems });
       toast.error("Error de red al agregar el producto");
+    } finally {
+      set({ isLoading: false });
     }
   },
 
@@ -73,6 +85,7 @@ export const useCartStore = create<CartStore>((set, get) => ({
     const existingItem = prevItems.find(
       (item) => item.product.id === productId
     );
+
     if (existingItem && existingItem.quantity === 1) {
       set({
         cartItems: prevItems.filter((item) => item.product.id !== productId),
@@ -87,6 +100,7 @@ export const useCartStore = create<CartStore>((set, get) => ({
       });
     }
 
+    set({ isLoading: true });
     try {
       const res = await decreaseItemQuantity(productId);
       if (res.statusCode === 201) {
@@ -99,6 +113,8 @@ export const useCartStore = create<CartStore>((set, get) => ({
       console.error("Error al eliminar el producto:", err);
       set({ cartItems: prevItems });
       toast.error("Error de red al eliminar el producto");
+    } finally {
+      set({ isLoading: false });
     }
   },
 
@@ -106,14 +122,12 @@ export const useCartStore = create<CartStore>((set, get) => ({
     const prevItems = get().cartItems;
     set({
       cartItems: prevItems.filter((item) => item.product.id !== productId),
+      isLoading: true,
     });
 
     try {
       const res = await removeItemFromCart(productId);
-      if (res.statusCode === 201) {
-        // await get().fetchCart();
-        // toast.success("Producto eliminado");
-      } else {
+      if (res.statusCode !== 201) {
         set({ cartItems: prevItems });
         toast.error(res.message || "Error al eliminar el producto");
       }
@@ -121,6 +135,8 @@ export const useCartStore = create<CartStore>((set, get) => ({
       console.error("Error al eliminar el producto:", err);
       set({ cartItems: prevItems });
       toast.error("Error de red al eliminar el producto");
+    } finally {
+      set({ isLoading: false });
     }
   },
 }));
