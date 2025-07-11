@@ -9,7 +9,7 @@ export const dateFormat = (date: string | Date) => {
 
   // Formatear la fecha
   const formattedDate = new Intl.DateTimeFormat("es-EC", {
-    dateStyle: "short",
+    dateStyle: "full",
     // timeStyle: 'medium',
     timeZone: "America/Guayaquil",
   }).format(dateObj);

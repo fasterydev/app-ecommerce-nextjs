@@ -8,3 +8,4 @@ export * from "./shopping-carts/remove-item-from-cart";
 export * from "./shopping-carts/decrease-item-quantity";
 // SALES
 export * from "./sales/create-sale";
+export * from "./sales/get-sales";
