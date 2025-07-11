@@ -1,5 +1,4 @@
 "use client";
-import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import {
   Table,
@@ -9,35 +8,21 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { EyeIcon } from "lucide-react";
+import { useSaleStore } from "@/stores/user/sale-store";
+import { convertFromMilliunits } from "@/utils/covertAmountMiliunits";
+import { currencyFormat } from "@/utils/currencyFormat";
+import { dateFormat } from "@/utils/dateFormat";
+import { HashIcon } from "lucide-react";
+import { useEffect } from "react";
 
 export default function SalesPage() {
-  const invoices = [
-    {
-      invoice: "#123",
-      status: "Pagado",
-      date: "15 de octubre de 2025",
-      total: "$150.00",
-    },
-    {
-      invoice: "#124",
-      status: "Pendiente",
-      date: "16 de octubre de 2025",
-      total: "$200.00",
-    },
-    {
-      invoice: "#125",
-      status: "Enviado",
-      date: "17 de octubre de 2025",
-      total: "$300.00",
-    },
-    {
-      invoice: "#126",
-      status: "Pagado",
-      date: "18 de octubre de 2025",
-      total: "$250.00",
-    },
-  ];
+  const { sales, fetchSales } = useSaleStore();
+
+  useEffect(() => {
+    fetchSales();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <main className="flex-1 pb-12 pt-6">
       <div className="container mx-auto">
@@ -52,12 +37,13 @@ export default function SalesPage() {
         </div> */}
 
         <div className="mb-8">
-          <h1 className="mb-2 text-2xl font-bold sm:text-3xl">Mis Pedidos</h1>
+          <h1 className="mb-2 text-2xl font-semibold sm:text-3xl">Mis Pedidos</h1>
           <p className="">
             Revisa el estado de tus pedidos y gestiona tus compras.
           </p>
         </div>
         {/* Desktop Table */}
+
         <div className="hidden md:block">
           <Table>
             <TableHeader className="bg-muted">
@@ -69,17 +55,17 @@ export default function SalesPage() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {invoices.map((invoice) => (
-                <TableRow key={invoice.invoice}>
-                  <TableCell className="font-medium flex space-x-3 items-center">
-                    <div>{invoice.invoice}</div>
-                    <Button size={"icon"} className="w-8 h-8">
-                      <EyeIcon />
-                    </Button>
+              {sales.map((sale) => (
+                <TableRow key={sale.id}>
+                  <TableCell className="font-medium flex space-x-1 items-center">
+                    <HashIcon size={14} />
+                    <div>{sale.idNumer}</div>
                   </TableCell>
-                  <TableCell>{invoice.status}</TableCell>
-                  <TableCell>{invoice.date}</TableCell>
-                  <TableCell className="text-right">{invoice.total}</TableCell>
+                  <TableCell>{sale.status}</TableCell>
+                  <TableCell>{dateFormat(sale.createdAt)}</TableCell>
+                  <TableCell className="text-right">
+                    {currencyFormat(convertFromMilliunits(sale.total))}
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>
@@ -87,15 +73,18 @@ export default function SalesPage() {
         </div>
         {/* Mobile Cards */}
         <div className="space-y-4 md:hidden">
-          {invoices.map((invoice) => (
-            <Card key={invoice.invoice}>
+          {sales.map((sale) => (
+            <Card key={sale.id}>
               <CardContent>
-                <div className="space-y-3">
+                <div className="space-y-2">
                   <div className="flex justify-between items-center">
                     <span className="text-sm font-medium text-muted-foreground">
                       Pedido:
                     </span>
-                    <span className="font-medium">{invoice.invoice}</span>
+                    <span className="font-medium flex space-x-1 items-center">
+                      <HashIcon size={14} />
+                      <div>{sale.idNumer}</div>
+                    </span>
                   </div>
                   <div className="flex justify-between items-center">
                     <span className="text-sm font-medium text-muted-foreground">
@@ -103,27 +92,29 @@ export default function SalesPage() {
                     </span>
                     <span
                       className={`px-2 py-1 rounded-full text-xs font-medium ${
-                        invoice.status === "Pagado"
+                        sale.status === "Pagado"
                           ? "bg-green-100 text-green-800"
-                          : invoice.status === "Pendiente"
+                          : sale.status === "Pendiente"
                           ? "bg-yellow-100 text-yellow-800"
                           : "bg-blue-100 text-blue-800"
                       }`}
                     >
-                      {invoice.status}
+                      {sale.status}
                     </span>
                   </div>
                   <div className="flex justify-between items-center">
                     <span className="text-sm font-medium text-muted-foreground">
                       Fecha:
                     </span>
-                    <span>{invoice.date}</span>
+                    <span>{dateFormat(sale.createdAt)}</span>
                   </div>
                   <div className="flex justify-between items-center">
                     <span className="text-sm font-medium text-muted-foreground">
                       Total:
                     </span>
-                    <span className="font-semibold">{invoice.total}</span>
+                    <span>
+                      {currencyFormat(convertFromMilliunits(sale.total))}
+                    </span>
                   </div>
                 </div>
               </CardContent>
