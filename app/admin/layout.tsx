@@ -3,11 +3,5 @@ export default function AdminLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return (
-    <html lang="en" suppressHydrationWarning>
-      <body className="antialiased">
-        <main className="px-6 md:px-16 lg:px-32">{children}</main>
-      </body>
-    </html>
-  );
+  return <div>{children}</div>;
 }

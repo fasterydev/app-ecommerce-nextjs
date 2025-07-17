@@ -1,5 +1,6 @@
 import {
   HeartIcon,
+  LayoutIcon,
   LifeBuoy,
   LoaderCircleIcon,
   LogOut,
@@ -66,6 +67,12 @@ export function DropdownMenuHome() {
             <User />
             <span>Perfil</span>
           </DropdownMenuItem>
+          {user.publicMetadata?.role === "admin" && (
+            <DropdownMenuItem onClick={() => router.push("/admin")}>
+              <LayoutIcon />
+              <span>Administrador</span>
+            </DropdownMenuItem>
+          )}
           <DropdownMenuItem onClick={() => router.push("/sales")}>
             <ShoppingBagIcon />
             <span>Mis Pedidos</span>
