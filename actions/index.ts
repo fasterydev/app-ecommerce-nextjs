@@ -9,3 +9,7 @@ export * from "./shopping-carts/decrease-item-quantity";
 // SALES
 export * from "./sales/create-sale";
 export * from "./sales/get-sales";
+// FAVORITES
+export * from "./favorites/get-favorites";
+export * from "./favorites/add-favorite";
+export * from "./favorites/delete-favorite";
