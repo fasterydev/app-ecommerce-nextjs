@@ -19,6 +19,7 @@ import { convertFromMilliunits } from "@/utils/covertAmountMiliunits";
 import { useCartStore } from "@/stores/cart-store";
 import { useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
+import { addFavorite } from "@/actions";
 
 const ProductCard = ({ product }: { product: Product }) => {
   const [isFavorite, setIsFavorite] = useState(false);
@@ -46,6 +47,18 @@ const ProductCard = ({ product }: { product: Product }) => {
         setIsAddedToCart(false);
       }, 2000);
     }, 2000);
+  };
+
+  const isAddedToFavorites = async (product: Product) => {
+    try {
+      const res = await addFavorite(product.id);
+      if (res.statusCode === 200) {
+        setIsFavorite(true);
+      }
+      return res;
+    } catch (error) {
+      console.error("Error checking if product is added to favorites:", error);
+    }
   };
 
   const isProductInCart = cartItems.some(
@@ -82,7 +95,8 @@ const ProductCard = ({ product }: { product: Product }) => {
             )}
           </div>
           <button
-            onClick={() => setIsFavorite(!isFavorite)}
+            // onClick={() => setIsFavorite(!isFavorite)}
+            onClick={() => isAddedToFavorites(product)}
             className={cn(
               "top-2 right-2  absolute flex items-center justify-center h-8 w-8 rounded-full shadow-md transition-all duration-300 ease-in-out",
               isFavorite
