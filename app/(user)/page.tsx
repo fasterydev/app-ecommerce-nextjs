@@ -3,8 +3,9 @@ import Banner from "@/components/home/Banner";
 import FeaturedProduct from "@/components/home/FeaturedProduct";
 // import HeaderSlider from "@/components/home/HeaderSlider";
 import HomeProducts from "@/components/home/HomeProducts";
+import Information from "@/components/home/Information";
 import MosaicCategory from "@/components/home/MosaicCategory";
-import NewsLetter from "@/components/home/NewsLetter";
+// import NewsLetter from "@/components/home/NewsLetter";
 import { MessageCircle } from "lucide-react";
 
 export default function Home() {
@@ -15,7 +16,8 @@ export default function Home() {
       <HomeProducts />
       <FeaturedProduct />
       <Banner />
-      <NewsLetter />
+      {/* <NewsLetter /> */}
+      <Information />
       <a
         href="https://wa.me/593980061377"
         target="_blank"
