@@ -1,9 +1,15 @@
-import { BanknoteIcon, CarFrontIcon, ShieldCheckIcon, BadgeCheckIcon } from "lucide-react";
+"use client";
+import {
+  BanknoteIcon,
+  CarFrontIcon,
+  ShieldCheckIcon,
+  BadgeCheckIcon,
+} from "lucide-react";
 import React from "react";
 
 const Information = () => {
   return (
-    <div className="grid xl:grid-cols-4 grid-cols-1 gap-4 px-4 py-8">
+    <div className="grid xl:grid-cols-4 grid-cols-1 gap-4 px-4 py-14">
       <div className="p-4 flex gap-4 items-center">
         <CarFrontIcon className="text-primary" size={35} />
         <div>

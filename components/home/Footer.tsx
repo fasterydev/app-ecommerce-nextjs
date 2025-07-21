@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import { LogoTheme } from "../shared/logo-theme";
 import { MailIcon, MapPinIcon, PhoneIcon } from "lucide-react";
