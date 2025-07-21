@@ -9,7 +9,7 @@ import { ShoppingCartIconHome } from "../shared/shopping-cart";
 
 const Navbar = () => {
   return (
-    <nav className="flex items-center justify-between py-3 border-b border-muted-foreground/20">
+    <nav className="flex items-center justify-between py-3 border-b border-muted-foreground/20 px-3 md:px-12 lg:px-12">
       <div>
         <Link href="/">
           <LogoTheme />

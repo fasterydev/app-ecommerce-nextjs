@@ -44,7 +44,7 @@ export default function RootLayout({
             themes={["light", "dark", "system"]}
             disableTransitionOnChange
           >
-            <main className="px-4 md:px-16 lg:px-32">{children}</main>
+            <main >{children}</main>
             <Toaster expand={false} position="top-center" richColors />
           </ThemeProvider>
         </body>
