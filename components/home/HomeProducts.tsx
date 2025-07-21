@@ -33,9 +33,10 @@ const HomeProducts = () => {
 
   return (
     <div className="flex flex-col items-center pt-14">
-      <p className="text-2xl font-semibold text-left w-full">
-        Productos más vendidos
-      </p>
+       <div className="flex flex-col items-center">
+        <p className="text-2xl font-medium">Productos destacados</p>
+        <div className="w-28 h-0.5 bg-primary mt-2"></div>
+      </div>
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 flex-col items-center xl:gap-6 gap-4 mt-6 pb-14 w-full">
         {loading &&
           Array.from({ length: 5 }, (_, i) => <ProductCardSkeleton key={i} />)}
