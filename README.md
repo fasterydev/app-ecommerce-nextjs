@@ -25,8 +25,17 @@ Set up the following environment variables:
 
 ```bash
 # Clerk
+NEXT_PUBLIC_BACKEND_URL=https://api-ecommerce-nestjs.onrender.com/api
+
 NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=
 CLERK_SECRET_KEY=
+
+NEXT_PUBLIC_CLERK_SIGN_IN_URL=/auth/sign-in
+NEXT_PUBLIC_CLERK_SIGN_UP_URL=/auth/sign-up
+NEXT_PUBLIC_CLERK_SIGN_IN_FORCE_REDIRECT_URL=/auth/sign-in
+NEXT_PUBLIC_CLERK_SIGN_UP_FORCE_REDIRECT_URL=/auth/sign-up
+NEXT_PUBLIC_CLERK_SIGN_IN_FALLBACK_REDIRECT_URL=/auth/sign-in
+NEXT_PUBLIC_CLERK_SIGN_UP_FALLBACK_REDIRECT_URL=/auth/sign-up
 
 # Backend API
 NEXT_PUBLIC_API_URL=
