@@ -1,14 +1,6 @@
 import React from "react";
 import { LogoTheme } from "../shared/logo-theme";
-import {
-  FacebookIcon,
-  InstagramIcon,
-  LinkedinIcon,
-  MailIcon,
-  MapPinIcon,
-  PhoneIcon,
-} from "lucide-react";
-import Image from "next/image";
+import { MailIcon, MapPinIcon, PhoneIcon } from "lucide-react";
 
 const Footer = () => {
   return (
