@@ -79,7 +79,7 @@ const CategoryCard = ({
   return (
     <Card
       className={clsx(
-        "relative overflow-hidden group w-full rounded-2xl",
+        "relative overflow-hidden group w-full",
         fullHeight ? "h-full" : "h-full"
       )}
     >
@@ -100,7 +100,7 @@ const CategoryCard = ({
       >
         {label}
       </Button>
-      <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-black/10 to-transparent z-0 rounded-2xl" />
+      <div className="absolute inset-0 z-0" />
     </Card>
   );
 };
