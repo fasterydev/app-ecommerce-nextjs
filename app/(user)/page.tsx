@@ -1,6 +1,6 @@
 "use client";
 import Banner from "@/components/home/Banner";
-import FeaturedProduct from "@/components/home/FeaturedProduct";
+// import FeaturedProduct from "@/components/home/FeaturedProduct";
 // import HeaderSlider from "@/components/home/HeaderSlider";
 import HomeProducts from "@/components/home/HomeProducts";
 import Information from "@/components/home/Information";
@@ -14,7 +14,7 @@ export default function Home() {
       <MosaicCategory />
       {/* <HeaderSlider /> */}
       <HomeProducts />
-      <FeaturedProduct />
+      {/* <FeaturedProduct /> */}
       <Banner />
       {/* <NewsLetter /> */}
       <Information />
