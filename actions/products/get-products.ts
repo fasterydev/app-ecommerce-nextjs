@@ -55,5 +55,10 @@ export const getProducts = async () => {
     };
   } catch (error) {
     console.error("Error en getProducts:", error);
+    throw new Error(
+      error instanceof Error
+        ? error.message
+        : "Error desconocido al obtener productos"
+    );
   }
 };
