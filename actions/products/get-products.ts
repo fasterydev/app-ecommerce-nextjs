@@ -50,11 +50,10 @@ export const getProducts = async () => {
 
     return {
       statusCode: response.status,
-      message: resData.message || "Paquete creado correctamente",
+      message: resData.message || "Productos obtenidos correctamente",
       products: resData || [],
     };
   } catch (error) {
     console.error("Error en getProducts:", error);
-    throw new Error("Error al obtener los productos");
   }
 };

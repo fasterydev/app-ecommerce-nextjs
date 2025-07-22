@@ -61,9 +61,9 @@ const ProductCard = ({ product }: { product: Product }) => {
     }
   };
 
-  const isProductInCart = cartItems.some(
-    (item) => item.product.id === product.id
-  );
+  const isProductInCart = Array.isArray(cartItems)
+    ? cartItems.some((item) => item.product.id === product.id)
+    : false;
 
   return (
     <Card className="xl:px-4 px-3 pb-3 relative">
