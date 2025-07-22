@@ -1,5 +1,5 @@
 // PRODUCTS
-export * from "./products/get-packages";
+export * from "./products/get-products";
 // SHOPPING CARTS
 export * from "./shopping-carts/get-shopping-cart";
 export * from "./shopping-carts/create-shopping-cart";

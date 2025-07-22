@@ -54,7 +54,7 @@ export const getShoppingCart = async () => {
       shoppingCart: resData || [],
     };
   } catch (error) {
-    console.error("Error en getProducts:", error);
-    throw new Error("Error al obtener los productos");
+    console.error("Error en getShoppingCart:", error);
+    throw new Error("Error al obtener el carrito de compras");
   }
 };
