@@ -1,7 +1,11 @@
+import { Brand } from "./brand";
+
 export interface Product {
   id: string;
   name: string;
   description: string;
+  brand: Brand;
+  brandId?: string | null;
   rating: number;
   subName: string;
   status: string;
@@ -17,4 +21,5 @@ export interface Product {
   createdAt: string;
   updatedAt: string;
   deletedAt: string | null;
+  stock: number;
 }

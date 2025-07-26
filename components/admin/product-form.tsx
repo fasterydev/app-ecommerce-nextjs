@@ -12,24 +12,9 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-
-interface Product {
-  id?: string;
-  name: string;
-  description: string;
-  price: number;
-  category: string;
-  images: string[];
-  stock: number;
-  sku: string;
-}
+import { Product } from "../product/product";
+import { BrandSelector } from "../product/brand-selector";
+import { Switch } from "../ui/switch";
 
 interface ProductFormProps {
   product?: Product;
@@ -44,13 +29,13 @@ export default function ProductForm({
 }: ProductFormProps) {
   const isEditing = !!product;
 
-  const [formData, setFormData] = useState<Product>({
+  const [formData, setFormData] = useState<Partial<Product>>({
     name: product?.name || "",
+    brandId: product?.brandId || "",
     description: product?.description || "",
-    price: product?.price || 0,
-    category: product?.category || "",
-    images: product?.images || [],
-    stock: product?.stock || 0,
+    images: ["https://placehold.co/600x600.png"],
+    isNew: product?.isNew || false,
+    isBestSeller: product?.isBestSeller || false,
     sku: product?.sku || "",
     ...(product?.id && { id: product.id }),
   });
@@ -58,7 +43,10 @@ export default function ProductForm({
   const [dragActive, setDragActive] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
 
-  const handleInputChange = (field: keyof Product, value: string | number) => {
+  const handleInputChange = (
+    field: keyof Product,
+    value: string | number | boolean
+  ) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
     if (errors[field]) {
       setErrors((prev) => ({ ...prev, [field]: "" }));
@@ -115,10 +103,12 @@ export default function ProductForm({
     if (!formData.name.trim()) newErrors.name = "El nombre es requerido";
     if (!formData.description.trim())
       newErrors.description = "La descripción es requerida";
-    if (formData.price <= 0) newErrors.price = "El precio debe ser mayor a 0";
-    if (!formData.category) newErrors.category = "La categoría es requerida";
     if (!formData.sku.trim()) newErrors.sku = "El SKU es requerido";
-    if (formData.stock < 0) newErrors.stock = "El stock no puede ser negativo";
+    if (!formData.brandId) newErrors.brandId = "La marca es requerida";
+    if (formData.isNew === undefined)
+      newErrors.isNew = "El estado es requerido";
+    if (formData.isBestSeller === undefined)
+      newErrors.isBestSeller = "El estado es requerido";
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -186,6 +176,52 @@ export default function ProductForm({
                     )}
                   </div>
                 </div>
+                <div className="grid md:grid-cols-3 gap-4">
+                  <div>
+                    <BrandSelector
+                      value={formData.brandId ?? undefined}
+                      className={errors.brand ? "border-red-500" : ""}
+                      onChange={(brand) =>
+                        handleInputChange("brandId", brand.id)
+                      }
+                    />
+                    {errors.brand && (
+                      <p className="text-sm text-red-500">{errors.brand}</p>
+                    )}
+                  </div>
+                  <div className="grid gap-1.5">
+                    <div className="flex items-center justify-center space-x-2 mt-3">
+                      <Switch
+                        id="isNew"
+                        checked={formData.isNew ? true : false}
+                        onCheckedChange={(checked) =>
+                          handleInputChange("isNew", checked)
+                        }
+                      />
+                      <Label htmlFor="isNew">Es Nuevo</Label>
+                    </div>
+                    {errors.isNew && (
+                      <p className="text-sm text-red-500">{errors.isNew}</p>
+                    )}
+                  </div>
+                  <div className="grid gap-1.5">
+                    <div className="flex items-center justify-center space-x-2 mt-3">
+                      <Switch
+                        id="isBestSeller"
+                        checked={formData.isBestSeller ? true : false}
+                        onCheckedChange={(checked) =>
+                          handleInputChange("isBestSeller", checked)
+                        }
+                      />
+                      <Label htmlFor="isBestSeller">Top Ventas</Label>
+                    </div>
+                    {errors.isBestSeller && (
+                      <p className="text-sm text-red-500">
+                        {errors.isBestSeller}
+                      </p>
+                    )}
+                  </div>
+                </div>
 
                 <div>
                   <Label htmlFor="description">Descripción *</Label>
@@ -214,7 +250,7 @@ export default function ProductForm({
               </CardHeader>
               <CardContent>
                 <div className="grid md:grid-cols-3 gap-4">
-                  <div>
+                  {/* <div>
                     <Label htmlFor="price">Precio *</Label>
                     <div className="relative">
                       <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">
@@ -242,9 +278,9 @@ export default function ProductForm({
                         {errors.price}
                       </p>
                     )}
-                  </div>
+                  </div> */}
 
-                  <div>
+                  {/* <div>
                     <Label htmlFor="stock">Stock</Label>
                     <Input
                       id="stock"
@@ -264,8 +300,8 @@ export default function ProductForm({
                         {errors.stock}
                       </p>
                     )}
-                  </div>
-
+                  </div> */}
+                  {/* 
                   <div>
                     <Label htmlFor="category">Categoría *</Label>
                     <Select
@@ -295,7 +331,7 @@ export default function ProductForm({
                         {errors.category}
                       </p>
                     )}
-                  </div>
+                  </div> */}
                 </div>
               </CardContent>
             </Card>
@@ -365,7 +401,7 @@ export default function ProductForm({
                       {formData.images.map((image, index) => (
                         <div key={index} className="relative group">
                           <Image
-                            src={image || "/placeholder.svg"}
+                            src={image || " "}
                             alt={`Producto ${index + 1}`}
                             width={150}
                             height={150}
@@ -415,6 +451,9 @@ export default function ProductForm({
           </div>
         </div>
       </form>
+      <pre>
+        <code className="text-sm">{JSON.stringify(formData, null, 2)}</code>
+      </pre>
     </div>
   );
 }

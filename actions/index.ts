@@ -1,5 +1,8 @@
 // PRODUCTS
 export * from "./products/get-products";
+export * from "./products/admin/create-product";
+export * from "./products/admin/edit-product";
+export * from "./products/admin/delete-product";
 // SHOPPING CARTS
 export * from "./shopping-carts/get-shopping-cart";
 export * from "./shopping-carts/create-shopping-cart";

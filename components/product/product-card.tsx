@@ -71,7 +71,7 @@ const ProductCard = ({ product }: { product: Product }) => {
       <div className="flex flex-col items-start gap-0.5 w-full cursor-pointer">
         <div className="cursor-pointer group  rounded-lg w-full md:h-52 flex items-center justify-center ">
           <Image
-            src={product.images[0]}
+            src={product.images[0] || "https://placehold.co/600x600.png"}
             alt={product.name}
             className="group-hover:scale-105 transition object-cover rounded-2xl  md:w-full md:h-full "
             width={800}
@@ -119,10 +119,15 @@ const ProductCard = ({ product }: { product: Product }) => {
             )}
           </button>
         </div>
-        <p className="w-full text-xs pt-2 text-muted-foreground flex items-center truncate">
-          {product.subName}{" "}
-          <BadgeCheckIcon size={14} className="ml-1 text-blue-500" />
-        </p>
+        {product.brand ? (
+          <p className="w-full text-xs pt-2 text-muted-foreground flex items-center truncate">
+            {product.brand.name}{" "}
+            <BadgeCheckIcon size={14} className="ml-1 text-blue-500" />
+          </p>
+        ) : (
+          <></>
+        )}
+
         <p className="md:text-base font-medium  w-full line-clamp-2">
           {product.name}
         </p>
@@ -131,8 +136,9 @@ const ProductCard = ({ product }: { product: Product }) => {
           <div className="flex items-center gap-0.5">
             {Array.from({ length: 5 }, (_, i) => (
               <StarIcon
+                size={12}
                 key={i}
-                className={`h-3.5 w-3.5 ${
+                className={`${
                   i < product.rating
                     ? "fill-yellow-400 text-yellow-400"
                     : "text-gray-300"
