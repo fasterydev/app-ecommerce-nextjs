@@ -4,7 +4,7 @@ export interface Product {
   id: string;
   name: string;
   description: string;
-  brand: Brand;
+  brand?: Brand;
   brandId?: string | null;
   rating: number;
   subName: string;
