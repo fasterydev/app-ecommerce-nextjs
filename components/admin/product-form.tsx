@@ -37,6 +37,8 @@ export default function ProductForm({
     isNew: product?.isNew || false,
     isBestSeller: product?.isBestSeller || false,
     sku: product?.sku || "",
+    cost: product?.cost || 0,
+    revenue: product?.revenue || 0,
     ...(product?.id && { id: product.id }),
   });
 
@@ -53,29 +55,29 @@ export default function ProductForm({
     }
   };
 
-  const handleImageUpload = (files: FileList | null) => {
-    if (!files) return;
+  // const handleImageUpload = (files: FileList | null) => {
+  //   if (!files) return;
 
-    const newImages: string[] = [];
-    Array.from(files).forEach((file) => {
-      if (file.type.startsWith("image/")) {
-        const url = URL.createObjectURL(file);
-        newImages.push(url);
-      }
-    });
+  //   const newImages: string[] = [];
+  //   Array.from(files).forEach((file) => {
+  //     if (file.type.startsWith("image/")) {
+  //       const url = URL.createObjectURL(file);
+  //       newImages.push(url);
+  //     }
+  //   });
 
-    setFormData((prev) => ({
-      ...prev,
-      images: [...prev.images, ...newImages].slice(0, 6), // Máximo 6 imágenes
-    }));
-  };
+  //   setFormData((prev) => ({
+  //     ...prev,
+  //     images: [...prev.images, ...newImages].slice(0, 6), // Máximo 6 imágenes
+  //   }));
+  // };
 
-  const removeImage = (index: number) => {
-    setFormData((prev) => ({
-      ...prev,
-      images: prev.images.filter((_, i) => i !== index),
-    }));
-  };
+  // const removeImage = (index: number) => {
+  //   setFormData((prev) => ({
+  //     ...prev,
+  //     images: prev.images.filter((_, i) => i !== index),
+  //   }));
+  // };
 
   const handleDrag = (e: React.DragEvent) => {
     e.preventDefault();
@@ -100,15 +102,21 @@ export default function ProductForm({
   const validateForm = () => {
     const newErrors: Record<string, string> = {};
 
-    if (!formData.name.trim()) newErrors.name = "El nombre es requerido";
-    if (!formData.description.trim())
+    if (!formData.name || !formData.name.trim())
+      newErrors.name = "El nombre es requerido";
+    if (!formData.description || !formData.description.trim())
       newErrors.description = "La descripción es requerida";
-    if (!formData.sku.trim()) newErrors.sku = "El SKU es requerido";
+    if (!formData.sku || !formData.sku.trim())
+      newErrors.sku = "El SKU es requerido";
     if (!formData.brandId) newErrors.brandId = "La marca es requerida";
     if (formData.isNew === undefined)
       newErrors.isNew = "El estado es requerido";
     if (formData.isBestSeller === undefined)
       newErrors.isBestSeller = "El estado es requerido";
+    if (formData.cost === undefined || formData.cost <= 0)
+      newErrors.cost = "El costo debe ser mayor a 0";
+    if (formData.revenue === undefined || formData.revenue <= 0)
+      newErrors.revenue = "La ganancia debe ser mayor a 0";
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -147,7 +155,7 @@ export default function ProductForm({
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="grid md:grid-cols-2 gap-4">
-                  <div>
+                  <div className="grid gap-1.5">
                     <Label htmlFor="name">Nombre del Producto *</Label>
                     <Input
                       id="name"
@@ -162,7 +170,7 @@ export default function ProductForm({
                       <p className="text-sm text-red-500 mt-1">{errors.name}</p>
                     )}
                   </div>
-                  <div>
+                  <div className="grid gap-1.5">
                     <Label htmlFor="sku">SKU *</Label>
                     <Input
                       id="sku"
@@ -177,7 +185,7 @@ export default function ProductForm({
                   </div>
                 </div>
                 <div className="grid md:grid-cols-3 gap-4">
-                  <div>
+                  <div className="grid gap-1.5">
                     <BrandSelector
                       value={formData.brandId ?? undefined}
                       className={errors.brand ? "border-red-500" : ""}
@@ -222,8 +230,7 @@ export default function ProductForm({
                     )}
                   </div>
                 </div>
-
-                <div>
+                <div className="grid gap-1.5">
                   <Label htmlFor="description">Descripción *</Label>
                   <Textarea
                     id="description"
@@ -240,6 +247,38 @@ export default function ProductForm({
                       {errors.description}
                     </p>
                   )}
+                </div>
+                <div className="grid md:grid-cols-3 gap-4">
+                  <div className="grid gap-1.5">
+                    <Label htmlFor="cost">Costo *</Label>
+                    <Input
+                      id="cost"
+                      value={formData.cost}
+                      onChange={(e) =>
+                        handleInputChange("cost", e.target.value)
+                      }
+                      placeholder="250.00"
+                      className={errors.cost ? "border-red-500" : ""}
+                    />
+                    {errors.cost && (
+                      <p className="text-sm text-red-500 mt-1">{errors.cost}</p>
+                    )}
+                  </div>
+                  <div className="grid gap-1.5">
+                    <Label htmlFor="revenue">Ganancia *</Label>
+                    <Input
+                      id="revenue"
+                      value={formData.revenue}
+                      onChange={(e) =>
+                        handleInputChange("revenue", e.target.value)
+                      }
+                      placeholder="Ej: 100.00"
+                      className={errors.revenue ? "border-red-500" : ""}
+                    />
+                    {errors.revenue && (
+                      <p className="text-sm text-red-500 mt-1">{errors.revenue}</p>
+                    )}
+                  </div>
                 </div>
               </CardContent>
             </Card>

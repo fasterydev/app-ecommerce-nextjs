@@ -11,6 +11,7 @@ export interface Product {
   status: string;
   images: string[];
   cost: number;
+  revenue: number;
   revenueAdmin: number;
   variants: string;
   sku: string;
