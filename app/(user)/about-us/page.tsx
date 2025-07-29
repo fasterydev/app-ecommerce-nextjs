@@ -225,6 +225,8 @@ export default function QuienesSomosPage() {
                         }`}
                         alt={member.name}
                         className="h-full w-full object-cover"
+                        width={80}
+                        height={80}
                       />
                     </div>
                     <h3 className="mb-1 text-lg font-semibold">
