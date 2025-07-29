@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/card";
 import { useEffect, useState } from "react";
 import { Trash2Icon } from "lucide-react";
-import { Favorite } from "@/components/favorites/favorite";
+import { Favorite } from "@/components/favorites/interface";
 
 export default function FavoritesPage() {
   const [favorites, setFavorites] = useState([]);
