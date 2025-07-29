@@ -9,9 +9,9 @@ import {
 } from '@/components/ui/select';
 import { Label } from '@/components/ui/label';
 import clsx from 'clsx';
-import { Brand } from './brand';
 import { useEffect, useState } from 'react';
 import { getBrands } from '@/actions/products/get-brands';
+import { Brand } from './interface';
 
 type BrandSelectorProps = {
   value?: string; // brand.id
