@@ -12,7 +12,6 @@ import {
   NavigationMenu,
   NavigationMenuContent,
   NavigationMenuItem,
-  NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
@@ -23,6 +22,7 @@ import {
   SheetTrigger,
   SheetHeader,
 } from "@/components/ui/sheet";
+import { useCategoryStore } from "@/stores/user/category-store";
 
 const navItems = [
   { label: "Inicio", href: "/" },
@@ -30,34 +30,13 @@ const navItems = [
     label: "Productos",
     href: "/shop",
     isMenu: true,
-    items: [
-      {
-        title: "Nike",
-        href: "/shop?brand=nike",
-        description: "Explora lo mejor en calzado y ropa deportiva de Nike.",
-      },
-      {
-        title: "Adidas",
-        href: "/shop?brand=adidas",
-        description: "Rinde al máximo con la línea original de Adidas.",
-      },
-      {
-        title: "Puma",
-        href: "/shop?brand=puma",
-        description: "Estilo urbano con energía deportiva de Puma.",
-      },
-      {
-        title: "Reebok",
-        href: "/shop?brand=reebok",
-        description: "Vanguardia y performance con Reebok.",
-      },
-    ],
   },
   { label: "Quiénes Somos", href: "/about-us" },
   { label: "Contacto", href: "/contact-us" },
 ];
 
 const Navbar = () => {
+  const { categories } = useCategoryStore();
   const pathname = usePathname();
 
   return (
@@ -117,35 +96,31 @@ const Navbar = () => {
                   <NavigationMenuTrigger>{item.label}</NavigationMenuTrigger>
                   <NavigationMenuContent>
                     <ul className="grid gap-2 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
-                      <li className="row-span-3">
+                      {/* <li className="row-span-3">
                         <NavigationMenuLink asChild>
                           <Link
                             className="from-muted/50 to-muted flex h-full w-full flex-col justify-end rounded-md bg-linear-to-b p-6 no-underline outline-hidden select-none focus:shadow-md"
                             href={item.href}
                           >
                             <div className="mt-4 mb-2 text-lg font-medium">
-                              shadcn/ui
+                              {item.label}
                             </div>
                             <p className="text-muted-foreground text-sm leading-tight">
-                              Beautifully designed components built with
-                              Tailwind CSS.
+                              Explora nuestra amplia gama de productos de las
+                              mejores marcas deportivas.
                             </p>
                           </Link>
                         </NavigationMenuLink>
-                      </li>
-                      <ListItem href="/docs" title="Introduction">
-                        Re-usable components built using Radix UI and Tailwind
-                        CSS.
-                      </ListItem>
-                      <ListItem href="/docs/installation" title="Installation">
-                        How to install dependencies and structure your app.
-                      </ListItem>
-                      <ListItem
-                        href="/docs/primitives/typography"
-                        title="Typography"
-                      >
-                        Styles for headings, paragraphs, lists...etc
-                      </ListItem>
+                      </li> */}
+                      {categories.map((subItem) => (
+                        <ListItem
+                          key={subItem.id}
+                          href={subItem.id}
+                          title={subItem.name}
+                        >
+                          {subItem.description}
+                        </ListItem>
+                      ))}
                     </ul>
                   </NavigationMenuContent>
                 </NavigationMenuItem>
