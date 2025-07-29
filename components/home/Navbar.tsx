@@ -28,6 +28,7 @@ const navItems = [
   { label: "Inicio", href: "/" },
   {
     label: "Productos",
+    href: "/shop",
     isMenu: true,
     items: [
       {
@@ -77,7 +78,7 @@ const Navbar = () => {
               </SheetHeader>
               <div className="flex flex-col gap-2 px-2">
                 {navItems.map((item) => (
-                  <Link key={item.label} href={"#"}>
+                  <Link key={item.label} href={item.href}>
                     <Button
                       variant="ghost"
                       className="w-full justify-start text-left text-base transition-all duration-200 hover:pl-4 hover:text-primary"
@@ -120,7 +121,7 @@ const Navbar = () => {
                         <NavigationMenuLink asChild>
                           <Link
                             className="from-muted/50 to-muted flex h-full w-full flex-col justify-end rounded-md bg-linear-to-b p-6 no-underline outline-hidden select-none focus:shadow-md"
-                            href="/"
+                            href={item.href}
                           >
                             <div className="mt-4 mb-2 text-lg font-medium">
                               shadcn/ui
@@ -150,7 +151,7 @@ const Navbar = () => {
                 </NavigationMenuItem>
               ) : (
                 <NavigationMenuItem key={item.href}>
-                  <Link href={"#"}>
+                  <Link href={item.href}>
                     <Button
                       variant={pathname === item.href ? "link" : "ghost"}
                       className={`${

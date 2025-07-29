@@ -12,9 +12,9 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Product } from "../product/product";
 import { BrandSelector } from "../product/brand-selector";
 import { Switch } from "../ui/switch";
+import { Product } from "../product/interface";
 
 interface ProductFormProps {
   product?: Product;
@@ -24,7 +24,7 @@ interface ProductFormProps {
 
 export default function ProductForm({
   product,
-  onSave,
+  // onSave,
   onCancel,
 }: ProductFormProps) {
   const isEditing = !!product;
@@ -55,29 +55,29 @@ export default function ProductForm({
     }
   };
 
-  // const handleImageUpload = (files: FileList | null) => {
-  //   if (!files) return;
+  const handleImageUpload = (files: FileList | null) => {
+    if (!files) return;
 
-  //   const newImages: string[] = [];
-  //   Array.from(files).forEach((file) => {
-  //     if (file.type.startsWith("image/")) {
-  //       const url = URL.createObjectURL(file);
-  //       newImages.push(url);
-  //     }
-  //   });
+    const newImages: string[] = [];
+    Array.from(files).forEach((file) => {
+      if (file.type.startsWith("image/")) {
+        const url = URL.createObjectURL(file);
+        newImages.push(url);
+      }
+    });
 
-  //   setFormData((prev) => ({
-  //     ...prev,
-  //     images: [...prev.images, ...newImages].slice(0, 6), // Máximo 6 imágenes
-  //   }));
-  // };
+    setFormData((prev) => ({
+      ...prev,
+      images: [...(prev.images ?? []), ...newImages].slice(0, 6),
+    }));
+  };
 
-  // const removeImage = (index: number) => {
-  //   setFormData((prev) => ({
-  //     ...prev,
-  //     images: prev.images.filter((_, i) => i !== index),
-  //   }));
-  // };
+  const removeImage = (index: number) => {
+    setFormData((prev) => ({
+      ...prev,
+      images: (prev.images ?? []).filter((_, i) => i !== index),
+    }));
+  };
 
   const handleDrag = (e: React.DragEvent) => {
     e.preventDefault();
@@ -125,7 +125,7 @@ export default function ProductForm({
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (validateForm()) {
-      onSave(formData);
+      // onSave(formData);
     }
   };
 
@@ -276,7 +276,9 @@ export default function ProductForm({
                       className={errors.revenue ? "border-red-500" : ""}
                     />
                     {errors.revenue && (
-                      <p className="text-sm text-red-500 mt-1">{errors.revenue}</p>
+                      <p className="text-sm text-red-500 mt-1">
+                        {errors.revenue}
+                      </p>
                     )}
                   </div>
                 </div>
@@ -334,18 +336,18 @@ export default function ProductForm({
                 </div>
 
                 {/* Image Preview */}
-                {formData.images.length > 0 && (
+                {(formData.images?.length ?? 0) > 0 && (
                   <div className="space-y-3">
                     <div className="flex items-center justify-between">
-                      <Label>Imágenes ({formData.images.length}/6)</Label>
-                      {formData.images.length > 0 && (
+                      <Label>Imágenes ({formData.images?.length ?? 0}/6)</Label>
+                      {(formData.images?.length ?? 0) > 0 && (
                         <Badge variant="secondary">
-                          {formData.images[0] && "Principal"}
+                          {formData.images?.[0] && "Principal"}
                         </Badge>
                       )}
                     </div>
                     <div className="grid grid-cols-2 gap-3">
-                      {formData.images.map((image, index) => (
+                      {(formData.images ?? []).map((image, index) => (
                         <div key={index} className="relative group">
                           <Image
                             src={image || " "}

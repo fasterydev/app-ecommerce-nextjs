@@ -1,31 +1,20 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { LogoTheme } from "../shared/logo-theme";
 import { MailIcon, MapPinIcon, PhoneIcon } from "lucide-react";
 import Link from "next/link";
-import { getBrands } from "@/actions";
-import { Brand } from "../product/brand";
 import Image from "next/image";
+import { useCategoryStore } from "@/stores/user/category-store";
+import { useBrandStore } from "@/stores/user/brand-store";
 
 const Footer = () => {
-  const [brands, setBrands] = useState<Brand[]>([]);
-
-  const getBrandsApi = async () => {
-    try {
-      const res = await getBrands();
-      if (res.statusCode === 200) {
-        setBrands(res.brands);
-      } else {
-        console.error("Error fetching brands:", res.message);
-      }
-    } catch (error) {
-      console.error("Error fetching brands:", error);
-      return [];
-    }
-  };
+  const { categories, fetchCategories } = useCategoryStore();
+  const { brands, fetchBrands } = useBrandStore();
 
   useEffect(() => {
-    getBrandsApi();
+    fetchCategories();
+    fetchBrands();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -52,30 +41,17 @@ const Footer = () => {
             </div>
           </div>
         </div>
-          <div className="w-1/2 flex items-center justify-start md:justify-center">
+        <div className="w-1/2 flex items-center justify-start md:justify-center">
           <div>
             <h2 className="font-medium text-primary mb-2">Categorias</h2>
             <ul className="text-sm space-y-2">
-              <li>
-                <a className="hover:underline transition" href="#">
-                  Categoria #1
-                </a>
-              </li>
-              <li>
-                <a className="hover:underline transition" href="#">
-                  Categoria #2
-                </a>
-              </li>
-              <li>
-                <a className="hover:underline transition" href="#">
-                  Categoria #3
-                </a>
-              </li>
-              <li>
-                <a className="hover:underline transition" href="#">
-                  Categoria #4
-                </a>
-              </li>
+              {categories.map((category) => (
+                <li key={category.id}>
+                  <Link className="hover:underline transition" href="#">
+                    {category.name}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
         </div>

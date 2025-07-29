@@ -1,5 +1,15 @@
-import { Brand } from "./brand";
-
+export interface Brand {
+  id: string;
+  name: string;
+  createdAt: string;
+  updatedAt: string;
+}
+export interface Category {
+  id: string;
+  name: string;
+  createdAt: string;
+  updatedAt: string;
+}
 export interface Product {
   id: string;
   name: string;

@@ -6,8 +6,8 @@ import {
   decreaseItemQuantity,
   createSale,
 } from "@/actions";
-import { Product } from "@/components/product/product";
 import { toast } from "sonner";
+import { Product } from "@/components/product/interface";
 
 type ShoppingCartItem = {
   id: string;

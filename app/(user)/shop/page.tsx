@@ -38,9 +38,9 @@ import {
 } from "@/components/ui/pagination";
 import { Filter, Search, Star, X } from "lucide-react";
 import ProductCard from "@/components/product/product-card";
-import { Product } from "@/components/product/product";
 import ProductCardSkeleton from "@/components/product/product-card-skeleton";
-import { getProducts } from "@/actions";
+import { useProductStore } from "@/stores/user/product-store";
+import { Product } from "@/components/product/interface";
 
 type FilterState = {
   categories: string[];
@@ -51,10 +51,9 @@ type FilterState = {
 };
 
 export default function ProductsPage() {
+  const { products, fetchProducts, isLoading } = useProductStore();
   // Estado para los productos
-  const [products, setProducts] = useState<Product[]>([]);
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
 
   // Estado para la búsqueda
   const [searchQuery, setSearchQuery] = useState("");
@@ -100,24 +99,9 @@ export default function ProductsPage() {
     "IKEA",
   ];
 
-  const getProductsApi = async () => {
-    setIsLoading(true);
-    try {
-      const res = await getProducts();
-      if (res.statusCode === 200) {
-        setProducts(res.products);
-      } else {
-        console.error("Error al obtener los productos:", res.message);
-      }
-    } catch (error) {
-      console.error("Error en getProducts:", error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
   useEffect(() => {
-    getProductsApi();
+    fetchProducts();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Aplicar filtros y ordenamiento
