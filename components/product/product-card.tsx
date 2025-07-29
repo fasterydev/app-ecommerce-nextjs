@@ -12,7 +12,6 @@ import {
   StarIcon,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { Product } from "./product";
 import { Card } from "../ui/card";
 import { Badge } from "../ui/badge";
 import { convertFromMilliunits } from "@/utils/covertAmountMiliunits";
@@ -21,6 +20,7 @@ import { useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import { addFavorite } from "@/actions";
 import { currencyFormat } from "@/utils/currencyFormat";
+import { Product } from "./interface";
 
 const ProductCard = ({ product }: { product: Product }) => {
   const [isFavorite, setIsFavorite] = useState(false);
