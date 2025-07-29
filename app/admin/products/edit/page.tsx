@@ -1,7 +1,7 @@
 "use client";
 
 import ProductForm from "@/components/admin/product-form";
-import { Product } from "@/components/product/product";
+import { Product } from "@/components/product/interface";
 import { useState } from "react";
 
 export default function Page() {

@@ -1,7 +1,7 @@
 "use client";
 import { getProducts } from "@/actions";
 import { DeleteProductAlert } from "@/components/product/belete-product-alert";
-import { Product } from "@/components/product/product";
+import { Product } from "@/components/product/interface";
 import { ProductStatusBadge } from "@/components/product/product-status-badge";
 import {
   Table,

@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { getSales } from "@/actions";
-import { Product } from "@/components/product/product";
+import { Product } from "@/components/product/interface";
 // import { toast } from "sonner";
 
 type Sale = {

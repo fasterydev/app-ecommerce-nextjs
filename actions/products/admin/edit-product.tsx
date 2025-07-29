@@ -1,5 +1,5 @@
 "use server";
-import { Product } from "@/components/product/product";
+import { Product } from "@/components/product/interface";
 import { auth } from "@clerk/nextjs/server";
 
 export const editProduct = async (product: Partial<Product>) => {
