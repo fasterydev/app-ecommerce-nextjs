@@ -1,7 +1,5 @@
 "use client";
-import { getProducts } from "@/actions";
 import { DeleteProductAlert } from "@/components/product/belete-product-alert";
-import { Product } from "@/components/product/interface";
 import { ProductStatusBadge } from "@/components/product/product-status-badge";
 import {
   Table,
@@ -11,18 +9,11 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { useProductStore } from "@/stores/user/product-store";
 import Image from "next/image";
-import { useEffect, useState } from "react";
 
 export default function SalesAdminPage() {
-  const [products, setProducts] = useState<Product[]>([]);
-  const fetchProducts = async () => {
-    const res = await getProducts();
-    setProducts(res.products || []);
-  };
-  useEffect(() => {
-    fetchProducts();
-  }, []);
+  const { products , fetchProducts } = useProductStore();
 
   return (
     <div>
