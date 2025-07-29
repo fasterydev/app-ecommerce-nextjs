@@ -9,7 +9,7 @@ export default function UserLayout({
   return (
     <>
       <Navbar />
-      <main className="px-4 md:px-16 lg:px-32">{children}</main>
+      <main className="px-3 md:px-16 lg:px-32">{children}</main>
       <Footer />
     </>
   );

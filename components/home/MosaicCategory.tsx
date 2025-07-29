@@ -42,7 +42,7 @@ const categories: Category[] = [
 
 const MosaicCategory = () => {
   return (
-    <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 lg:grid-rows-2 gap-4 p-4 h-[85vh]">
+    <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 lg:grid-rows-2 gap-4 h-[85vh]">
       <div className="lg:row-span-2 h-full">
         <CategoryCard
           label={categories[0].label}
