@@ -33,6 +33,11 @@ const data = {
       icon: TagIcon,
     },
     {
+      title: "Marcas",
+      url: "/admin/brands",
+      icon: TagIcon,
+    },
+    {
       title: "Pedidos",
       url: "/admin/sales",
       icon: ListTodoIcon,
