@@ -58,7 +58,7 @@ export default function FavoritesPage() {
                 </div>
                 <div className="flex-1 space-y-2">
                   <h3 className="font-medium">{item.product.name}</h3>
-                  <p className="font-medium">${item.product.cost}</p>
+                  <p className="font-medium">${item.product.total}</p>
                   <div className="flex items-center gap-2">
                     <Button
                       // disabled={isLoading}

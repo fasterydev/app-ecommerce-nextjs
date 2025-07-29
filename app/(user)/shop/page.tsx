@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import {
   Select,
@@ -37,10 +36,11 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
-import { Filter, Home, Search, Star, X } from "lucide-react";
+import { Filter, Search, Star, X } from "lucide-react";
 import ProductCard from "@/components/product/product-card";
 import { Product } from "@/components/product/product";
 import ProductCardSkeleton from "@/components/product/product-card-skeleton";
+import { getProducts } from "@/actions";
 
 type FilterState = {
   categories: string[];
@@ -100,46 +100,24 @@ export default function ProductsPage() {
     "IKEA",
   ];
 
-  // Cargar productos (simulado)
-  useEffect(() => {
-    // Simular carga de datos
-    setTimeout(() => {
-      const generatedProducts: Product[] = Array.from(
-        { length: 50 },
-        (_, i) => ({
-          id: `product-${i + 1}`,
-          name: `Producto ${i + 1}`,
-          description: `Descripción del producto ${i + 1}`,
-          category:
-            availableCategories[
-              Math.floor(Math.random() * availableCategories.length)
-            ],
-          subName: `Subproducto ${i + 1}`,
-          cost: Math.floor(Math.random() * 900) + 99,
-          revenueAdmin: Math.floor(Math.random() * 900) + 99,
-          variants: "Talla, Color",
-          rating: Math.floor(Math.random() * 5) + 1,
-          image: `https://res.cloudinary.com/djbvf02yt/image/upload/v1738667237/lrllaprpos2pnp5c9pyy.png`,
-          discount: 866,
-          isNew: true,
-          isBestSeller: true,
-          status: "active",
-          images: [
-            `https://res.cloudinary.com/djbvf02yt/image/upload/v1738667237/lrllaprpos2pnp5c9pyy.png`,
-          ],
-          sku: `SKU${i + 1}`,
-          barcode: `BARCODE${i + 1}`,
-          stock: Math.floor(Math.random() * 100) + 1,
-          createdAt: new Date().toISOString(),
-          updatedAt: new Date().toISOString(),
-          deletedAt: null,
-        })
-      );
-      setProducts(generatedProducts);
-      setFilteredProducts(generatedProducts);
+  const getProductsApi = async () => {
+    setIsLoading(true);
+    try {
+      const res = await getProducts();
+      if (res.statusCode === 200) {
+        setProducts(res.products);
+      } else {
+        console.error("Error al obtener los productos:", res.message);
+      }
+    } catch (error) {
+      console.error("Error en getProducts:", error);
+    } finally {
       setIsLoading(false);
-    }, 1000);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }
+  };
+
+  useEffect(() => {
+    getProductsApi();
   }, []);
 
   // Aplicar filtros y ordenamiento
@@ -491,18 +469,8 @@ export default function ProductsPage() {
 
   return (
     <div className="flex min-h-screen flex-col">
-      <main className="flex-1  pb-12 pt-6">
+      <main className="flex-1 pb-12 pt-6">
         <div className="container mx-auto px-4">
-          {/* Breadcrumb */}
-          <div className="mb-6 flex items-center space-x-2 text-sm ">
-            <Link href="/" className="flex items-center ">
-              <Home className="mr-1 h-3 w-3" />
-              Inicio
-            </Link>
-            <span>/</span>
-            <span className="font-medium">Todos los productos</span>
-          </div>
-
           <div className="flex items-center justify-between">
             <h1 className="text-2xl font-bold sm:text-3xl">Productos</h1>
             <div className="flex items-center space-x-2">

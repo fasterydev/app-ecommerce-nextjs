@@ -11,7 +11,7 @@ import { Label } from '@/components/ui/label';
 import clsx from 'clsx';
 import { Brand } from './brand';
 import { useEffect, useState } from 'react';
-import { getBrands } from '@/actions/products/admin/get-brands';
+import { getBrands } from '@/actions/products/get-brands';
 
 type BrandSelectorProps = {
   value?: string; // brand.id

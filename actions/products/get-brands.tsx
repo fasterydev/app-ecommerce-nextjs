@@ -1,19 +1,13 @@
 "use server";
-import { auth } from "@clerk/nextjs/server";
 
 export const getBrands = async () => {
   try {
-    const { getToken } = await auth();
-    const token = await getToken();
-    if (!token) throw new Error("Debe de estar autenticado");
-
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_BACKEND_URL}/products/getBrands`,
       {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
         },
       }
     );

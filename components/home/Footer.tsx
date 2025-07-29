@@ -1,9 +1,33 @@
 "use client";
-import React from "react";
+import { useEffect, useState } from "react";
 import { LogoTheme } from "../shared/logo-theme";
 import { MailIcon, MapPinIcon, PhoneIcon } from "lucide-react";
+import Link from "next/link";
+import { getBrands } from "@/actions";
+import { Brand } from "../product/brand";
+import Image from "next/image";
 
 const Footer = () => {
+  const [brands, setBrands] = useState<Brand[]>([]);
+
+  const getBrandsApi = async () => {
+    try {
+      const res = await getBrands();
+      if (res.statusCode === 200) {
+        setBrands(res.brands);
+      } else {
+        console.error("Error fetching brands:", res.message);
+      }
+    } catch (error) {
+      console.error("Error fetching brands:", error);
+      return [];
+    }
+  };
+
+  useEffect(() => {
+    getBrandsApi();
+  }, []);
+
   return (
     <footer className="bg-muted">
       <div className="flex flex-col md:flex-row items-start justify-center px-3 md:px-12 lg:px-12 gap-4 py-14 border-b border-gray-500/30">
@@ -28,7 +52,7 @@ const Footer = () => {
             </div>
           </div>
         </div>
-        <div className="w-1/2 flex items-center justify-start md:justify-center">
+          <div className="w-1/2 flex items-center justify-start md:justify-center">
           <div>
             <h2 className="font-medium text-primary mb-2">Categorias</h2>
             <ul className="text-sm space-y-2">
@@ -57,28 +81,15 @@ const Footer = () => {
         </div>
         <div className="w-1/2 flex items-center justify-start md:justify-center">
           <div>
-            <h2 className="font-medium text-primary mb-2">Categorias</h2>
+            <h2 className="font-medium text-primary mb-2">Marcas</h2>
             <ul className="text-sm space-y-2">
-              <li>
-                <a className="hover:underline transition" href="#">
-                  Categoria #1
-                </a>
-              </li>
-              <li>
-                <a className="hover:underline transition" href="#">
-                  Categoria #2
-                </a>
-              </li>
-              <li>
-                <a className="hover:underline transition" href="#">
-                  Categoria #3
-                </a>
-              </li>
-              <li>
-                <a className="hover:underline transition" href="#">
-                  Categoria #4
-                </a>
-              </li>
+              {brands.map((brand) => (
+                <li key={brand.id}>
+                  <Link className="hover:underline transition" href="#">
+                    {brand.name}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
         </div>
@@ -113,20 +124,27 @@ const Footer = () => {
           <div>
             <h2 className="font-medium text-primary mb-2">Metodos de pago</h2>
             <div className="text-sm space-y-2">
-              <div>Banco Pichincha </div>
-              <div>Banco Guayaquil</div>
-              <div>Banco Bolivariano</div>
-              {/* <div className="flex items-center gap-3">
-                <FacebookIcon size={18} />
-                <LinkedinIcon size={18} />
-                <InstagramIcon size={18} />
-              </div> */}
-              {/* <Image
+              <Image
+                src="/home/banco-pichincha.webp"
+                alt="banco-pichincha"
+                width={125}
+                height={125}
+                className="rounded-sm"
+              />
+              <Image
+                src="/home/banco-guayaquil.webp"
+                alt="banco-guayaquil"
+                width={125}
+                height={125}
+                className="rounded-sm"
+              />
+              <Image
                 src="/home/metodo-de-pago.webp"
                 alt="metodo-de-pago"
                 width={200}
                 height={200}
-              /> */}
+                className="rounded-sm"
+              />
             </div>
           </div>
         </div>

@@ -12,12 +12,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import {
-  ListTodoIcon,
-  PackageIcon,
-  SettingsIcon,
-  Users2Icon,
-} from "lucide-react";
+import { ListTodoIcon, PackageIcon, SettingsIcon, TagIcon } from "lucide-react";
 import { LogoTheme } from "./shared/logo-theme";
 
 const data = {
@@ -28,24 +23,19 @@ const data = {
   },
   navMain: [
     {
-      title: "Dashboard",
-      url: "/admin",
-      icon: ListTodoIcon,
-    },
-    {
-      title: "Pedidos",
-      url: "/admin/sales",
-      icon: ListTodoIcon,
-    },
-    {
       title: "Productos",
       url: "/admin/products",
       icon: PackageIcon,
     },
     {
-      title: "Servicios",
-      url: "/admin/services",
-      icon: Users2Icon,
+      title: "Categorías",
+      url: "/admin/categories",
+      icon: TagIcon,
+    },
+    {
+      title: "Pedidos",
+      url: "/admin/sales",
+      icon: ListTodoIcon,
     },
   ],
   navSecondary: [

@@ -23,4 +23,5 @@ export interface Product {
   updatedAt: string;
   deletedAt: string | null;
   stock: number;
+  total: number;
 }

@@ -14,7 +14,7 @@ import {
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
-export default function SalesAdminPage() {
+export default function ProductsAdmin() {
   const [products, setProducts] = useState<Product[]>([]);
   const fetchProducts = async () => {
     const res = await getProducts();
@@ -26,10 +26,9 @@ export default function SalesAdminPage() {
 
   return (
     <div>
-      <h1 className="text-xl font-semibold mb-2">Ventas</h1>
+      <h1 className="text-xl font-semibold mb-2">Productos</h1>
       <p>
-        Aquí puedes ver los productos que están a la venta. Puedes eliminar
-        productos que ya no estén disponibles.
+        Aquí puedes ver y administrar los productos disponibles en la tienda.
       </p>
 
       <div className="overflow-hidden rounded-lg border mt-4">
