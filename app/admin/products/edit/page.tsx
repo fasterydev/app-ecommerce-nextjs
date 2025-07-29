@@ -1,20 +1,16 @@
 "use client";
 
-import { createProduct } from "@/actions";
 import ProductForm from "@/components/admin/product-form";
 import { Product } from "@/components/product/interface";
 import { useState } from "react";
 
-export default function CreateProductPage() {
+export default function Page() {
   const [editingProduct] = useState<Product | undefined>();
 
-  const handleSave = async (product: Product) => {
-    try {
-      const res = await createProduct(product);
-      console.log("Product created:", res);
-    } catch (error) {
-      console.error("Error creating product:", error);
-    }
+  const handleSave = (product: Product) => {
+    console.log("Producto guardado:", product);
+    // Aquí implementarías la lógica para guardar en la base de datos
+    alert(`Producto ${product.id ? "actualizado" : "creado"} exitosamente!`);
   };
 
   const handleCancel = () => {};

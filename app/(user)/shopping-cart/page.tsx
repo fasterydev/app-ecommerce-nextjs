@@ -29,7 +29,7 @@ export default function ShoppingCartPage() {
   useEffect(() => {
     const calculateSubtotal = () => {
       const subtotalValue = cartItems.reduce(
-        (acc, item) => acc + item.product.cost * item.quantity,
+        (acc, item) => acc + item.product.total * item.quantity,
         0
       );
       setSubtotal(subtotalValue);
@@ -76,7 +76,7 @@ export default function ShoppingCartPage() {
                     </div>
                     <div className="flex-1 space-y-2">
                       <h3 className="font-medium">{item.product.name}</h3>
-                      <p className="font-medium">${item.product.cost}</p>
+                      <p className="font-medium">${item.product.total}</p>
                       <div className="flex items-center gap-2">
                         <Button
                           disabled={isLoading}

@@ -19,7 +19,6 @@ import { useCartStore } from "@/stores/cart-store";
 import { useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import { addFavorite } from "@/actions";
-import { currencyFormat } from "@/utils/currencyFormat";
 import { Product } from "./interface";
 
 const ProductCard = ({ product }: { product: Product }) => {
@@ -150,11 +149,22 @@ const ProductCard = ({ product }: { product: Product }) => {
           <span className="text-xs text-gray-500">(24)</span>
         </div>
         <div className="flex items-center pt-1">
-          <>
-            <span className="font-medium">
-              {currencyFormat(convertFromMilliunits(product.total))}
-            </span>
-          </>
+          {product.cost ? (
+            <>
+              <span className="font-medium text-red-600">
+                $
+                {(
+                  product.cost -
+                  (product.cost * product.discount) / 100
+                ).toFixed(2)}
+              </span>
+              <span className="ml-2 text-sm text-gray-500 line-through">
+                ${product.cost.toFixed(2)}
+              </span>
+            </>
+          ) : (
+            <span className="font-medium">${product.cost.toFixed(2)}</span>
+          )}
         </div>
       </div>
       {/* </Link> */}

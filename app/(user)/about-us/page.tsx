@@ -1,18 +1,42 @@
-"use client"
+"use client";
 
-import Link from "next/link"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { Users, Target, Heart, Award, Globe, Truck, Shield, Star, MapPin, Phone, Mail, Zap } from "lucide-react"
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import {
+  Users,
+  Target,
+  Heart,
+  Award,
+  Globe,
+  Truck,
+  Shield,
+  Star,
+  MapPin,
+  Phone,
+  Mail,
+  Zap,
+} from "lucide-react";
+import Image from "next/image";
 
 export default function QuienesSomosPage() {
   const stats = [
-    { icon: Users, label: "Clientes", value: "25,000+", color: "text-blue-600" },
-    { icon: Truck, label: "Entregas", value: "100,000+", color: "text-green-600" },
+    {
+      icon: Users,
+      label: "Clientes",
+      value: "25,000+",
+      color: "text-blue-600",
+    },
+    {
+      icon: Truck,
+      label: "Entregas",
+      value: "100,000+",
+      color: "text-green-600",
+    },
     { icon: Globe, label: "Países", value: "15+", color: "text-purple-600" },
     { icon: Award, label: "Años", value: "5+", color: "text-orange-600" },
-  ]
+  ];
 
   const values = [
     {
@@ -39,7 +63,7 @@ export default function QuienesSomosPage() {
       description: "Exactitud en cada pedido",
       color: "bg-green-100 text-green-600",
     },
-  ]
+  ];
 
   const team = [
     {
@@ -57,23 +81,24 @@ export default function QuienesSomosPage() {
       role: "Director de Tecnología",
       image: "/team-member-3.jpg",
     },
-  ]
+  ];
 
   return (
     <div className="flex min-h-screen flex-col">
-
       {/* Main Content */}
       <main className="flex-1">
         {/* Hero Section */}
         <section className=" py-16">
           <div className="container mx-auto px-4 text-center">
-            <Badge className="mb-4 bg-blue-100 text-blue-700 hover:bg-blue-100">Desde 2019</Badge>
+            <Badge className="mb-4 bg-blue-100 text-blue-700 hover:bg-blue-100">
+              Desde 2019
+            </Badge>
             <h1 className="mb-6 text-4xl font-bold tracking-tight sm:text-5xl">
               Somos <span className="text-blue-600">Shop Fastery</span>
             </h1>
             <p className="mx-auto mb-8 max-w-2xl text-lg ">
-              Tu tienda online de confianza. Ofrecemos productos de calidad con entregas rápidas y un servicio
-              excepcional.
+              Tu tienda online de confianza. Ofrecemos productos de calidad con
+              entregas rápidas y un servicio excepcional.
             </p>
             <Button size="lg" className="gap-2">
               <Mail className="h-5 w-5" />
@@ -87,7 +112,7 @@ export default function QuienesSomosPage() {
           <div className="container mx-auto px-4">
             <div className="grid grid-cols-2 gap-8 lg:grid-cols-4">
               {stats.map((stat, index) => {
-                const IconComponent = stat.icon
+                const IconComponent = stat.icon;
                 return (
                   <div key={index} className="text-center">
                     <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-gray-100">
@@ -96,7 +121,7 @@ export default function QuienesSomosPage() {
                     <div className="text-2xl font-bold ">{stat.value}</div>
                     <div className="text-sm ">{stat.label}</div>
                   </div>
-                )
+                );
               })}
             </div>
           </div>
@@ -116,8 +141,9 @@ export default function QuienesSomosPage() {
                   </CardHeader>
                   <CardContent>
                     <p className="">
-                      Facilitar las compras online ofreciendo productos de calidad con entregas rápidas y un servicio al
-                      cliente excepcional.
+                      Facilitar las compras online ofreciendo productos de
+                      calidad con entregas rápidas y un servicio al cliente
+                      excepcional.
                     </p>
                   </CardContent>
                 </Card>
@@ -131,7 +157,8 @@ export default function QuienesSomosPage() {
                   </CardHeader>
                   <CardContent>
                     <p className="">
-                      Ser la tienda online preferida por nuestros clientes, reconocida por nuestra rapidez y confianza.
+                      Ser la tienda online preferida por nuestros clientes,
+                      reconocida por nuestra rapidez y confianza.
                     </p>
                   </CardContent>
                 </Card>
@@ -150,20 +177,25 @@ export default function QuienesSomosPage() {
 
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
               {values.map((value, index) => {
-                const IconComponent = value.icon
+                const IconComponent = value.icon;
                 return (
-                  <Card key={index} className="text-center transition-all hover:shadow-md">
+                  <Card
+                    key={index}
+                    className="text-center transition-all hover:shadow-md"
+                  >
                     <CardContent className="pt-6">
                       <div
                         className={`mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full ${value.color}`}
                       >
                         <IconComponent className="h-6 w-6" />
                       </div>
-                      <h3 className="mb-2 text-lg font-semibold">{value.title}</h3>
+                      <h3 className="mb-2 text-lg font-semibold">
+                        {value.title}
+                      </h3>
                       <p className="text-sm ">{value.description}</p>
                     </CardContent>
                   </Card>
-                )
+                );
               })}
             </div>
           </div>
@@ -179,16 +211,25 @@ export default function QuienesSomosPage() {
 
             <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
               {team.map((member, index) => (
-                <Card key={index} className="text-center transition-all hover:shadow-md">
+                <Card
+                  key={index}
+                  className="text-center transition-all hover:shadow-md"
+                >
                   <CardContent className="pt-6">
                     <div className="mx-auto mb-4 h-20 w-20 overflow-hidden rounded-full bg-gray-100">
-                      <img
-                        src={`/professional-headshot-${index + 1}.png?height=80&width=80&query=professional headshot ${member.name}`}
+                      <Image
+                        src={`/professional-headshot-${
+                          index + 1
+                        }.png?height=80&width=80&query=professional headshot ${
+                          member.name
+                        }`}
                         alt={member.name}
                         className="h-full w-full object-cover"
                       />
                     </div>
-                    <h3 className="mb-1 text-lg font-semibold">{member.name}</h3>
+                    <h3 className="mb-1 text-lg font-semibold">
+                      {member.name}
+                    </h3>
                     <p className="text-sm text-blue-600">{member.role}</p>
                   </CardContent>
                 </Card>
@@ -204,18 +245,31 @@ export default function QuienesSomosPage() {
               <h2 className="mb-6 text-3xl font-bold">Nuestra Historia</h2>
               <div className="space-y-6">
                 <div className="rounded-lg bg-blue-50 p-6">
-                  <h3 className="mb-2 text-lg font-semibold text-blue-800">2019 - Inicio</h3>
+                  <h3 className="mb-2 text-lg font-semibold text-blue-800">
+                    2019 - Inicio
+                  </h3>
                   <p className="text-blue-700">
-                    Fundamos Shop Fastery con la visión de simplificar las compras online.
+                    Fundamos Shop Fastery con la visión de simplificar las
+                    compras online.
                   </p>
                 </div>
                 <div className="rounded-lg bg-green-50 p-6">
-                  <h3 className="mb-2 text-lg font-semibold text-green-800">2021 - Crecimiento</h3>
-                  <p className="text-green-700">Expandimos nuestro catálogo y mejoramos nuestros tiempos de entrega.</p>
+                  <h3 className="mb-2 text-lg font-semibold text-green-800">
+                    2021 - Crecimiento
+                  </h3>
+                  <p className="text-green-700">
+                    Expandimos nuestro catálogo y mejoramos nuestros tiempos de
+                    entrega.
+                  </p>
                 </div>
                 <div className="rounded-lg bg-purple-50 p-6">
-                  <h3 className="mb-2 text-lg font-semibold text-purple-800">2024 - Presente</h3>
-                  <p className="text-purple-700">Hoy somos una tienda confiable con miles de clientes satisfechos.</p>
+                  <h3 className="mb-2 text-lg font-semibold text-purple-800">
+                    2024 - Presente
+                  </h3>
+                  <p className="text-purple-700">
+                    Hoy somos una tienda confiable con miles de clientes
+                    satisfechos.
+                  </p>
                 </div>
               </div>
             </div>
@@ -265,7 +319,6 @@ export default function QuienesSomosPage() {
           </div>
         </section>
       </main>
-      
     </div>
-  )
+  );
 }

@@ -1,16 +1,16 @@
 "use client";
-import { getProducts } from "@/actions";
 import { assets } from "@/assets/assets";
-import { Product } from "@/components/product/product";
 import ProductCard from "@/components/product/product-card";
 import ProductCardSkeleton from "@/components/product/product-card-skeleton";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { useProductStore } from "@/stores/user/product-store";
 import { CreditCardIcon, ShoppingCartIcon } from "lucide-react";
 import Image from "next/image";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 
 const ProductPage = () => {
+  const { products, fetchProducts, isLoading } = useProductStore();
   const productData = {
     _id: "67a1f4e43f34a77b6dde9144",
     userId: "user_2sZFHS1UIIysJyDVzCpQhUhTIhw",
@@ -29,27 +29,10 @@ const ProductPage = () => {
     date: 1738667236865,
     __v: 0,
   };
-  const [loading, setLoading] = useState(true);
-  const [products, setProducts] = useState<Product[]>([]);
-
-  const getProductsApi = async () => {
-    setLoading(true);
-    try {
-      const res = await getProducts();
-      if (res.statusCode === 200) {
-        setProducts(res.products);
-      } else {
-        console.error("Error al obtener los productos:", res.message);
-      }
-    } catch (error) {
-      console.error("Error en getProducts:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
 
   useEffect(() => {
-    getProductsApi();
+    fetchProducts();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -165,7 +148,7 @@ const ProductPage = () => {
             {products.slice(0, 5).map((product, index) => (
               <ProductCard key={index} product={product} />
             ))}
-            {loading &&
+            {isLoading &&
               Array.from({ length: 5 }, (_, i) => (
                 <ProductCardSkeleton key={i} />
               ))}

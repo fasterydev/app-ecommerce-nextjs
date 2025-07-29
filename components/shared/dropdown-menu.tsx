@@ -68,7 +68,7 @@ export function DropdownMenuHome() {
             <span>Perfil</span>
           </DropdownMenuItem>
           {user.publicMetadata?.role === "admin" && (
-            <DropdownMenuItem onClick={() => router.push("/admin")}>
+            <DropdownMenuItem onClick={() => router.push("/admin/products")}>
               <LayoutIcon />
               <span>Administrador</span>
             </DropdownMenuItem>
