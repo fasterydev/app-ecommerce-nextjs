@@ -18,13 +18,14 @@ import { Product } from "../product/interface";
 
 interface ProductFormProps {
   product?: Product;
-  onSave: (product: Product) => void;
+  onSave: (product: Partial<Product>) => void;
   onCancel: () => void;
 }
 
+
 export default function ProductForm({
   product,
-  // onSave,
+  onSave,
   onCancel,
 }: ProductFormProps) {
   const isEditing = !!product;
@@ -125,7 +126,7 @@ export default function ProductForm({
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (validateForm()) {
-      // onSave(formData);
+      onSave(formData);
     }
   };
 
@@ -144,6 +145,9 @@ export default function ProductForm({
           </p>
         </div>
       </div>
+      <pre>
+        <code className="text-sm">{JSON.stringify(formData, null, 2)}</code>
+      </pre>
 
       <form onSubmit={handleSubmit} className="space-y-8">
         <div className="grid lg:grid-cols-3 gap-8">
@@ -383,7 +387,7 @@ export default function ProductForm({
               <CardContent className="pt-6">
                 <div className="space-y-3">
                   <Button type="submit" className="w-full" size="lg">
-                    <Save className="w-4 h-4 mr-2" />
+                    <Save size={16} />
                     {isEditing ? "Actualizar Producto" : "Crear Producto"}
                   </Button>
                   <Button
@@ -400,9 +404,6 @@ export default function ProductForm({
           </div>
         </div>
       </form>
-      <pre>
-        <code className="text-sm">{JSON.stringify(formData, null, 2)}</code>
-      </pre>
     </div>
   );
 }

@@ -11,18 +11,38 @@ import {
 } from "@/components/ui/table";
 import { useProductStore } from "@/stores/user/product-store";
 import Image from "next/image";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { EditIcon, PlusIcon } from "lucide-react";
+import { useEffect } from "react";
 
 export default function ProductsAdmin() {
   const { products, fetchProducts } = useProductStore();
 
+  useEffect(() => {
+    fetchProducts();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <div>
-      <h1 className="text-xl font-semibold mb-2">Productos</h1>
-      <p>
-        Aquí puedes ver y administrar los productos disponibles en la tienda.
-      </p>
+      <div className="flex items-center justify-between mb-4">
+        <div>
+          <h1 className="text-xl font-semibold">Productos</h1>
+          <p className="text-sm text-muted-foreground">
+            Aquí puedes ver y administrar los productos disponibles en la
+            tienda.
+          </p>
+        </div>
+        <Link href="/admin/products/create">
+          <Button>
+            <PlusIcon size={16} />
+            Crear producto
+          </Button>
+        </Link>
+      </div>
 
-      <div className="overflow-hidden rounded-lg border mt-4">
+      <div className="overflow-hidden rounded-lg border">
         <Table>
           <TableHeader className="bg-muted sticky top-0 z-10">
             <TableRow>
@@ -30,7 +50,7 @@ export default function ProductsAdmin() {
               <TableHead>Stock</TableHead>
               <TableHead>Tag</TableHead>
               <TableHead>Estado</TableHead>
-              <TableHead></TableHead>
+              <TableHead>Acciones</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -39,7 +59,7 @@ export default function ProductsAdmin() {
                 <TableCell className="font-medium flex items-center gap-2">
                   <Image
                     src={product.images[0]}
-                    alt={product.images[0]}
+                    alt={product.name}
                     width={50}
                     height={50}
                     className="bg-muted p-1 rounded-md"
@@ -53,20 +73,20 @@ export default function ProductsAdmin() {
                 <TableCell>
                   <ProductStatusBadge status="draft" />
                 </TableCell>
-                <TableCell>
+                <TableCell className="space-x-2 justify-end flex items-center">
                   <DeleteProductAlert
                     productId={product.id}
                     onDelete={fetchProducts}
                   />
+                  <Button size={"icon"} variant={"outline"}>
+                    <EditIcon />
+                  </Button>
                 </TableCell>
               </TableRow>
             ))}
           </TableBody>
         </Table>
       </div>
-      {/* <pre>
-        <code className="text-sm">{JSON.stringify(products, null, 2)}</code>
-      </pre> */}
     </div>
   );
 }

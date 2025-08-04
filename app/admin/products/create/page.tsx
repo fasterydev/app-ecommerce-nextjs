@@ -1,5 +1,4 @@
 "use client";
-
 import { createProduct } from "@/actions";
 import ProductForm from "@/components/admin/product-form";
 import { Product } from "@/components/product/interface";
@@ -8,7 +7,7 @@ import { useState } from "react";
 export default function CreateProductPage() {
   const [editingProduct] = useState<Product | undefined>();
 
-  const handleSave = async (product: Product) => {
+  const handleSave = async (product: Partial<Product>) => {
     try {
       const res = await createProduct(product);
       console.log("Product created:", res);
