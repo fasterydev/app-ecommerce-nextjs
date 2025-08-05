@@ -68,14 +68,14 @@ const ProductCard = ({ product }: { product: Product }) => {
     : false;
 
   return (
-    <Card className="p-2.5 relative">
+    <Card className="p-2.5 relative mb-auto">
       <Link href={`/product/${product.id}`}>
         <div className="flex flex-col items-start w-full cursor-pointer">
-          <div className="cursor-pointer group  rounded-lg w-full md:h-52 flex items-center justify-center ">
+          <div className="cursor-pointer group rounded-lg w-full md:h-52 flex items-center justify-center ">
             <Image
               src={product.images[0] || "https://placehold.co/600x600.png"}
               alt={product.name}
-              className="group-hover:scale-105 transition object-cover rounded-xl  md:w-full md:h-full "
+              className="group-hover:scale-105 transition object-cover rounded-xl  md:w-full md:h-full"
               width={800}
               height={800}
             />
@@ -122,17 +122,16 @@ const ProductCard = ({ product }: { product: Product }) => {
             </button>
           </div>
           {product.brand ? (
-            <p className="w-full text-xs pt-2 text-muted-foreground flex items-center truncate">
-              {product.brand.name}{" "}
+            <div className="w-full text-xs pt-1.5 -mb-1 text-muted-foreground flex items-center truncate">
+              {product.brand.name}
               <BadgeCheckIcon size={14} className="ml-1 text-blue-500" />
-            </p>
+            </div>
           ) : (
-            <></>
+            null
           )}
-
-          <p className="md:text-base font-medium  w-full line-clamp-2">
+          <div className="md:text-base font-medium pt-1 w-full line-clamp-2 ">
             {product.name}
-          </p>
+          </div>
           <div className="flex items-center gap-1.5">
             <p className="text-xs">{4.5}</p>
             <div className="flex items-center gap-0.5">
