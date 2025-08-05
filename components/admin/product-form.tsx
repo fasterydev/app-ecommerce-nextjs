@@ -1,3 +1,4 @@
+
 "use client";
 
 import type React from "react";
@@ -22,17 +23,17 @@ interface ProductFormProps {
   onCancel: () => void;
 }
 
-
 export default function ProductForm({
   product,
   onSave,
   onCancel,
 }: ProductFormProps) {
+  const [content, setContent] = useState(null);
   const isEditing = !!product;
 
   const [formData, setFormData] = useState<Partial<Product>>({
     name: product?.name || "",
-    brandId: product?.brandId || "",
+    brandId: product?.brandId,
     description: product?.description || "",
     images: ["https://placehold.co/600x600.png"],
     isNew: product?.isNew || false,
@@ -109,7 +110,7 @@ export default function ProductForm({
       newErrors.description = "La descripción es requerida";
     if (!formData.sku || !formData.sku.trim())
       newErrors.sku = "El SKU es requerido";
-    if (!formData.brandId) newErrors.brandId = "La marca es requerida";
+    // if (!formData.brandId) newErrors.brandId = "La marca es requerida";
     if (formData.isNew === undefined)
       newErrors.isNew = "El estado es requerido";
     if (formData.isBestSeller === undefined)
@@ -288,6 +289,13 @@ export default function ProductForm({
                 </div>
               </CardContent>
             </Card>
+            <div className="bg-gray-100 m-auto">
+              <pre>
+                <code className="text-sm">
+                  {JSON.stringify(content, null, 2)}
+                </code>
+              </pre>
+            </div>
           </div>
 
           {/* Imágenes */}
