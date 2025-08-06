@@ -13,7 +13,7 @@ import { useProductStore } from "@/stores/user/product-store";
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { EditIcon, PackageIcon, PlusIcon } from "lucide-react";
+import { EditIcon, EyeIcon, PackageIcon, PlusIcon } from "lucide-react";
 import { useEffect } from "react";
 import { Badge } from "@/components/ui/badge";
 
@@ -88,15 +88,21 @@ export default function ProductsAdmin() {
                   <ProductStatusBadge status="draft" />
                 </TableCell>
                 <TableCell className="space-x-2 justify-end items-center">
-                  <DeleteProductAlert
-                    productId={product.id}
-                    onDelete={fetchProducts}
-                  />
+                  
+                  <Link href={`/product/${product.id}`} target="_blank" rel="noopener noreferrer">
+                    <Button size={"icon"} variant={"outline"}>
+                      <EyeIcon />
+                    </Button>
+                  </Link>
                   <Link href={`/admin/products/edit/${product.id}`}>
                     <Button size={"icon"} variant={"outline"}>
                       <EditIcon />
                     </Button>
                   </Link>
+                  <DeleteProductAlert
+                    productId={product.id}
+                    onDelete={fetchProducts}
+                  />
                 </TableCell>
               </TableRow>
             ))}

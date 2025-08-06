@@ -21,6 +21,15 @@ import {
   convertFromMilliunits,
   convertToMilliunits,
 } from "@/utils/covertAmountMiliunits";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select";
 
 interface ProductFormProps {
   product?: Product;
@@ -243,7 +252,7 @@ export default function ProductForm({
                     )}
                   </div>
                 </div>
-                <div className="grid md:grid-cols-3 gap-4">
+                <div className="grid md:grid-cols-4 gap-4">
                   <div className="grid gap-1.5">
                     <BrandSelector
                       value={formData.brandId ?? undefined}
@@ -254,6 +263,30 @@ export default function ProductForm({
                     />
                     {errors.brand && (
                       <p className="text-sm text-red-500">{errors.brand}</p>
+                    )}
+                  </div>
+                  <div className="grid gap-1.5">
+                    <Label htmlFor="status">Estado *</Label>
+                    <Select
+                      value={formData.status}
+                      onValueChange={(value) =>
+                        handleInputChange("status", value)
+                      }
+                    >
+                      <SelectTrigger className="w-full">
+                        <SelectValue placeholder="Estados" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectGroup>
+                          <SelectLabel>Estados</SelectLabel>
+                          <SelectItem value="draft">Borrador</SelectItem>
+                          <SelectItem value="active">Activo</SelectItem>
+                          <SelectItem value="inactive">Inactivo</SelectItem>
+                        </SelectGroup>
+                      </SelectContent>
+                    </Select>
+                    {errors.name && (
+                      <p className="text-sm text-red-500 mt-1">{errors.name}</p>
                     )}
                   </div>
                   <div className="grid gap-1.5">
