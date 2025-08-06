@@ -1,5 +1,6 @@
 "use client";
 
+import { editProduct } from "@/actions";
 import ProductForm from "@/components/admin/product-form";
 import { Product } from "@/components/product/interface";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -7,29 +8,49 @@ import { useProductStore } from "@/stores/user/product-store";
 import { AlertTriangleIcon } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { toast } from "sonner";
 
 export default function EditProductPage() {
   const router = useRouter();
   const params = useParams();
   const productId = params?.id as string;
   const [editingProduct, setEditingProduct] = useState<Product | undefined>();
-  const { products } = useProductStore();
+  const { products, fetchProducts } = useProductStore();
 
-  const handleSave = (product: Partial<Product>) => {
-    console.log("Producto guardado:", product);
+  const handleSave = async (product: Partial<Product>) => {
+    try {
+      const res = await editProduct(product);
+      console.log("Respuesta de editar producto:", res);
+      if (res.statusCode === 200) {
+        toast.success(res.message || "Producto actualizado correctamente");
+        router.push("/admin/products");
+      }
+    } catch (error) {
+      toast.error(
+        error instanceof Error
+          ? error.message
+          : "Error desconocido al actualizar el producto"
+      );
+    } finally {
+    }
   };
 
   const handleCancel = () => {
     router.push("/admin/products");
   };
 
+  // Solo cargar productos al inicio
   useEffect(() => {
+    fetchProducts();
+  }, [fetchProducts]);
+
+  // Buscar producto cuando productos o ID cambian
+  useEffect(() => {
+    if (!productId || products.length === 0) return;
+
     const product = products.find((p) => p.id === productId);
-    if (product) {
-      setEditingProduct(product);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    setEditingProduct(product);
+  }, [products, productId]);
 
   return (
     <>

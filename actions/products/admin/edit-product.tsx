@@ -8,15 +8,17 @@ export const editProduct = async (product: Partial<Product>) => {
     const token = await getToken();
     if (!token) throw new Error("Debe de estar autenticado");
 
+    const { id, ...productWithoutId } = product;
+
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/products/createProduct`,
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/products/updateProduct/${id}`,
       {
-        method: "POST",
+        method: "PATCH",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify(product),
+        body: JSON.stringify(productWithoutId),
       }
     );
 
@@ -38,14 +40,14 @@ export const editProduct = async (product: Partial<Product>) => {
 
     return {
       statusCode: response.status,
-      message: resData.message || "Producto creado exitosamente",
+      message: resData.message || "Producto actualizado correctamente",
     };
   } catch (error) {
-    console.error("Error al crear el producto:", error);
+    console.error("Error al actualizar el producto:", error);
     throw new Error(
       error instanceof Error
         ? error.message
-        : "Error desconocido al crear el producto"
+        : "Error desconocido al actualizar el producto"
     );
   }
 };

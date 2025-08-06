@@ -49,7 +49,7 @@ export const BrandSelector: React.FC<BrandSelectorProps> = ({
   }, []);
 
   return (
-    <div className="flex flex-col gap-1.5">
+    <div className="grid gap-1.5">
       <Label htmlFor="brand">Marca *</Label>
       <Select
         value={selected}
@@ -60,9 +60,9 @@ export const BrandSelector: React.FC<BrandSelectorProps> = ({
         disabled={disabled}
       >
         <SelectTrigger id="brand" className={clsx('w-full', className)}>
-          <SelectValue placeholder="Selecciona una marca">
+          <SelectValue placeholder="Marcas">
             {
-              brands.find((b) => b.id === selected)?.name ?? 'Selecciona una marca'
+              brands.find((b) => b.id === selected)?.name ?? 'Marcas'
             }
           </SelectValue>
         </SelectTrigger>
