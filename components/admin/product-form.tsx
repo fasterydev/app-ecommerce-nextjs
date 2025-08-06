@@ -209,13 +209,9 @@ export default function ProductForm({
           </p>
         </div>
       </div>
-      <pre>
-        <code className="text-sm">{JSON.stringify(formData, null, 2)}</code>
-      </pre>
 
       <form onSubmit={handleSubmit} className="space-y-8">
         <div className="grid lg:grid-cols-3 gap-8">
-          {/* Información Principal */}
           <div className="lg:col-span-2 space-y-6">
             <Card>
               <CardHeader>
@@ -395,7 +391,6 @@ export default function ProductForm({
             </div>
           </div>
 
-          {/* Imágenes */}
           <div className="space-y-6">
             <Card>
               <CardHeader>
@@ -487,7 +482,6 @@ export default function ProductForm({
               </CardContent>
             </Card>
 
-            {/* Actions */}
             <Card>
               <CardContent className="pt-6">
                 <div className="space-y-3">

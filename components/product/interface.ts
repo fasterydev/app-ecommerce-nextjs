@@ -36,4 +36,5 @@ export interface Product {
   stock: number;
   total: number;
   htmlContent: string;
+  category?: Category;
 }
