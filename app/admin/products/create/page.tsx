@@ -24,7 +24,9 @@ export default function CreateProductPage() {
     }
   };
 
-  const handleCancel = () => {};
+  const handleCancel = () => {
+    router.push("/admin/products");
+  };
 
   return (
     <ProductForm

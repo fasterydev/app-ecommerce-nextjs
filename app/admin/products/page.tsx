@@ -13,8 +13,9 @@ import { useProductStore } from "@/stores/user/product-store";
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { EditIcon, PlusIcon } from "lucide-react";
+import { EditIcon, PackageIcon, PlusIcon } from "lucide-react";
 import { useEffect } from "react";
+import { Badge } from "@/components/ui/badge";
 
 export default function ProductsAdmin() {
   const { products, fetchProducts } = useProductStore();
@@ -47,8 +48,8 @@ export default function ProductsAdmin() {
           <TableHeader className="bg-muted sticky top-0 z-10">
             <TableRow>
               <TableHead>Nombre</TableHead>
+              <TableHead>Marca</TableHead>
               <TableHead>Stock</TableHead>
-              <TableHead>Tag</TableHead>
               <TableHead>Estado</TableHead>
               <TableHead>Acciones</TableHead>
             </TableRow>
@@ -66,27 +67,47 @@ export default function ProductsAdmin() {
                   />
                   {product.name}
                 </TableCell>
-                <TableCell className="font-medium">{product.stock}</TableCell>
                 <TableCell className="font-medium">
-                  {product.isBestSeller ? "Sí" : "No"}
+                  <Badge
+                    variant="outline"
+                    className={`px-2 py-0.5 flex items-center gap-1`}
+                  >
+                    {product?.brand ? product.brand.name : "Sin marca"}
+                  </Badge>
+                </TableCell>
+                <TableCell className="font-medium">
+                  <Badge
+                    variant="outline"
+                    className={`px-2 py-0.5 flex items-center gap-1`}
+                  >
+                    <PackageIcon />
+                    {product?.stock ? product.stock : "Sin stock"}
+                  </Badge>
                 </TableCell>
                 <TableCell>
                   <ProductStatusBadge status="draft" />
                 </TableCell>
-                <TableCell className="space-x-2 justify-end flex items-center">
+                <TableCell className="space-x-2 justify-end items-center">
                   <DeleteProductAlert
                     productId={product.id}
                     onDelete={fetchProducts}
                   />
-                  <Button size={"icon"} variant={"outline"}>
-                    <EditIcon />
-                  </Button>
+                  <Link href={`/admin/products/edit/${product.id}`}>
+                    <Button size={"icon"} variant={"outline"}>
+                      <EditIcon />
+                    </Button>
+                  </Link>
                 </TableCell>
               </TableRow>
             ))}
           </TableBody>
         </Table>
       </div>
+      {/* <pre>
+        <code className="text-xs text-muted-foreground">
+          {JSON.stringify(products, null, 2)}
+        </code>
+      </pre> */}
     </div>
   );
 }

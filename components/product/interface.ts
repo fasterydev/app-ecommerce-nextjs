@@ -35,4 +35,5 @@ export interface Product {
   deletedAt: string | null;
   stock: number;
   total: number;
+  htmlContent: string;
 }
