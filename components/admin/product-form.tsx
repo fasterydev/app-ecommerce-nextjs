@@ -4,7 +4,7 @@ import type React from "react";
 
 import { useState } from "react";
 import Image from "next/image";
-import { Upload, X, Save, ImageIcon } from "lucide-react";
+import { Upload, X, Save, ImageIcon, DollarSignIcon } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -15,23 +15,29 @@ import { Badge } from "@/components/ui/badge";
 import { BrandSelector } from "../product/brand-selector";
 import { Switch } from "../ui/switch";
 import { Product } from "../product/interface";
+import { HtmlEditor } from "../shared/simple-editor";
+import { AmountInput } from "../shared/amount-input";
+import {
+  convertFromMilliunits,
+  convertToMilliunits,
+} from "@/utils/covertAmountMiliunits";
 
 interface ProductFormProps {
   product?: Product;
-  onSave: (product: Product) => void;
+  onSave: (product: Partial<Product>) => void;
   onCancel: () => void;
 }
 
 export default function ProductForm({
   product,
-  // onSave,
+  onSave,
   onCancel,
 }: ProductFormProps) {
   const isEditing = !!product;
 
   const [formData, setFormData] = useState<Partial<Product>>({
     name: product?.name || "",
-    brandId: product?.brandId || "",
+    brandId: product?.brandId,
     description: product?.description || "",
     images: ["https://placehold.co/600x600.png"],
     isNew: product?.isNew || false,
@@ -39,6 +45,8 @@ export default function ProductForm({
     sku: product?.sku || "",
     cost: product?.cost || 0,
     revenue: product?.revenue || 0,
+    htmlContent: product?.htmlContent || "",
+    status: product?.status || "draft",
     ...(product?.id && { id: product.id }),
   });
 
@@ -108,7 +116,7 @@ export default function ProductForm({
       newErrors.description = "La descripción es requerida";
     if (!formData.sku || !formData.sku.trim())
       newErrors.sku = "El SKU es requerido";
-    if (!formData.brandId) newErrors.brandId = "La marca es requerida";
+    // if (!formData.brandId) newErrors.brandId = "La marca es requerida";
     if (formData.isNew === undefined)
       newErrors.isNew = "El estado es requerido";
     if (formData.isBestSeller === undefined)
@@ -125,9 +133,57 @@ export default function ProductForm({
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (validateForm()) {
-      // onSave(formData);
+      onSave(formData);
     }
   };
+  const defaultHtmlContent = `
+  <h2 style="font-size: 1.5rem; font-weight: bold; margin-bottom: 0.5rem;">
+    Smartphone Galaxy X Ultra 5G - 256GB
+  </h2>
+
+  <p style="font-size: 1rem; margin-bottom: 1rem;">
+    El nuevo <strong>Galaxy X Ultra</strong> combina potencia, diseño y velocidad 5G en un solo dispositivo. Perfecto para fotografía profesional, gaming y productividad sin límites.
+  </p>
+
+  <p style="font-size: 1rem; margin-bottom: 1.5rem;">
+    <em>Descubre un rendimiento sorprendente con su procesador Octa-Core y su pantalla AMOLED de 6.8”.</em>
+  </p>
+
+  <table style="width: 100%; border-collapse: collapse; border: 1px solid #1e293b; margin-bottom: 1rem;">
+    <thead>
+      <tr>
+        <th style="border: 1px solid #1e293b; padding: 8px; font-weight: bold;">Característica</th>
+        <th style="border: 1px solid #1e293b; padding: 8px; font-weight: bold;">Detalle</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="border: 1px solid #1e293b; padding: 8px;">Pantalla</td>
+        <td style="border: 1px solid #1e293b; padding: 8px;">6.8" AMOLED 120Hz</td>
+      </tr>
+      <tr>
+        <td style="border: 1px solid #1e293b; padding: 8px;">Procesador</td>
+        <td style="border: 1px solid #1e293b; padding: 8px;">Snapdragon 8 Gen 2</td>
+      </tr>
+      <tr>
+        <td style="border: 1px solid #1e293b; padding: 8px;">Memoria</td>
+        <td style="border: 1px solid #1e293b; padding: 8px;">256GB + 12GB RAM</td>
+      </tr>
+      <tr>
+        <td style="border: 1px solid #1e293b; padding: 8px;">Cámara</td>
+        <td style="border: 1px solid #1e293b; padding: 8px;">108MP + 12MP UltraWide</td>
+      </tr>
+      <tr>
+        <td style="border: 1px solid #1e293b; padding: 8px;">Batería</td>
+        <td style="border: 1px solid #1e293b; padding: 8px;">5000mAh con carga rápida</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p style="font-size: 1rem;">
+    <strong>Incluye:</strong> Cargador rápido, cable USB-C, manual y protector de pantalla.
+  </p>
+`;
 
   return (
     <div>
@@ -144,6 +200,9 @@ export default function ProductForm({
           </p>
         </div>
       </div>
+      <pre>
+        <code className="text-sm">{JSON.stringify(formData, null, 2)}</code>
+      </pre>
 
       <form onSubmit={handleSubmit} className="space-y-8">
         <div className="grid lg:grid-cols-3 gap-8">
@@ -251,13 +310,17 @@ export default function ProductForm({
                 <div className="grid md:grid-cols-3 gap-4">
                   <div className="grid gap-1.5">
                     <Label htmlFor="cost">Costo *</Label>
-                    <Input
+                    <AmountInput
                       id="cost"
-                      value={formData.cost}
-                      onChange={(e) =>
-                        handleInputChange("cost", e.target.value)
+                      Icon={DollarSignIcon}
+                      defaultValue={
+                        isEditing
+                          ? convertFromMilliunits(formData.cost)
+                          : formData.cost
                       }
-                      placeholder="250.00"
+                      onValueChange={(value) =>
+                        handleInputChange("cost", convertToMilliunits(value))
+                      }
                       className={errors.cost ? "border-red-500" : ""}
                     />
                     {errors.cost && (
@@ -266,13 +329,17 @@ export default function ProductForm({
                   </div>
                   <div className="grid gap-1.5">
                     <Label htmlFor="revenue">Ganancia *</Label>
-                    <Input
+                    <AmountInput
                       id="revenue"
-                      value={formData.revenue}
-                      onChange={(e) =>
-                        handleInputChange("revenue", e.target.value)
+                      Icon={DollarSignIcon}
+                      defaultValue={
+                        isEditing
+                          ? convertFromMilliunits(formData.revenue)
+                          : formData.revenue
                       }
-                      placeholder="Ej: 100.00"
+                      onValueChange={(value) =>
+                        handleInputChange("revenue", convertToMilliunits(value))
+                      }
                       className={errors.revenue ? "border-red-500" : ""}
                     />
                     {errors.revenue && (
@@ -284,6 +351,15 @@ export default function ProductForm({
                 </div>
               </CardContent>
             </Card>
+            <div className="m-auto">
+              <HtmlEditor
+                defaultValue={defaultHtmlContent}
+                value={product?.htmlContent}
+                onChange={(html) => {
+                  setFormData((prev) => ({ ...prev, htmlContent: html }));
+                }}
+              />
+            </div>
           </div>
 
           {/* Imágenes */}
@@ -383,7 +459,7 @@ export default function ProductForm({
               <CardContent className="pt-6">
                 <div className="space-y-3">
                   <Button type="submit" className="w-full" size="lg">
-                    <Save className="w-4 h-4 mr-2" />
+                    <Save size={16} />
                     {isEditing ? "Actualizar Producto" : "Crear Producto"}
                   </Button>
                   <Button
@@ -400,9 +476,6 @@ export default function ProductForm({
           </div>
         </div>
       </form>
-      <pre>
-        <code className="text-sm">{JSON.stringify(formData, null, 2)}</code>
-      </pre>
     </div>
   );
 }
