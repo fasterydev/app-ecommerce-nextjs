@@ -11,6 +11,24 @@ const outfit = Outfit({ subsets: ["latin"], weight: ["300", "400", "500"] });
 export const metadata: Metadata = {
   title: "Fastery Shop Template",
   description: "A simple ecommerce template built with Next.js and Clerk",
+  robots: {
+    index: true,
+    follow: true,
+  },
+  keywords: [
+    "Next.js",
+    "Clerk",
+    "Ecommerce",
+    "Template",
+    "Shop",
+    "React",
+    "Tailwind CSS",
+    "UI Components",
+    "Admin Dashboard",
+    "Product Management",
+    "User Authentication",
+    "Server Actions",
+  ],
   openGraph: {
     title: "Fastery Shop Template",
     description: "A simple ecommerce template built with Next.js and Clerk",
@@ -44,7 +62,7 @@ export default function RootLayout({
             themes={["light", "dark", "system"]}
             disableTransitionOnChange
           >
-            <main >{children}</main>
+            <main>{children}</main>
             <Toaster expand={false} position="top-center" richColors />
           </ThemeProvider>
         </body>
