@@ -8,6 +8,7 @@ type BrandStore = {
 
   fetchBrands: () => Promise<void>;
   setBrands: (items: Brand[]) => void;
+  deleteBrand: (id: string) => Promise<void>;
 };
 
 export const useBrandStore = create<BrandStore>((set) => ({
@@ -28,5 +29,11 @@ export const useBrandStore = create<BrandStore>((set) => ({
     } finally {
       set({ isLoading: false });
     }
+  },
+
+  deleteBrand: async (id: string) => {
+    set((state) => ({
+      brands: state.brands.filter((brand) => brand.id !== id),
+    }));
   },
 }));

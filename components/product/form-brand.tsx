@@ -11,26 +11,24 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { EditIcon, PlusIcon } from "lucide-react";
-import { Category } from "./interface";
+import { Brand, Category } from "./interface";
 
 type Props = {
-  category?: Category;
-  onSave: (category: Partial<Category>) => void;
+  brand?: Brand;
+  onSave: (brand: Partial<Brand>) => void;
   onCancel: () => void;
 };
 
-export default function CategoryAlert({ category, onSave, onCancel }: Props) {
-  const isEditing = !!category;
+export default function BrandAlert({ brand, onSave, onCancel }: Props) {
+  const isEditing = !!brand;
 
-  const [formData, setFormData] = useState<Partial<Category>>({
-    name: category?.name || "",
-    description: category?.description || "",
-    ...(category?.id && { id: category.id }),
+  const [formData, setFormData] = useState<Partial<Brand>>({
+    name: brand?.name || "",
+    ...(brand?.id && { id: brand.id }),
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [open, setOpen] = useState(false); // Controla apertura del modal
@@ -50,8 +48,6 @@ export default function CategoryAlert({ category, onSave, onCancel }: Props) {
 
     if (!formData.name || !formData.name.trim())
       newErrors.name = "El nombre es requerido";
-    if (!formData.description || !formData.description.trim())
-      newErrors.description = "La descripción es requerida";
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -64,7 +60,6 @@ export default function CategoryAlert({ category, onSave, onCancel }: Props) {
       setOpen(false); // Cierra el modal
       setFormData({
         name: "",
-        description: "",
         id: undefined,
       }); // Limpia el formulario
       setErrors({});
@@ -75,7 +70,6 @@ export default function CategoryAlert({ category, onSave, onCancel }: Props) {
     onCancel();
     setFormData({
       name: "",
-      description: "",
       id: undefined,
     }); // Limpia
     setErrors({});
@@ -86,11 +80,11 @@ export default function CategoryAlert({ category, onSave, onCancel }: Props) {
     <AlertDialog open={open} onOpenChange={setOpen}>
       <AlertDialogTrigger asChild>
         <Button
-          size={category ? "icon" : "sm"}
-          variant={category ? "outline" : "default"}
+          size={brand ? "icon" : "sm"}
+          variant={brand ? "outline" : "default"}
         >
-          {category ? <EditIcon /> : <PlusIcon />}
-          {category ? "" : "Crear categoría"}
+          {brand ? <EditIcon /> : <PlusIcon />}
+          {brand ? "" : "Crear marca"}
         </Button>
       </AlertDialogTrigger>
 
@@ -117,19 +111,6 @@ export default function CategoryAlert({ category, onSave, onCancel }: Props) {
             />
             {errors.name && (
               <p className="text-sm text-red-500">{errors.name}</p>
-            )}
-          </div>
-
-          <div className="space-y-1">
-            <Label htmlFor="description">Descripción *</Label>
-            <Textarea
-              id="description"
-              value={formData.description}
-              onChange={(e) => handleInputChange("description", e.target.value)}
-              className={errors.description ? "border-red-500" : ""}
-            />
-            {errors.description && (
-              <p className="text-sm text-red-500">{errors.description}</p>
             )}
           </div>
 

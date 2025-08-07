@@ -1,9 +1,8 @@
 "use client";
-import { createCategory, updateCategory } from "@/actions";
-import CategoryAlert from "@/components/product/form-category";
-import { Category } from "@/components/product/interface";
+import { createBrand, updateCategory } from "@/actions";
+import BrandAlert from "@/components/product/form-brand";
+import { Brand, Category } from "@/components/product/interface";
 import { DeleteAlert } from "@/components/shared/delete-alert";
-import { Badge } from "@/components/ui/badge";
 import {
   Table,
   TableBody,
@@ -12,24 +11,24 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { useCategoryStore } from "@/stores/user/category-store";
+import { useBrandStore } from "@/stores/user/brand-store";
 import { useEffect } from "react";
 import { toast } from "sonner";
 
 export default function CategoriesPage() {
-  const { categories, fetchCategories, deleteCategory } = useCategoryStore();
+  const { brands, fetchBrands , deleteBrand } = useBrandStore();
 
   useEffect(() => {
-    fetchCategories();
+    fetchBrands();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const handleSave = async (category: Partial<Category>) => {
+  const handleSave = async (brand: Partial<Brand>) => {
     try {
-      const res = await createCategory(category);
+      const res = await createBrand(brand);
       if (res.statusCode === 201) {
-        toast.success(res.message || "Categoría creada correctamente");
-        fetchCategories();
+        toast.success(res.message || "Marca creada correctamente");
+        fetchBrands();
       }
     } catch (error) {
       toast.error(
@@ -46,7 +45,7 @@ export default function CategoriesPage() {
       const res = await updateCategory(category);
       if (res.statusCode === 200) {
         toast.success(res.message || "Categoría actualizada correctamente");
-        fetchCategories();
+        fetchBrands();
       }
     } catch (error) {
       toast.error(
@@ -61,16 +60,12 @@ export default function CategoriesPage() {
     <div>
       <div className="flex items-center justify-between mb-4">
         <div>
-          <h1 className="text-xl font-semibold">Categorias</h1>
+          <h1 className="text-xl font-semibold">Marcas</h1>
           <p className="text-sm text-muted-foreground">
-            Aquí puedes ver todas las categorías de productos. Puedes editar o
-            eliminar cada categoría según sea necesario.
+            Administra las marcas de tus productos aquí.
           </p>
         </div>
-        <CategoryAlert
-          onCancel={() => {}}
-          onSave={(category) => handleSave(category)}
-        />
+        <BrandAlert onCancel={() => {}} onSave={(brand) => handleSave(brand)} />
       </div>
 
       <div className="overflow-hidden rounded-lg border mt-4">
@@ -84,29 +79,20 @@ export default function CategoriesPage() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {categories.map((category) => (
-              <TableRow key={category.id}>
-                <TableCell className="font-medium">{category.name}</TableCell>
-                <TableCell>{category.description}</TableCell>
-                <TableCell>
-                  <Badge
-                    variant="outline"
-                    className={`px-2 py-0.5 flex items-center gap-1`}
-                  >
-                    {category.isActive ? "Activo" : "Inactivo"}
-                  </Badge>
-                </TableCell>
+            {brands.map((brand) => (
+              <TableRow key={brand.id}>
+                <TableCell className="font-medium">{brand.name}</TableCell>
                 <TableCell className="space-x-2">
-                  <CategoryAlert
-                    category={category}
+                  <BrandAlert
+                    brand={brand}
                     onCancel={() => {}}
-                    onSave={(category) => handleEdit(category)}
+                    onSave={(brand) => handleEdit(brand)}
                   />
                   <DeleteAlert
-                    id={category.id}
-                    name={category.name}
+                    id={brand.id}
+                    name={brand.name}
                     onDelete={(id) => {
-                      deleteCategory(id);
+                      deleteBrand(id);
                     }}
                   />
                 </TableCell>

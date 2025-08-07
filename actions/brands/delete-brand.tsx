@@ -1,13 +1,19 @@
 "use server";
+import { auth } from "@clerk/nextjs/server";
 
-export const getBrands = async () => {
+export const deleteBrand = async (id: string) => {
   try {
+    const { getToken } = await auth();
+    const token = await getToken();
+    if (!token) throw new Error("Debe de estar autenticado");
+
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/products/getBrands`,
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/products/deleteBrand/${id}`,
       {
-        method: "GET",
+        method: "DELETE",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
       }
     );
@@ -30,15 +36,14 @@ export const getBrands = async () => {
 
     return {
       statusCode: response.status,
-      message: resData.message || "Marcas obtenidas exitosamente",
-      brands: resData || [],
+      message: resData.message || "Marca eliminada exitosamente",
     };
   } catch (error) {
-    console.error("Error al obtener las marcas:", error);
+    console.error("Error al eliminar la marca:", error);
     throw new Error(
       error instanceof Error
         ? error.message
-        : "Error desconocido al obtener las marcas"
+        : "Error desconocido al eliminar la marca"
     );
   }
 };
