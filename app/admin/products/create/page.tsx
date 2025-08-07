@@ -1,7 +1,7 @@
 "use client";
 import { createProduct } from "@/actions";
-import ProductForm from "@/components/admin/product-form";
 import { Product } from "@/components/product/interface";
+import ProductForm from "@/components/product/product-form";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";

@@ -109,11 +109,6 @@ export default function ProductsAdmin() {
           </TableBody>
         </Table>
       </div>
-      {/* <pre>
-        <code className="text-xs text-muted-foreground">
-          {JSON.stringify(products, null, 2)}
-        </code>
-      </pre> */}
     </div>
   );
 }

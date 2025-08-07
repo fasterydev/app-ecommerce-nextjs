@@ -1,14 +1,22 @@
 "use server";
+import { Category } from "@/components/product/interface";
+import { auth } from "@clerk/nextjs/server";
 
-export const getBrands = async () => {
+export const createCategory = async (category: Partial<Category>) => {
   try {
+    const { getToken } = await auth();
+    const token = await getToken();
+    if (!token) throw new Error("Debe de estar autenticado");
+
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/products/getBrands`,
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/products/createCategory`,
       {
-        method: "GET",
+        method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
+        body: JSON.stringify(category),
       }
     );
 
@@ -30,15 +38,14 @@ export const getBrands = async () => {
 
     return {
       statusCode: response.status,
-      message: resData.message || "Marcas obtenidas exitosamente",
-      brands: resData || [],
+      message: resData.message || "Categoría creada exitosamente",
     };
   } catch (error) {
-    console.error("Error al obtener las marcas:", error);
+    console.error("Error al crear la categoría:", error);
     throw new Error(
       error instanceof Error
         ? error.message
-        : "Error desconocido al obtener las marcas"
+        : "Error desconocido al crear la categoría"
     );
   }
 };
