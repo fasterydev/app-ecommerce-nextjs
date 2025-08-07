@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { getCategories } from "@/actions";
+import { deleteCategory, getCategories } from "@/actions";
 import { Category } from "@/components/product/interface";
 
 type CategoryStore = {
@@ -8,6 +8,7 @@ type CategoryStore = {
 
   fetchCategories: () => Promise<void>;
   setCategories: (items: Category[]) => void;
+  deleteCategory: (id: string) => Promise<void>;
 };
 
 export const useCategoryStore = create<CategoryStore>((set) => ({
@@ -27,6 +28,20 @@ export const useCategoryStore = create<CategoryStore>((set) => ({
       console.error("Error al obtener las categorías:", err);
     } finally {
       set({ isLoading: false });
+    }
+  },
+
+  deleteCategory: async (id) => {
+    set((state) => ({
+      categories: state.categories.filter((category) => category.id !== id),
+    }));
+    try {
+      const res = await deleteCategory(id);
+      if (res.statusCode !== 200) {
+        console.error("Error al eliminar la categoría:", res.message);
+      }
+    } catch (err) {
+      console.error("Error al eliminar la categoría:", err);
     }
   },
 }));

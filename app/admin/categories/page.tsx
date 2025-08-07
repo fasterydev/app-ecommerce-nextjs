@@ -1,8 +1,9 @@
 "use client";
-import { getProducts } from "@/actions";
-import { DeleteProductAlert } from "@/components/product/belete-product-alert";
-import { Product } from "@/components/product/interface";
-import { ProductStatusBadge } from "@/components/product/product-status-badge";
+import { createCategory, updateCategory } from "@/actions";
+import CategoryAlert from "@/components/product/form-category";
+import { Category } from "@/components/product/interface";
+import { DeleteAlert } from "@/components/shared/delete-alert";
+import { Badge } from "@/components/ui/badge";
 import {
   Table,
   TableBody,
@@ -11,61 +12,103 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useCategoryStore } from "@/stores/user/category-store";
+import { useEffect } from "react";
+import { toast } from "sonner";
 
-export default function ProductsAdmin() {
-  const [products, setProducts] = useState<Product[]>([]);
-  const fetchProducts = async () => {
-    const res = await getProducts();
-    setProducts(res.products || []);
-  };
+export default function CategoriesPage() {
+  const { categories, fetchCategories, deleteCategory } = useCategoryStore();
+
   useEffect(() => {
-    fetchProducts();
+    fetchCategories();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const handleSave = async (category: Partial<Category>) => {
+    try {
+      const res = await createCategory(category);
+      console.log("Res de createCategory:", res);
+      if (res.statusCode === 201) {
+        toast.success(res.message || "Categoría creada correctamente");
+        fetchCategories();
+      }
+    } catch (error) {
+      toast.error(
+        error instanceof Error
+          ? error.message
+          : "Error desconocido al actualizar el producto"
+      );
+    } finally {
+    }
+  };
+
+  const handleEdit = async (category: Partial<Category>) => {
+    try {
+      const res = await updateCategory(category);
+      if (res.statusCode === 200) {
+        toast.success(res.message || "Categoría actualizada correctamente");
+        fetchCategories();
+      }
+    } catch (error) {
+      toast.error(
+        error instanceof Error
+          ? error.message
+          : "Error desconocido al actualizar la categoría"
+      );
+    }
+  };
 
   return (
     <div>
-      <h1 className="text-xl font-semibold mb-2">Productos</h1>
-      <p>
-        Aquí puedes ver y administrar los productos disponibles en la tienda.
-      </p>
+      <div className="flex items-center justify-between mb-4">
+        <div>
+          <h1 className="text-xl font-semibold">Categorias</h1>
+          <p className="text-sm text-muted-foreground">
+            Aquí puedes ver todas las categorías de productos. Puedes editar o
+            eliminar cada categoría según sea necesario.
+          </p>
+        </div>
+        <CategoryAlert
+          onCancel={() => {}}
+          onSave={(category) => handleSave(category)}
+        />
+      </div>
 
       <div className="overflow-hidden rounded-lg border mt-4">
         <Table>
           <TableHeader className="bg-muted sticky top-0 z-10">
             <TableRow>
               <TableHead>Nombre</TableHead>
-              <TableHead>Stock</TableHead>
-              <TableHead>Tag</TableHead>
+              <TableHead>Descripción</TableHead>
               <TableHead>Estado</TableHead>
-              <TableHead></TableHead>
+              <TableHead>Acciones</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
-            {products.map((product) => (
-              <TableRow key={product.id}>
-                <TableCell className="font-medium flex items-center gap-2">
-                  <Image
-                    src={product.images[0]}
-                    alt={product.images[0]}
-                    width={50}
-                    height={50}
-                    className="bg-muted p-1 rounded-md"
+            {categories.map((category) => (
+              <TableRow key={category.id}>
+                <TableCell className="font-medium">{category.name}</TableCell>
+                <TableCell>{category.description}</TableCell>
+                <TableCell>
+                  <Badge
+                    variant="outline"
+                    className={`px-2 py-0.5 flex items-center gap-1`}
+                  >
+                    {category.isActive ? "Activo" : "Inactivo"}
+                  </Badge>
+                </TableCell>
+                <TableCell className="space-x-2">
+                  <CategoryAlert
+                    category={category}
+                    onCancel={() => {}}
+                    onSave={(category) => handleEdit(category)}
                   />
-                  {product.name}
-                </TableCell>
-                <TableCell className="font-medium">{product.stock}</TableCell>
-                <TableCell className="font-medium">
-                  {product.isBestSeller ? "Sí" : "No"}
-                </TableCell>
-                <TableCell>
-                  <ProductStatusBadge status="draft" />
-                </TableCell>
-                <TableCell>
-                  <DeleteProductAlert
-                    productId={product.id}
-                    onDelete={fetchProducts}
+                  <DeleteAlert
+                    id={category.id}
+                    name={category.name}
+                    onDelete={(id) => {
+                      deleteCategory(id);
+                    }}
                   />
                 </TableCell>
               </TableRow>
@@ -73,9 +116,6 @@ export default function ProductsAdmin() {
           </TableBody>
         </Table>
       </div>
-      {/* <pre>
-        <code className="text-sm">{JSON.stringify(products, null, 2)}</code>
-      </pre> */}
     </div>
   );
 }

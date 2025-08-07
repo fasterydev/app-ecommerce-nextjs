@@ -1,11 +1,9 @@
 "use client";
 
 import type React from "react";
-
 import { useState } from "react";
 import Image from "next/image";
 import { Upload, X, Save, ImageIcon, DollarSignIcon } from "lucide-react";
-
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";

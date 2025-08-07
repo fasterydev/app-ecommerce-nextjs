@@ -5,7 +5,10 @@ export * from "./products/admin/edit-product";
 export * from "./products/admin/delete-product";
 export * from "./products/get-brands";
 // CATEGORIES
+export * from "./categories/create-category";
 export * from "./categories/get-categories";
+export * from "./categories/delete-category";
+export * from "./categories/edit-category";
 // SHOPPING CARTS
 export * from "./shopping-carts/get-shopping-cart";
 export * from "./shopping-carts/create-shopping-cart";

@@ -1,8 +1,8 @@
 "use client";
 
 import { editProduct } from "@/actions";
-import ProductForm from "@/components/admin/product-form";
 import { Product } from "@/components/product/interface";
+import ProductForm from "@/components/product/product-form";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useProductStore } from "@/stores/user/product-store";
 import { AlertTriangleIcon } from "lucide-react";
