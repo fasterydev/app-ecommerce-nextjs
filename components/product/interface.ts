@@ -20,7 +20,7 @@ export interface Product {
   brandId?: string | null;
   rating: number;
   subName: string;
-  status: string;
+  status: "draft" | "published" | "archived";
   images: string[];
   cost: number;
   revenue: number;

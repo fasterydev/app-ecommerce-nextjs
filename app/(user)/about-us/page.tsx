@@ -94,7 +94,7 @@ export default function QuienesSomosPage() {
               Desde 2019
             </Badge>
             <h1 className="mb-6 text-4xl font-bold tracking-tight sm:text-5xl">
-              Somos <span className="text-blue-600">Shop Fastery</span>
+              Somos <span className="text-primary">Shop Fastery</span>
             </h1>
             <p className="mx-auto mb-8 max-w-2xl text-lg ">
               Tu tienda online de confianza. Ofrecemos productos de calidad con

@@ -126,9 +126,7 @@ const ProductCard = ({ product }: { product: Product }) => {
               {product.brand.name}
               <BadgeCheckIcon size={14} className="ml-1 text-blue-500" />
             </div>
-          ) : (
-            null
-          )}
+          ) : null}
           <div className="md:text-base font-medium pt-1 w-full line-clamp-2 ">
             {product.name}
           </div>
@@ -162,34 +160,33 @@ const ProductCard = ({ product }: { product: Product }) => {
       <div className="-mt-6">
         <Button
           onClick={handleAddToCart}
-          // variant={"secondary"}
           disabled={isAddingToCart}
           className={cn(
-            "max-sm:hidden mt-2 px-4 py-1.5 border-gray-500/20 rounded-full text-xs transition w-full",
+            "mt-1 text-xs w-full",
             isAddedToCart &&
               "bg-green-100 hover:bg-green-100 text-green-700 hover:text-green-700 border-green-200 hover:border-green-200"
           )}
         >
           {isAddingToCart ? (
             <>
-              <Loader2Icon className="h-4 w-4 animate-spin" />
+              <Loader2Icon size={18} className="animate-spin" />
               Cargando...
             </>
           ) : isAddedToCart ? (
             <>
-              <CheckCircle2Icon className=" h-4 w-4 animate-appear" />
+              <CheckCircle2Icon size={18} className="  animate-appear" />
               Añadido
             </>
           ) : (
             <>
               {isProductInCart ? (
                 <>
-                  <PlusIcon className="h-4 w-4" />
+                  <PlusIcon size={18} />
                   Añadir uno más
                 </>
               ) : (
                 <>
-                  <ShoppingCartIcon className="h-4 w-4" />
+                  <ShoppingCartIcon size={18} />
                   Añadir al carrito
                 </>
               )}

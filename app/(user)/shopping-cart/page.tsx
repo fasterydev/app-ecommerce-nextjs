@@ -153,6 +153,9 @@ export default function ShoppingCartPage() {
           </div>
         </div>
       )}
+      <pre>
+        {JSON.stringify(cartItems, null, 2)}
+      </pre>
     </main>
   );
 }

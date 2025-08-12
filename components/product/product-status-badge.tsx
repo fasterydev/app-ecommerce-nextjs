@@ -1,11 +1,11 @@
 import { Badge } from "@/components/ui/badge";
 import {
-  CircleCheckIcon,
   CircleDashedIcon,
   CircleSlashIcon,
   Loader2Icon,
   XCircleIcon,
   AlertCircleIcon,
+  CircleIcon,
 } from "lucide-react";
 import { JSX } from "react";
 
@@ -23,32 +23,32 @@ const statusConfig: Record<
 > = {
   published: {
     label: "Publicado",
-    icon: <CircleCheckIcon className="fill-emerald-500 mr-1 w-4 h-4" />,
+    icon: <CircleIcon className="fill-emerald-500 w-4 h-4" />,
     className: "text-emerald-600 border-emerald-500",
   },
   draft: {
     label: "Borrador",
-    icon: <CircleDashedIcon className="text-gray-500 mr-1 w-4 h-4" />,
+    icon: <CircleDashedIcon className="text-gray-500 w-4 h-4" />,
     className: "text-muted-foreground",
   },
   archived: {
     label: "Archivado",
-    icon: <CircleSlashIcon className="text-yellow-600 mr-1 w-4 h-4" />,
+    icon: <CircleSlashIcon className="text-yellow-600 w-4 h-4" />,
     className: "text-yellow-700 border-yellow-500",
   },
   deleted: {
     label: "Eliminado",
-    icon: <XCircleIcon className="text-rose-500 mr-1 w-4 h-4" />,
+    icon: <XCircleIcon className="text-rose-500 w-4 h-4" />,
     className: "text-rose-700 border-rose-500",
   },
   pending: {
     label: "Pendiente",
-    icon: <Loader2Icon className="animate-spin text-blue-500 mr-1 w-4 h-4" />,
+    icon: <Loader2Icon className="animate-spin text-blue-500 w-4 h-4" />,
     className: "text-blue-600 border-blue-400",
   },
   error: {
     label: "Error",
-    icon: <AlertCircleIcon className="text-red-600 mr-1 w-4 h-4" />,
+    icon: <AlertCircleIcon className="text-red-600 w-4 h-4" />,
     className: "text-red-700 border-red-500",
   },
 };

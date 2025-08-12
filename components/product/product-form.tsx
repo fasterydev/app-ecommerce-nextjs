@@ -274,8 +274,7 @@ export default function ProductForm({
                         <SelectGroup>
                           <SelectLabel>Estados</SelectLabel>
                           <SelectItem value="draft">Borrador</SelectItem>
-                          <SelectItem value="active">Activo</SelectItem>
-                          <SelectItem value="inactive">Inactivo</SelectItem>
+                          <SelectItem value="published">Publicado</SelectItem>
                         </SelectGroup>
                       </SelectContent>
                     </Select>

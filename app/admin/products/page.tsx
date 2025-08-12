@@ -85,11 +85,14 @@ export default function ProductsAdmin() {
                   </Badge>
                 </TableCell>
                 <TableCell>
-                  <ProductStatusBadge status="draft" />
+                  <ProductStatusBadge status={product.status} />
                 </TableCell>
                 <TableCell className="space-x-2 justify-end items-center">
-                  
-                  <Link href={`/product/${product.id}`} target="_blank" rel="noopener noreferrer">
+                  <Link
+                    href={`/product/${product.id}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
                     <Button size={"icon"} variant={"outline"}>
                       <EyeIcon />
                     </Button>

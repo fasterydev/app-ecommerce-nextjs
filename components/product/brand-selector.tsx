@@ -10,8 +10,8 @@ import {
 import { Label } from '@/components/ui/label';
 import clsx from 'clsx';
 import { useEffect, useState } from 'react';
-import { getBrands } from '@/actions/products/get-brands';
 import { Brand } from './interface';
+import { getBrands } from '@/actions';
 
 type BrandSelectorProps = {
   value?: string; // brand.id

@@ -50,7 +50,8 @@ export default function ProductId() {
             {productData?.images.map((image, index) => (
               <div
                 key={index}
-                onClick={() => setMainImage(image)}
+                onClick={() => {}}
+                // onClick={() => setMainImage(image)}
                 className="cursor-pointer rounded-lg overflow-hidden bg-gray-500/10"
               >
                 <Image
@@ -129,7 +130,7 @@ export default function ProductId() {
       </div>
       <div className="flex flex-col items-center">
         <div className="flex flex-col items-center mb-4">
-          <p className="text-3xl font-medium">
+          <p className="text-2xl font-medium">
             Productos{" "}
             <span className="font-medium text-primary">Destacados</span>
           </p>
