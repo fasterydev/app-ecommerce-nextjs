@@ -8,6 +8,7 @@ type Sale = {
   idNumer: number;
   status: string;
   products: Product[];
+  user: undefined;
   createdAt: string;
   updatedAt: string;
   subtotal: number;
@@ -20,7 +21,6 @@ type SaleStore = {
 
   fetchSales: () => Promise<void>;
   setSales: (items: Sale[]) => void;
-
 };
 
 export const useSaleStore = create<SaleStore>((set, get) => ({
@@ -42,6 +42,4 @@ export const useSaleStore = create<SaleStore>((set, get) => ({
       set({ isLoading: false });
     }
   },
-
- 
 }));

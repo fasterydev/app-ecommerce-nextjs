@@ -48,7 +48,7 @@ export const useCartStore = create<CartStore>((set, get) => ({
   },
 
   addItem: async (productId) => {
-    const prevItems = get().cartItems;
+    const prevItems = Array.isArray(get().cartItems) ? get().cartItems : [];
     const existingItem = prevItems.find(
       (item) => item.product.id === productId
     );

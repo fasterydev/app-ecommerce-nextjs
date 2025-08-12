@@ -16,7 +16,7 @@ import { useEffect } from "react";
 import { toast } from "sonner";
 
 export default function CategoriesPage() {
-  const { brands, fetchBrands , deleteBrand } = useBrandStore();
+  const { brands, fetchBrands, deleteBrand } = useBrandStore();
 
   useEffect(() => {
     fetchBrands();
@@ -72,17 +72,15 @@ export default function CategoriesPage() {
         <Table>
           <TableHeader className="bg-muted sticky top-0 z-10">
             <TableRow>
-              <TableHead>Nombre</TableHead>
-              <TableHead>Descripción</TableHead>
-              <TableHead>Estado</TableHead>
-              <TableHead>Acciones</TableHead>
+              <TableHead className="pl-4">Nombre</TableHead>
+              <TableHead className="text-right pr-4">Acciones</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {brands.map((brand) => (
               <TableRow key={brand.id}>
                 <TableCell className="font-medium">{brand.name}</TableCell>
-                <TableCell className="space-x-2">
+                <TableCell className="space-x-2 text-right">
                   <BrandAlert
                     brand={brand}
                     onCancel={() => {}}

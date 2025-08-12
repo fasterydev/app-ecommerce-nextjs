@@ -35,12 +35,14 @@ export function ShoppingCartIconHome() {
       );
       setSubtotal(subtotalValue);
     }
-  }, [cartItems]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     if (isLoaded && user) {
       fetchCart();
     }
+    // }, []);
   }, [fetchCart, isLoaded, user]);
 
   const total = subtotal; // Aquí puedes sumar envío si luego lo manejas
@@ -110,11 +112,14 @@ export function ShoppingCartIconHome() {
             <ScrollArea className="h-[300px] px-1">
               <div className="space-y-4 py-2">
                 {cartItems.map((item) => (
-                  <div key={item.id} className="flex items-center gap-3">
+                  <div
+                    key={item?.id || Math.random()}
+                    className="flex items-center gap-3"
+                  >
                     <div className="h-20 w-20 overflow-hidden rounded-md border">
                       <Image
-                        src={item.product.images?.[0] || "/placeholder.svg"}
-                        alt={item.product.id}
+                        src={item?.product?.images?.[0] || "/placeholder.svg"}
+                        alt={item?.product?.id}
                         width={80}
                         height={80}
                         className="h-full w-full object-cover"
@@ -122,29 +127,29 @@ export function ShoppingCartIconHome() {
                     </div>
                     <div className="flex-1 space-y-1">
                       <h4 className="text-sm font-medium">
-                        {item.product.name}
+                        {item?.product?.name}
                       </h4>
                       <p className="text-sm font-medium">
-                        ${item.product.total}
+                        ${item?.product?.total}
                       </p>
                       <div className="flex items-center gap-2">
                         <Button
                           variant="outline"
                           size="icon"
                           className="h-6 w-6"
-                          onClick={() => decreaseItem(item.product.id)}
+                          onClick={() => decreaseItem(item?.product?.id)}
                         >
                           <Minus className="h-3 w-3" />
                           <span className="sr-only">Disminuir la cantidad</span>
                         </Button>
                         <span className="text-xs w-4 text-center">
-                          {item.quantity}
+                          {item?.quantity}
                         </span>
                         <Button
                           variant="outline"
                           size="icon"
                           className="h-6 w-6"
-                          onClick={() => addItem(item.product.id)}
+                          onClick={() => addItem(item?.product?.id)}
                         >
                           <Plus className="h-3 w-3" />
                           <span className="sr-only">Aumentar la cantidad</span>
@@ -153,7 +158,7 @@ export function ShoppingCartIconHome() {
                           variant="ghost"
                           size="icon"
                           className="h-6 w-6 ml-auto"
-                          onClick={() => removeItem(item.product.id)}
+                          onClick={() => removeItem(item?.product?.id)}
                         >
                           <Trash2 className="h-3 w-3" />
                           <span className="sr-only">Eliminar elemento</span>
