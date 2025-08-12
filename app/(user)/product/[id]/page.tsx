@@ -14,7 +14,7 @@ export default function ProductId() {
   const params = useParams();
   const productId = params?.id as string;
   const [productData, setProductData] = useState<Product>();
-  const [mainImage, setMainImage] = useState(null);
+  const [mainImage, setMainImage] = useState<string | undefined>();
   const { products, fetchProducts } = useProductStore();
 
   useEffect(() => {
@@ -50,8 +50,7 @@ export default function ProductId() {
             {productData?.images.map((image, index) => (
               <div
                 key={index}
-                onClick={() => {}}
-                // onClick={() => setMainImage(image)}
+                onClick={() => setMainImage(image)}
                 className="cursor-pointer rounded-lg overflow-hidden bg-gray-500/10"
               >
                 <Image
@@ -143,8 +142,8 @@ export default function ProductId() {
         </div> */}
         <Button className="px-8 py-2 mb-16">Ver más productos</Button>
       </div>
-      {/* <pre>{JSON.stringify(productData, null, 2)}</pre>
-      <pre>{JSON.stringify(mainImage, null, 2)}</pre> */}
+      {/* <pre>{JSON.stringify(productData, null, 2)}</pre> */}
+      {/* <pre>{JSON.stringify(mainImage, null, 2)}</pre> */}
     </div>
   );
 }
