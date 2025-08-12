@@ -43,8 +43,8 @@ const statusConfig: Record<
   },
   pending: {
     label: "Pendiente",
-    icon: <Loader2Icon className="animate-spin text-blue-500 w-4 h-4" />,
-    className: "text-blue-600 border-blue-400",
+    icon: <Loader2Icon className="animate-spin text-yellow-500 w-4 h-4" />,
+    className: "text-yellow-600 border-yellow-400",
   },
   error: {
     label: "Error",

@@ -99,8 +99,8 @@ const ProductCard = ({ product }: { product: Product }) => {
             <button
               // onClick={() => setIsFavorite(!isFavorite)}
               onClick={() => isAddedToFavorites(product)}
-              className={cn(
-                "top-2 right-2  absolute flex items-center justify-center h-8 w-8 rounded-full shadow-md transition-all duration-300 ease-in-out",
+              className={cn(  
+                "top-2 right-2 border absolute flex items-center justify-center h-8 w-8 rounded-full shadow-md transition-all duration-300 ease-in-out",
                 isFavorite
                   ? "bg-rose-500 hover:bg-rose-600"
                   : "bg-white hover:bg-gray-100"

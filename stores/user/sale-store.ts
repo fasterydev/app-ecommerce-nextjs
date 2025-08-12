@@ -1,19 +1,9 @@
 import { create } from "zustand";
 import { getSales } from "@/actions";
-import { Product } from "@/components/product/interface";
+import { Sale } from "@/components/sale/interface";
 // import { toast } from "sonner";
 
-type Sale = {
-  id: string;
-  idNumer: number;
-  status: string;
-  products: Product[];
-  user: undefined;
-  createdAt: string;
-  updatedAt: string;
-  subtotal: number;
-  total: number;
-};
+
 
 type SaleStore = {
   sales: Sale[];

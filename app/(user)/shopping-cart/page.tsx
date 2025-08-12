@@ -13,6 +13,8 @@ import {
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { useCartStore } from "@/stores/cart-store";
+import { currencyFormat } from "@/utils/currencyFormat";
+import { convertFromMilliunits } from "@/utils/covertAmountMiliunits";
 
 export default function ShoppingCartPage() {
   const {
@@ -57,7 +59,7 @@ export default function ShoppingCartPage() {
           <div className="md:col-span-2">
             <Card>
               <CardHeader>
-                <CardTitle>Carrito de compras</CardTitle>
+                <CardTitle className="text-xl">Carrito de compras</CardTitle>
               </CardHeader>
               <CardContent className="space-y-6">
                 {cartItems.map((item) => (
@@ -76,7 +78,11 @@ export default function ShoppingCartPage() {
                     </div>
                     <div className="flex-1 space-y-2">
                       <h3 className="font-medium">{item.product.name}</h3>
-                      <p className="font-medium">${item.product.total}</p>
+                      <p className="font-medium">
+                        {currencyFormat(
+                          convertFromMilliunits(item.product.total)
+                        )}
+                      </p>
                       <div className="flex items-center gap-2">
                         <Button
                           disabled={isLoading}
@@ -123,11 +129,12 @@ export default function ShoppingCartPage() {
               <CardContent className="space-y-2">
                 <div className="flex justify-between">
                   <span>Subtotal:</span>
-                  <span>${subtotal.toFixed(2)}</span>
+
+                  <span>{currencyFormat(convertFromMilliunits(subtotal))}</span>
                 </div>
                 <div className="flex justify-between">
                   <span>Total:</span>
-                  <span>${total.toFixed(2)}</span>
+                  <span>{currencyFormat(convertFromMilliunits(total))}</span>
                 </div>
                 {/* <div className="flex justify-between">
                   <span>Envío:</span>
@@ -153,9 +160,7 @@ export default function ShoppingCartPage() {
           </div>
         </div>
       )}
-      <pre>
-        {JSON.stringify(cartItems, null, 2)}
-      </pre>
+      <pre>{JSON.stringify(cartItems, null, 2)}</pre>
     </main>
   );
 }

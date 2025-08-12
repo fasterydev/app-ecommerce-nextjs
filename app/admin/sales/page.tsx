@@ -1,4 +1,5 @@
 "use client";
+import { ProductStatusBadge } from "@/components/product/product-status-badge";
 import {
   Table,
   TableBody,
@@ -29,6 +30,7 @@ export default function SalesAdminPage() {
             <TableRow>
               <TableHead>Nombre</TableHead>
               <TableHead>Cliente</TableHead>
+              <TableHead>Estado</TableHead>
               <TableHead>Productos</TableHead>
             </TableRow>
           </TableHeader>
@@ -37,9 +39,10 @@ export default function SalesAdminPage() {
               <TableRow key={sale.id}>
                 <TableCell className="font-medium">{sale.idNumer}</TableCell>
                 <TableCell className="font-medium">
-                  {
-                    // sale.user.name
-                  }
+                  {sale.user?.email}
+                </TableCell>
+                <TableCell className="font-medium">
+                  <ProductStatusBadge status={sale.status} />
                 </TableCell>
                 <TableCell className="font-medium">
                   {sale.products.length}
@@ -49,6 +52,9 @@ export default function SalesAdminPage() {
           </TableBody>
         </Table>
       </div>
+      <pre>
+        <code>{JSON.stringify(sales, null, 2)}</code>
+      </pre>
     </div>
   );
 }
