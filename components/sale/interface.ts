@@ -3,7 +3,7 @@ import { Product } from "../product/interface";
 export interface Sale {
     id:        string;
     idNumer:   number;
-    status:    "draft" | "published" | "archived";
+    status:    "completed" | "pending" | "canceled";
     products:  Product[];
     user:      User;
     createdAt: Date;

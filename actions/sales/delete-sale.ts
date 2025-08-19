@@ -1,22 +1,20 @@
 "use server";
-
 import { auth } from "@clerk/nextjs/server";
 
-export const addFavorite = async (id: string) => {
+export const deleteSale = async (id: string) => {
   try {
     const { getToken } = await auth();
     const token = await getToken();
     if (!token) throw new Error("Debe de estar autenticado");
 
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/favorites/addFavorite`,
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/sales/deleteSale/${id}`,
       {
-        method: "POST",
+        method: "DELETE",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({ id }),
       }
     );
 
@@ -35,14 +33,15 @@ export const addFavorite = async (id: string) => {
     }
 
     const resData = await response.json();
-    console.log("Favorito añadido:", resData);
+
+    console.log("Venta eliminada:", response.status);
 
     return {
       statusCode: response.status,
-      message: resData.message || "Favorito añadido correctamente",
+      message: resData.message || "Venta eliminada exitosamente",
     };
   } catch (error) {
-    console.error("Error en addFavorite:", error);
-    throw new Error("Error al obtener los favoritos");
+    console.error("Error en  deleteSale:", error);
+    throw new Error("Error al eliminar la venta: ");
   }
 };

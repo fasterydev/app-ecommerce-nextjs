@@ -1,4 +1,5 @@
 "use client";
+import { SaleStatusBadge } from "@/components/sale/sale-status-badge";
 import { Card, CardContent } from "@/components/ui/card";
 import {
   Table,
@@ -61,7 +62,7 @@ export default function SalesPage() {
                     <HashIcon size={14} />
                     <div>{sale.idNumer}</div>
                   </TableCell>
-                  <TableCell>{sale.status}</TableCell>
+                  <TableCell><SaleStatusBadge status={sale.status} /></TableCell>
                   <TableCell>{dateFormat(sale.createdAt)}</TableCell>
                   <TableCell className="text-right">
                     {currencyFormat(convertFromMilliunits(sale.total))}
@@ -92,9 +93,9 @@ export default function SalesPage() {
                     </span>
                     <span
                       className={`px-2 py-1 rounded-full text-xs font-medium ${
-                        sale.status === "Pagado"
+                        sale.status === "completed"
                           ? "bg-green-100 text-green-800"
-                          : sale.status === "Pendiente"
+                          : sale.status === "pending"
                           ? "bg-yellow-100 text-yellow-800"
                           : "bg-blue-100 text-blue-800"
                       }`}
