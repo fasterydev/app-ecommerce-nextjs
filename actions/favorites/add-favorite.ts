@@ -1,5 +1,6 @@
 "use server";
 
+import { envs } from "@/env";
 import { auth } from "@clerk/nextjs/server";
 
 export const addFavorite = async (id: string) => {
