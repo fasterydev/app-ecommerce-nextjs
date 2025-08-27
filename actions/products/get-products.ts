@@ -1,4 +1,7 @@
 "use server";
+
+import { envs } from "@/env";
+
 // import { auth } from "@clerk/nextjs/server";
 
 export const getProducts = async () => {
@@ -21,8 +24,8 @@ export const getProducts = async () => {
     // const queryString = new URLSearchParams(queryParams).toString();
 
     const response = await fetch(
-      // `${process.env.NEXT_PUBLIC_BACKEND_URL}/packages/getPackages?${queryString}`,
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/products/getProducts`,
+      // `${envs.BackendUrl}/packages/getPackages?${queryString}`,
+      `${envs.BackendUrl}/products/getProducts`,
       {
         method: "GET",
         headers: {

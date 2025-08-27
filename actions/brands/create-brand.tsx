@@ -1,5 +1,6 @@
 "use server";
 import { Brand } from "@/components/product/interface";
+import { envs } from "@/env";
 import { auth } from "@clerk/nextjs/server";
 
 export const createBrand = async (brand: Partial<Brand>) => {
@@ -9,7 +10,7 @@ export const createBrand = async (brand: Partial<Brand>) => {
     if (!token) throw new Error("Debe de estar autenticado");
 
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/products/createBrand`,
+      `${envs.BackendUrl}/products/createBrand`,
       {
         method: "POST",
         headers: {

@@ -28,6 +28,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
+import { uploadFile } from "@/actions";
 
 interface ProductFormProps {
   product?: Product;
@@ -46,7 +47,7 @@ export default function ProductForm({
     name: product?.name || "",
     brandId: product?.brandId,
     description: product?.description || "",
-    images: ["https://placehold.co/600x600.png"],
+    images: product?.images || [],
     isNew: product?.isNew || false,
     isBestSeller: product?.isBestSeller || false,
     sku: product?.sku || "",
@@ -70,20 +71,28 @@ export default function ProductForm({
     }
   };
 
-  const handleImageUpload = (files: FileList | null) => {
+  const handleImageUpload = async (files: FileList | null) => {
     if (!files) return;
 
-    const newImages: string[] = [];
-    Array.from(files).forEach((file) => {
+    const uploadedImages: string[] = [];
+    for (const file of Array.from(files)) {
       if (file.type.startsWith("image/")) {
-        const url = URL.createObjectURL(file);
-        newImages.push(url);
+        try {
+          const result = await uploadFile(file);
+          if (result.statusCode === 201 && result.url) {
+            uploadedImages.push(result.url);
+          } else {
+            console.error("Error al subir archivo:", result.message);
+          }
+        } catch (err) {
+          console.error("Error al subir archivo:", err);
+        }
       }
-    });
+    }
 
     setFormData((prev) => ({
       ...prev,
-      images: [...(prev.images ?? []), ...newImages].slice(0, 6),
+      images: [...(prev.images ?? []), ...uploadedImages].slice(0, 6),
     }));
   };
 

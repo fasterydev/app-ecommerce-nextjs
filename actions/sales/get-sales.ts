@@ -1,4 +1,5 @@
 "use server";
+import { envs } from "@/env";
 import { auth } from "@clerk/nextjs/server";
 
 export const getSales = async () => {
@@ -8,7 +9,7 @@ export const getSales = async () => {
     if (!token) throw new Error("Debe de estar autenticado");
 
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/sales/getSales`,
+      `${envs.BackendUrl}/sales/getSales`,
       {
         method: "GET",
         headers: {

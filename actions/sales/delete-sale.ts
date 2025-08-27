@@ -1,15 +1,20 @@
 "use server";
-
 import { envs } from "@/env";
+import { auth } from "@clerk/nextjs/server";
 
-export const getBrands = async () => {
+export const deleteSale = async (id: string) => {
   try {
+    const { getToken } = await auth();
+    const token = await getToken();
+    if (!token) throw new Error("Debe de estar autenticado");
+
     const response = await fetch(
-      `${envs.BackendUrl}/products/getBrands`,
+      `${envs.BackendUrl}/sales/deleteSale/${id}`,
       {
-        method: "GET",
+        method: "DELETE",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
       }
     );
@@ -30,17 +35,14 @@ export const getBrands = async () => {
 
     const resData = await response.json();
 
+    console.log("Venta eliminada:", response.status);
+
     return {
       statusCode: response.status,
-      message: resData.message || "Marcas obtenidas correctamente",
-      brands: resData || [],
+      message: resData.message || "Venta eliminada exitosamente",
     };
   } catch (error) {
-    console.error("Error en getBrands:", error);
-    throw new Error(
-      error instanceof Error
-        ? error.message
-        : "Error desconocido al obtener marcas"
-    );
+    console.error("Error en  deleteSale:", error);
+    throw new Error("Error al eliminar la venta: ");
   }
 };

@@ -1,4 +1,5 @@
 "use server";
+import { envs } from "@/env";
 import { auth } from "@clerk/nextjs/server";
 
 export const createShoppingCart  = async () => {
@@ -21,8 +22,8 @@ export const createShoppingCart  = async () => {
     // const queryString = new URLSearchParams(queryParams).toString();
 
     const response = await fetch(
-      // `${process.env.NEXT_PUBLIC_BACKEND_URL}/packages/getPackages?${queryString}`,
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/shopping-carts/createShoppingCart`,
+      // `${envs.BackendUrl}/packages/getPackages?${queryString}`,
+      `${envs.BackendUrl}/shopping-carts/createShoppingCart`,
       {
         method: "POST",
         headers: {

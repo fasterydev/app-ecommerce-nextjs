@@ -1,5 +1,6 @@
 "use server";
 import { Product } from "@/components/product/interface";
+import { envs } from "@/env";
 import { auth } from "@clerk/nextjs/server";
 
 export const editProduct = async (product: Partial<Product>) => {
@@ -11,7 +12,7 @@ export const editProduct = async (product: Partial<Product>) => {
     const { id, ...productWithoutId } = product;
 
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/products/updateProduct/${id}`,
+      `${envs.BackendUrl}/products/updateProduct/${id}`,
       {
         method: "PATCH",
         headers: {

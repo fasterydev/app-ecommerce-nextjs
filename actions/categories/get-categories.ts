@@ -1,9 +1,11 @@
 "use server";
 
+import { envs } from "@/env";
+
 export const getCategories = async () => {
   try {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/products/getCategories`,
+      `${envs.BackendUrl}/products/getCategories`,
       {
         method: "GET",
         headers: {

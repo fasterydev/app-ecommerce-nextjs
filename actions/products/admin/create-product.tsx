@@ -1,5 +1,6 @@
 "use server";
 import { Product } from "@/components/product/interface";
+import { envs } from "@/env";
 import { auth } from "@clerk/nextjs/server";
 
 export const createProduct = async (product: Partial<Product>) => {
@@ -9,7 +10,7 @@ export const createProduct = async (product: Partial<Product>) => {
     if (!token) throw new Error("Debe de estar autenticado");
 
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/products/createProduct`,
+      `${envs.BackendUrl}/products/createProduct`,
       {
         method: "POST",
         headers: {

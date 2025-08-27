@@ -9,7 +9,7 @@ export const deleteFavorite = async (id: string) => {
     if (!token) throw new Error("Debe de estar autenticado");
 
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/favorites/deleteFavorite/${id}`,
+      `${envs.BackendUrl}/favorites/deleteFavorite/${id}`,
       {
         method: "DELETE",
         headers: {

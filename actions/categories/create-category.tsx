@@ -1,5 +1,6 @@
 "use server";
 import { Category } from "@/components/product/interface";
+import { envs } from "@/env";
 import { auth } from "@clerk/nextjs/server";
 
 export const createCategory = async (category: Partial<Category>) => {
@@ -9,7 +10,7 @@ export const createCategory = async (category: Partial<Category>) => {
     if (!token) throw new Error("Debe de estar autenticado");
 
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/products/createCategory`,
+      `${envs.BackendUrl}/products/createCategory`,
       {
         method: "POST",
         headers: {

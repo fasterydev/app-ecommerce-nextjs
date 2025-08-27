@@ -1,4 +1,6 @@
 "use client";
+import { SaleStatusBadge } from "@/components/sale/sale-status-badge";
+import { Button } from "@/components/ui/button";
 import {
   Table,
   TableBody,
@@ -8,10 +10,13 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { useSaleStore } from "@/stores/user/sale-store";
+import { convertFromMilliunits } from "@/utils/covertAmountMiliunits";
+import { currencyFormat } from "@/utils/currencyFormat";
+import { TrashIcon } from "lucide-react";
 import { useEffect } from "react";
 
 export default function SalesAdminPage() {
-  const { sales, fetchSales } = useSaleStore();
+  const { sales, fetchSales, deleteSale, isLoading } = useSaleStore();
 
   useEffect(() => {
     fetchSales();
@@ -29,7 +34,10 @@ export default function SalesAdminPage() {
             <TableRow>
               <TableHead>Nombre</TableHead>
               <TableHead>Cliente</TableHead>
+              <TableHead>Estado</TableHead>
               <TableHead>Productos</TableHead>
+              <TableHead>Total</TableHead>
+              <TableHead>Acciones</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -37,18 +45,30 @@ export default function SalesAdminPage() {
               <TableRow key={sale.id}>
                 <TableCell className="font-medium">{sale.idNumer}</TableCell>
                 <TableCell className="font-medium">
-                  {
-                    // sale.user.name
-                  }
+                  {sale.user?.email}
+                </TableCell>
+                <TableCell className="font-medium">
+                  <SaleStatusBadge status={sale.status} />
                 </TableCell>
                 <TableCell className="font-medium">
                   {sale.products.length}
+                </TableCell>
+                <TableCell className="font-medium">
+                  {currencyFormat(convertFromMilliunits(sale.total))}
+                </TableCell>
+                <TableCell className="font-medium">
+                  <Button disabled={isLoading} size="icon" onClick={() => deleteSale(sale.id)}>
+                    <TrashIcon size={18} />
+                  </Button>
                 </TableCell>
               </TableRow>
             ))}
           </TableBody>
         </Table>
       </div>
+      <pre>
+        <code>{JSON.stringify(sales, null, 2)}</code>
+      </pre>
     </div>
   );
 }

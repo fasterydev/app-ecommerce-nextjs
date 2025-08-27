@@ -1,4 +1,5 @@
 "use server";
+import { envs } from "@/env";
 import { auth } from "@clerk/nextjs/server";
 
 export const decreaseItemQuantity = async (productId: string) => {
@@ -8,7 +9,7 @@ export const decreaseItemQuantity = async (productId: string) => {
     if (!token) throw new Error("Debe de estar autenticado");
 
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/shopping-carts/decreaseItemQuantity`,
+      `${envs.BackendUrl}/shopping-carts/decreaseItemQuantity`,
       {
         method: "POST",
         headers: {
