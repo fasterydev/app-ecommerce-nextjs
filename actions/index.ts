@@ -18,6 +18,7 @@ export * from "./shopping-carts/decrease-item-quantity";
 export * from "./sales/create-sale";
 export * from "./sales/get-sales";
 export * from "./sales/delete-sale";
+export * from "./sales/update-sale";
 // FAVORITES
 export * from "./favorites/get-favorites";
 export * from "./favorites/add-favorite";

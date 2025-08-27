@@ -1,4 +1,5 @@
 "use client";
+import { DetailsProduct } from "@/components/product/details-product";
 import { SaleStatusBadge } from "@/components/sale/sale-status-badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -51,13 +52,21 @@ export default function SalesAdminPage() {
                   <SaleStatusBadge status={sale.status} />
                 </TableCell>
                 <TableCell className="font-medium">
-                  {sale.products.length}
+                  {sale.products.reduce(
+                    (acc, product) => acc + (product?.quantity ?? 1),
+                    0
+                  )}
                 </TableCell>
                 <TableCell className="font-medium">
                   {currencyFormat(convertFromMilliunits(sale.total))}
                 </TableCell>
-                <TableCell className="font-medium">
-                  <Button disabled={isLoading} size="icon" onClick={() => deleteSale(sale.id)}>
+                <TableCell className="font-medium flex gap-2">
+                  <DetailsProduct sale={sale} mode="edit"/>
+                  <Button
+                    disabled={isLoading}
+                    size="icon"
+                    onClick={() => deleteSale(sale.id)}
+                  >
                     <TrashIcon size={18} />
                   </Button>
                 </TableCell>
@@ -66,9 +75,9 @@ export default function SalesAdminPage() {
           </TableBody>
         </Table>
       </div>
-      <pre>
+      {/* <pre>
         <code>{JSON.stringify(sales, null, 2)}</code>
-      </pre>
+      </pre> */}
     </div>
   );
 }

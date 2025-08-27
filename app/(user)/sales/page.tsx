@@ -1,4 +1,5 @@
 "use client";
+import { DetailsProduct } from "@/components/product/details-product";
 import { SaleStatusBadge } from "@/components/sale/sale-status-badge";
 import { Card, CardContent } from "@/components/ui/card";
 import {
@@ -38,7 +39,9 @@ export default function SalesPage() {
         </div> */}
 
         <div className="mb-8">
-          <h1 className="mb-2 text-2xl font-semibold sm:text-3xl">Mis Pedidos</h1>
+          <h1 className="mb-2 text-2xl font-semibold sm:text-3xl">
+            Mis Pedidos
+          </h1>
           <p className="">
             Revisa el estado de tus pedidos y gestiona tus compras.
           </p>
@@ -52,7 +55,8 @@ export default function SalesPage() {
                 <TableHead className="w-[100px]">Pedido</TableHead>
                 <TableHead>Estado</TableHead>
                 <TableHead>Fecha</TableHead>
-                <TableHead className="text-right">Total</TableHead>
+                <TableHead>Total</TableHead>
+                <TableHead className="text-right">Ver</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -62,10 +66,15 @@ export default function SalesPage() {
                     <HashIcon size={14} />
                     <div>{sale.idNumer}</div>
                   </TableCell>
-                  <TableCell><SaleStatusBadge status={sale.status} /></TableCell>
+                  <TableCell>
+                    <SaleStatusBadge status={sale.status} />
+                  </TableCell>
                   <TableCell>{dateFormat(sale.createdAt)}</TableCell>
-                  <TableCell className="text-right">
+                  <TableCell>
                     {currencyFormat(convertFromMilliunits(sale.total))}
+                  </TableCell>
+                  <TableCell className="text-right">
+                    <DetailsProduct sale={sale} mode={"view"} />
                   </TableCell>
                 </TableRow>
               ))}

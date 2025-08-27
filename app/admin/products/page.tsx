@@ -1,5 +1,5 @@
 "use client";
-import { DeleteProductAlert } from "@/components/product/belete-product-alert";
+import { DeleteProductAlert } from "@/components/product/delete-product-alert";
 import { ProductStatusBadge } from "@/components/product/product-status-badge";
 import {
   Table,
