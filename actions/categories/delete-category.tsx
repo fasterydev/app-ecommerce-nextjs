@@ -1,4 +1,5 @@
 "use server";
+import { envs } from "@/env";
 import { auth } from "@clerk/nextjs/server";
 
 export const deleteCategory = async (id: string) => {
@@ -8,7 +9,7 @@ export const deleteCategory = async (id: string) => {
     if (!token) throw new Error("Debe de estar autenticado");
 
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/products/deleteCategory/${id}`,
+      `${envs.BackendUrl}/products/deleteCategory/${id}`,
       {
         method: "DELETE",
         headers: {

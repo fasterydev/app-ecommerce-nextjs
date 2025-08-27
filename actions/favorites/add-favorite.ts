@@ -9,7 +9,7 @@ export const addFavorite = async (id: string) => {
     if (!token) throw new Error("Debe de estar autenticado");
 
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/favorites/addFavorite`,
+      `${envs.BackendUrl}/favorites/addFavorite`,
       {
         method: "POST",
         headers: {

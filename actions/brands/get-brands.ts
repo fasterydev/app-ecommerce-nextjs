@@ -1,9 +1,11 @@
 "use server";
 
+import { envs } from "@/env";
+
 export const getBrands = async () => {
   try {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/products/getBrands`,
+      `${envs.BackendUrl}/products/getBrands`,
       {
         method: "GET",
         headers: {

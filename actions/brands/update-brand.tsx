@@ -1,5 +1,6 @@
 "use server";
 import { Brand } from "@/components/product/interface";
+import { envs } from "@/env";
 import { auth } from "@clerk/nextjs/server";
 
 export const updateBrand = async (brand: Partial<Brand>) => {
@@ -12,7 +13,7 @@ export const updateBrand = async (brand: Partial<Brand>) => {
     const { id, ...editedBrand } = brand;
 
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/products/updateBrand/${id}`,
+      `${envs.BackendUrl}/products/updateBrand/${id}`,
       {
         method: "PATCH",
         headers: {

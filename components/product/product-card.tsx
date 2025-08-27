@@ -20,7 +20,6 @@ import { useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import { currencyFormat } from "@/utils/currencyFormat";
 import { Product } from "./interface";
-import Link from "next/link";
 import { useFavoriteStore } from "@/stores/user/favorite-store";
 
 const ProductCard = ({ product }: { product: Product }) => {

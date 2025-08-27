@@ -27,3 +27,5 @@ export * from "./brands/create-brand";
 export * from "./brands/get-brands";
 export * from "./brands/delete-brand";
 export * from "./brands/update-brand";
+// FILES
+export * from "./files/upload-file";

@@ -1,5 +1,6 @@
 "use server";
 import { Category } from "@/components/product/interface";
+import { envs } from "@/env";
 import { auth } from "@clerk/nextjs/server";
 
 export const updateCategory = async (category: Partial<Category>) => {
@@ -12,7 +13,7 @@ export const updateCategory = async (category: Partial<Category>) => {
     const { id, ...editedCategory } = category;
 
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/products/updateCategory/${id}`,
+      `${envs.BackendUrl}/products/updateCategory/${id}`,
       {
         method: "PATCH",
         headers: {

@@ -9,7 +9,7 @@ export const getFavorites = async () => {
     if (!token) throw new Error("Debe de estar autenticado");
 
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/favorites/getFavorites`,
+      `${envs.BackendUrl}/favorites/getFavorites`,
       {
         method: "GET",
         headers: {

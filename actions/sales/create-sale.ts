@@ -1,4 +1,5 @@
 "use server";
+import { envs } from "@/env";
 import { auth } from "@clerk/nextjs/server";
 type ShoppingCartItem = {
   productId: string;
@@ -12,7 +13,7 @@ export const createSale = async (shoppingCartItem: ShoppingCartItem[]) => {
     if (!token) throw new Error("Debe de estar autenticado");
 
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/sales/createSale`,
+      `${envs.BackendUrl}/sales/createSale`,
       {
         method: "POST",
         headers: {
