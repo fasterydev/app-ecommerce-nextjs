@@ -69,31 +69,7 @@ const ProductPage = () => {
             <h1 className="text-3xl font-medium  mb-4">{productData.name}</h1>
             <div className="flex items-center gap-2">
               <div className="flex items-center gap-0.5">
-                <Image
-                  className="h-4 w-4"
-                  src={assets.star_icon}
-                  alt="star_icon"
-                />
-                <Image
-                  className="h-4 w-4"
-                  src={assets.star_icon}
-                  alt="star_icon"
-                />
-                <Image
-                  className="h-4 w-4"
-                  src={assets.star_icon}
-                  alt="star_icon"
-                />
-                <Image
-                  className="h-4 w-4"
-                  src={assets.star_icon}
-                  alt="star_icon"
-                />
-                <Image
-                  className="h-4 w-4"
-                  src={assets.star_dull_icon}
-                  alt="star_dull_icon"
-                />
+                Estrellas
               </div>
               <p>(4.5)</p>
             </div>
