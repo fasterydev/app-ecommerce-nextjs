@@ -1,5 +1,4 @@
 "use client";
-import { assets } from "@/assets/assets";
 import ProductCard from "@/components/product/product-card";
 import ProductCardSkeleton from "@/components/product/product-card-skeleton";
 import { Button } from "@/components/ui/button";
