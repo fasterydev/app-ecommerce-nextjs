@@ -9,8 +9,8 @@ import { Toaster } from "sonner";
 const outfit = Outfit({ subsets: ["latin"], weight: ["300", "400", "500"] });
 
 export const metadata: Metadata = {
-  title: "Fastery Shop Template",
-  description: "A simple ecommerce template built with Next.js and Clerk",
+  title: "Cabellos del Sol | Peluquería - Estética",
+  description: "Bienvenido a Cabellos del Sol, tu destino para la peluquería y estética.",
   robots: {
     index: true,
     follow: true,

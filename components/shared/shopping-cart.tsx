@@ -52,8 +52,8 @@ export function ShoppingCartIconHome() {
   return (
     <>
       {/* Icono móvil */}
-      <Link href="/shopping-cart" className="xl:hidden block">
-        <div className="relative p-3">
+      <Link href="/shopping-cart" className="xl:hidden block my-auto">
+        <Button className="relative p-3" size={"icon"} variant="outline">
           <ShoppingBagIcon size={20} />
           {cartCount > 0 && (
             <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-primary-foreground">
@@ -61,7 +61,7 @@ export function ShoppingCartIconHome() {
             </span>
           )}
           <span className="sr-only">Shopping cart</span>
-        </div>
+        </Button>
       </Link>
 
       {/* Icono desktop con dropdown */}

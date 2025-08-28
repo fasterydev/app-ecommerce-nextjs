@@ -40,7 +40,8 @@ const Navbar = () => {
   const pathname = usePathname();
 
   return (
-    <nav className="grid grid-cols-3 items-center justify-between py-3 px-4 md:px-12 lg:px-12">
+    <nav className="grid grid-cols-3 items-center justify-between py-1.5 px-4 md:px-12 lg:px-12">
+      {/* <nav className="grid grid-cols-3 items-center justify-between py-3 px-4 md:px-12 lg:px-12 border-b-2 border-primary"> */}
       {/* IZQUIERDA */}
       <div className="flex items-center xl:justify-start justify-start">
         {/* Sheet para móviles */}

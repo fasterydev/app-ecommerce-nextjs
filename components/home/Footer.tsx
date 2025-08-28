@@ -125,9 +125,21 @@ const Footer = () => {
           </div>
         </div>
       </div>
-      <p className="py-4 text-center text-xs md:text-sm">
-        Copyright 2025 © FasteryDev, LLC All Right Reserved.
-      </p>
+      <Link
+        href="https://fastery.dev"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="py-4 text-center text-xs md:text-sm flex items-center justify-center gap-1"
+      >
+        <span>© 2025 Cabellos del Sol. Desarrollado por</span>
+        <Image
+          src="/fastery_logo_light.svg"
+          alt="FasteryDev Logo"
+          width={80}
+          height={80}
+          className="my-auto pt-1"
+        />
+      </Link>
     </footer>
   );
 };
