@@ -20,6 +20,26 @@ export function LogoTheme() {
   return (
     <>
       {isDarkMode && (
+        <div className="flex font-semibold text-lg space-x-1 my-auto">
+          <Image
+            src="/logo-color-webp.webp"
+            alt="logo-color-webp"
+            width={150}
+            height={150}
+          />
+        </div>
+      )}
+      {isLightMode && (
+        <div className="flex font-semibold text-lg space-x-1 my-auto">
+          <Image
+            src="/logo-color-webp.webp"
+            alt="logo-color-webp"
+            width={150}
+            height={150}
+          />
+        </div>
+      )}
+      {/* {isDarkMode && (
         <div className="flex font-semibold text-lg space-x-1">
           <Image
             src="/fastery_icon_dark.svg"
@@ -42,8 +62,7 @@ export function LogoTheme() {
           <div>Fastery</div>
           <div className="text-[#e11d48]">Shop</div>
         </div>
-      )}
+      )} */}
     </>
   );
 }
-// width={70}

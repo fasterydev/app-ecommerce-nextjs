@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { getBrands } from "@/actions";
+import { deleteBrand, getBrands } from "@/actions";
 import { Brand } from "@/components/product/interface";
 
 type BrandStore = {
@@ -35,5 +35,10 @@ export const useBrandStore = create<BrandStore>((set) => ({
     set((state) => ({
       brands: state.brands.filter((brand) => brand.id !== id),
     }));
+    try {
+      await deleteBrand(id);
+    } catch (err) {
+      console.error("Error al eliminar la marca:", err);
+    }
   },
 }));

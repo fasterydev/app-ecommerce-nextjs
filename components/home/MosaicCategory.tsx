@@ -1,77 +1,49 @@
 "use client";
-import { assets } from "@/assets/assets";
 import { Card } from "../ui/card";
-import Image, { StaticImageData } from "next/image";
+import Image from "next/image";
 import { Button } from "../ui/button";
 import clsx from "clsx";
 import Link from "next/link";
-
-type Category = {
-  label: string;
-  image: StaticImageData;
-  align?: "left" | "center" | "right";
-  link?: string;
-};
-
-const categories: Category[] = [
-  {
-    label: "Música",
-    image: assets.girl_with_headphone_image,
-    align: "center",
-    link: "/music",
-  },
-  {
-    label: "Podcast",
-    image: assets.girl_with_headphone_image,
-    align: "right",
-    link: "/podcast",
-  },
-  {
-    label: "Conciertos",
-    image: assets.girl_with_headphone_image,
-    align: "left",
-    link: "/concerts",
-  },
-  {
-    label: "Entrevistas",
-    image: assets.girl_with_headphone_image,
-    align: "center",
-    link: "/interviews",
-  },
-];
+import { useCategoryStore } from "@/stores/user/category-store";
 
 const MosaicCategory = () => {
+  const { categories } = useCategoryStore();
+
+  if (categories.length === 0) {
+    return null;
+  }
+
   return (
-    <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 lg:grid-rows-2 xl:pt-1 gap-4 h-[85vh]">
+    <div className="grid grid-cols-2 mt-3 sm:grid-cols-2 lg:grid-cols-3 lg:grid-rows-2 xl:pt-1 gap-4 h-[85vh]">
       <div className="lg:row-span-2 h-full">
         <CategoryCard
-          label={categories[0].label}
-          image={categories[0].image}
-          align={categories[0].align}
+          label={categories[0]?.name || ""}
+          image="/home/wella-2-bw.jpg"
+          align="center"
           fullHeight
-          link={categories[0].link}
+          link="#"
         />
       </div>
       <div className="lg:row-span-2 h-full">
         <CategoryCard
-          label={categories[1].label}
-          image={categories[1].image}
-          align={categories[1].align}
+          label={categories[1]?.name || ""}
+          image="/home/wella-2-bw.jpg"
+          align="center"
           fullHeight
-          link={categories[1].link}
+          link="#"
         />
       </div>
       <CategoryCard
-        label={categories[2].label}
-        image={categories[2].image}
-        align={categories[2].align}
-        link={categories[2].link}
+        label={categories[2]?.name || ""}
+        image="/home/wella-2-bw.jpg"
+        align="center"
+        link="#"
       />
       <CategoryCard
-        label={categories[3].label}
-        image={categories[3].image}
-        align={categories[3].align}
-        link={categories[3].link}
+        label={categories[3]?.name || ""}
+        image="/home/wella-2-bw.jpg"
+        align="center"
+        link="#"
       />
     </div>
   );
@@ -84,8 +56,8 @@ const CategoryCard = ({
   fullHeight = false,
   link = "#",
 }: {
-  label: string;
-  image: StaticImageData;
+  label?: string;
+  image: string;
   align?: "left" | "center" | "right";
   fullHeight?: boolean;
   link?: string;
@@ -106,21 +78,24 @@ const CategoryCard = ({
       >
         <Image
           src={image}
-          alt={label}
+          alt={image}
           fill
           className={clsx(
             "object-cover transition-transform duration-500 ease-in-out",
             "group-hover:scale-105"
           )}
         />
-        <Button
-          className={clsx(
-            "absolute bottom-4 z-10 transform",
-            buttonPosition[align]
-          )}
-        >
-          {label}
-        </Button>
+        {label && (
+          <Button
+            className={clsx(
+              "absolute bottom-4 z-10 transform",
+              buttonPosition[align]
+            )}
+          >
+            {label}
+          </Button>
+        )}
+
         <div className="absolute inset-0 z-0" />
       </Card>
     </Link>
