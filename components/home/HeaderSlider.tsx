@@ -1,58 +1,55 @@
 "use client";
-import { assets } from "@/assets/assets";
-import Image from "next/image";
-import { Carousel, CarouselContent, CarouselItem } from "../ui/carousel";
-import Autoplay from "embla-carousel-autoplay";
 
 const HeaderSlider = () => {
-  const sliderData = [
-    {
-      id: 1,
-      title:
-        "Experimenta el Sonido Puro - ¡Tus Auriculares Perfectos te Esperan!",
-      offer: "Oferta por Tiempo Limitado 30% de Descuento",
-      buttonText1: "Comprar ahora",
-      buttonText2: "Ver más",
-      imgSrc: assets.header_headphone_image,
-    },
-    {
-      id: 2,
-      title:
-        "El Próximo Nivel del Gaming Comienza Aquí - ¡Descubre PlayStation 5 Hoy!",
-      offer: "¡Apresúrate, quedan pocas unidades!",
-      buttonText1: "Comprar ahora",
-      buttonText2: "Saber más",
-      imgSrc: assets.header_playstation_image,
-    },
-    {
-      id: 3,
-      title: "Potencia y Elegancia - ¡Apple MacBook Pro está Aquí para Ti!",
-      offer: "Oferta Exclusiva 40% de Descuento",
-      buttonText1: "Ordenar ahora",
-      buttonText2: "Saber más",
-      imgSrc: assets.header_headphone_image,
-    },
-    {
-      id: 4,
-      title: "Potencia y Elegancia - ¡Apple MacBook Pro está Aquí para Ti!",
-      offer: "Oferta Exclusiva 40% de Descuento",
-      buttonText1: "Ordenar ahora",
-      buttonText2: "Saber más",
-      imgSrc: assets.header_headphone_image,
-    },
-    {
-      id: 5,
-      title: "Potencia y Elegancia - ¡Apple MacBook Pro está Aquí para Ti!",
-      offer: "Oferta Exclusiva 40% de Descuento",
-      buttonText1: "Ordenar ahora",
-      buttonText2: "Saber más",
-      imgSrc: assets.header_headphone_image,
-    },
-  ];
+  // const sliderData = [
+  //   {
+  //     id: 1,
+  //     title:
+  //       "Experimenta el Sonido Puro - ¡Tus Auriculares Perfectos te Esperan!",
+  //     offer: "Oferta por Tiempo Limitado 30% de Descuento",
+  //     buttonText1: "Comprar ahora",
+  //     buttonText2: "Ver más",
+  //     imgSrc: assets.header_headphone_image,
+  //   },
+  //   {
+  //     id: 2,
+  //     title:
+  //       "El Próximo Nivel del Gaming Comienza Aquí - ¡Descubre PlayStation 5 Hoy!",
+  //     offer: "¡Apresúrate, quedan pocas unidades!",
+  //     buttonText1: "Comprar ahora",
+  //     buttonText2: "Saber más",
+  //     imgSrc: assets.header_playstation_image,
+  //   },
+  //   {
+  //     id: 3,
+  //     title: "Potencia y Elegancia - ¡Apple MacBook Pro está Aquí para Ti!",
+  //     offer: "Oferta Exclusiva 40% de Descuento",
+  //     buttonText1: "Ordenar ahora",
+  //     buttonText2: "Saber más",
+  //     imgSrc: assets.header_headphone_image,
+  //   },
+  //   {
+  //     id: 4,
+  //     title: "Potencia y Elegancia - ¡Apple MacBook Pro está Aquí para Ti!",
+  //     offer: "Oferta Exclusiva 40% de Descuento",
+  //     buttonText1: "Ordenar ahora",
+  //     buttonText2: "Saber más",
+  //     imgSrc: assets.header_headphone_image,
+  //   },
+  //   {
+  //     id: 5,
+  //     title: "Potencia y Elegancia - ¡Apple MacBook Pro está Aquí para Ti!",
+  //     offer: "Oferta Exclusiva 40% de Descuento",
+  //     buttonText1: "Ordenar ahora",
+  //     buttonText2: "Saber más",
+  //     imgSrc: assets.header_headphone_image,
+  //   },
+  // ];
 
   return (
     <div>
-      <Carousel
+      Test
+      {/* <Carousel
         opts={{
           align: "start",
           loop: true,
@@ -102,7 +99,7 @@ const HeaderSlider = () => {
             </CarouselItem>
           ))}
         </CarouselContent>
-      </Carousel>
+      </Carousel> */}
     </div>
   );
 };
