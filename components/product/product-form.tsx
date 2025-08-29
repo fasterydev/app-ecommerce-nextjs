@@ -2,7 +2,14 @@
 import type React from "react";
 import { useState } from "react";
 import Image from "next/image";
-import { Upload, X, Save, ImageIcon, DollarSignIcon, PackageIcon } from "lucide-react";
+import {
+  Upload,
+  X,
+  Save,
+  ImageIcon,
+  DollarSignIcon,
+  PackageIcon,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -28,6 +35,7 @@ import {
   SelectValue,
 } from "../ui/select";
 import { uploadFile } from "@/actions";
+import { CategorySelector } from "./category-selector";
 
 interface ProductFormProps {
   product?: Product;
@@ -272,6 +280,18 @@ export default function ProductForm({
                     )}
                   </div>
                   <div className="grid gap-1.5">
+                    <CategorySelector
+                      value={formData.categoryId ?? undefined}
+                      className={errors.category ? "border-red-500" : ""}
+                      onChange={(category) =>
+                        handleInputChange("categoryId", category.id)
+                      }
+                    />
+                    {errors.category && (
+                      <p className="text-sm text-red-500">{errors.category}</p>
+                    )}
+                  </div>
+                  <div className="grid gap-1.5">
                     <Label htmlFor="status">Estado *</Label>
                     <Select
                       value={formData.status}
@@ -353,18 +373,16 @@ export default function ProductForm({
                       Icon={PackageIcon}
                       decimalScale={0}
                       decimalsLimit={0}
-                      defaultValue={
-                        isEditing
-                          ? formData.stock
-                          : formData.stock
-                      }
+                      defaultValue={isEditing ? formData.stock : formData.stock}
                       onValueChange={(value) =>
-                        handleInputChange("stock", Number(value) )
+                        handleInputChange("stock", Number(value))
                       }
                       className={errors.stock ? "border-red-500" : ""}
                     />
                     {errors.stock && (
-                      <p className="text-sm text-red-500 mt-1">{errors.stock}</p>
+                      <p className="text-sm text-red-500 mt-1">
+                        {errors.stock}
+                      </p>
                     )}
                   </div>
                   <div className="grid gap-1.5">
@@ -411,10 +429,14 @@ export default function ProductForm({
               </CardContent>
             </Card>
             <pre>
-              <code className="text-sm">{JSON.stringify(formData, null, 2)}</code>
+              <code className="text-sm">
+                {JSON.stringify(formData, null, 2)}
+              </code>
             </pre>
             <pre>
-              <code className="text-sm">{JSON.stringify(product, null, 2)}</code>
+              <code className="text-sm">
+                {JSON.stringify(product, null, 2)}
+              </code>
             </pre>
             <div className="m-auto">
               <HtmlEditor

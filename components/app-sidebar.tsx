@@ -12,7 +12,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import { ListTodoIcon, PackageIcon, SettingsIcon, TagIcon } from "lucide-react";
+import { ListTodoIcon, PackageIcon, SettingsIcon, TagIcon, UserIcon } from "lucide-react";
 import { LogoTheme } from "./shared/logo-theme";
 
 const data = {
@@ -41,6 +41,11 @@ const data = {
       title: "Pedidos",
       url: "/admin/sales",
       icon: ListTodoIcon,
+    },
+    {
+      title: "Usuarios",
+      url: "/admin/users",
+      icon: UserIcon,
     },
   ],
   navSecondary: [

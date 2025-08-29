@@ -122,8 +122,8 @@ export default function ProductsPage() {
     // Aplicar filtro de precio
     // result = result.filter(
     //   (product) =>
-    //     product.cost >= filters.priceRange[0] &&
-    //     product.cost <= filters.priceRange[1]
+    //     product.total >= filters.priceRange[0] &&
+    //     product.total <= filters.priceRange[1]
     // );
 
     // Aplicar filtro de valoración
@@ -132,33 +132,33 @@ export default function ProductsPage() {
     // }
 
     // Aplicar filtros de disponibilidad
-    // if (filters.availability.includes("discount")) {
-    //   result = result.filter((product) => product.discount !== undefined);
-    // }
-    // if (filters.availability.includes("new")) {
-    //   result = result.filter((product) => product.isNew);
-    // }
+    if (filters.availability.includes("top-sales")) {
+      result = result.filter((product) => product.isBestSeller);
+    }
+    if (filters.availability.includes("new")) {
+      result = result.filter((product) => product.isNew);
+    }
 
     // Aplicar ordenamiento
-    // switch (sortOption) {
-    //   case "price-low":
-    //     result.sort((a, b) => a.cost - b.cost);
-    //     break;
-    //   case "price-high":
-    //     result.sort((a, b) => b.cost - a.cost);
-    //     break;
-    //   case "rating":
-    //     result.sort((a, b) => b.rating - a.rating);
-    //     break;
-    //   case "newest":
-    //     result.sort((a, b) => (b.isNew ? 1 : 0) - (a.isNew ? 1 : 0));
-    //     break;
-    //   default:
-    //     // Por defecto, los más vendidos primero
-    //     result.sort(
-    //       (a, b) => (b.isBestSeller ? 1 : 0) - (a.isBestSeller ? 1 : 0)
-    //     );
-    // }
+    switch (sortOption) {
+      case "price-low":
+        result.sort((a, b) => a.total - b.total);
+        break;
+      case "price-high":
+        result.sort((a, b) => b.total - a.total);
+        break;
+      case "rating":
+        result.sort((a, b) => b.rating - a.rating);
+        break;
+      case "newest":
+        result.sort((a, b) => (b.isNew ? 1 : 0) - (a.isNew ? 1 : 0));
+        break;
+      default:
+        // Por defecto, los más vendidos primero
+        result.sort(
+          (a, b) => (b.isBestSeller ? 1 : 0) - (a.isBestSeller ? 1 : 0)
+        );
+    }
 
     setFilteredProducts(result);
     setCurrentPage(1); // Resetear a la primera página cuando se aplican filtros
@@ -402,17 +402,17 @@ export default function ProductsPage() {
               <div className="space-y-2">
                 <div className="flex items-center space-x-2">
                   <Checkbox
-                    id="availability-discount"
-                    checked={filters.availability.includes("discount")}
+                    id="top-sales"
+                    checked={filters.availability.includes("top-sales")}
                     onCheckedChange={(checked) =>
-                      handleAvailabilityChange("discount", checked as boolean)
+                      handleAvailabilityChange("top-sales", checked as boolean)
                     }
                   />
                   <label
-                    htmlFor="availability-discount"
+                    htmlFor="top-sales"
                     className="text-sm leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                   >
-                    En oferta
+                    Top Ventas
                   </label>
                 </div>
                 <div className="flex items-center space-x-2">
@@ -427,7 +427,7 @@ export default function ProductsPage() {
                     htmlFor="availability-new"
                     className="text-sm leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                   >
-                    Nuevos
+                    Nuevo
                   </label>
                 </div>
               </div>
@@ -551,7 +551,7 @@ export default function ProductsPage() {
                   variant="outline"
                   className="flex items-center gap-1"
                 >
-                  {type === "discount" ? "En oferta" : "Nuevos"}
+                  {type === "top-sales" ? "Top Ventas" : "Nuevo"}
                   <button
                     onClick={() => handleAvailabilityChange(type, false)}
                     className="ml-1 rounded-full hover:bg-gray-200"
@@ -682,9 +682,6 @@ export default function ProductsPage() {
               )}
             </div>
           </div>
-          <pre>
-            <code>{JSON.stringify(filteredProducts, null, 2)}</code>
-          </pre>
         </div>
       </main>
     </div>

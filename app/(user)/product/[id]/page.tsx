@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { ShoppingCartIcon, StarIcon } from "lucide-react";
 import { currencyFormat } from "@/utils/currencyFormat";
 import { convertFromMilliunits } from "@/utils/covertAmountMiliunits";
+import WhatsappButton from "@/components/shared/whatsapp-button";
 
 export default function ProductId() {
   const params = useParams();
@@ -107,11 +108,11 @@ export default function ProductId() {
           </div>
 
           <div className="grid grid-cols-2 items-center mt-5 gap-4">
-            <Button size={"lg"} variant={"outline"}>
+            <Button size={"lg"}>
               <ShoppingCartIcon />
               Añadir al carrito
             </Button>
-            <Button size={"lg"}>Comprar ahora</Button>
+            <WhatsappButton />
           </div>
         </div>
         <div className="flex flex-col xl:col-span-2 col-span-1 items-center">
