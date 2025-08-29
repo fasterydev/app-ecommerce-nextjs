@@ -1,5 +1,4 @@
 "use client";
-
 import React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -25,14 +24,10 @@ import {
 import { useCategoryStore } from "@/stores/user/category-store";
 
 const navItems = [
-  { label: "Inicio", href: "/" },
-  {
-    label: "Productos",
-    href: "/shop",
-    isMenu: true,
-  },
-  { label: "Quiénes Somos", href: "/about-us" },
-  { label: "Contacto", href: "/contact-us" },
+  { label: "Inicio", href: "/", isMenu: false },
+  { label: "Productos", href: "/shop", isMenu: false },
+  { label: "Quiénes Somos", href: "/about-us", isMenu: false },
+  { label: "Contacto", href: "/contact-us", isMenu: false },
 ];
 
 const Navbar = () => {

@@ -35,7 +35,6 @@ export const deleteSale = async (id: string) => {
 
     const resData = await response.json();
 
-    console.log("Venta eliminada:", response.status);
 
     return {
       statusCode: response.status,

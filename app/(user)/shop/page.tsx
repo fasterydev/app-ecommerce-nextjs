@@ -1,5 +1,4 @@
 "use client";
-
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import {
@@ -41,6 +40,8 @@ import ProductCard from "@/components/product/product-card";
 import ProductCardSkeleton from "@/components/product/product-card-skeleton";
 import { useProductStore } from "@/stores/user/product-store";
 import { Product } from "@/components/product/interface";
+import { useBrandStore } from "@/stores/user/brand-store";
+import { useCategoryStore } from "@/stores/user/category-store";
 
 type FilterState = {
   categories: string[];
@@ -52,6 +53,8 @@ type FilterState = {
 
 export default function ProductsPage() {
   const { products, fetchProducts, isLoading } = useProductStore();
+  const { brands } = useBrandStore();
+  const { categories } = useCategoryStore();
   // Estado para los productos
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
 
@@ -78,26 +81,10 @@ export default function ProductsPage() {
   //   const [showMobileFilters, setShowMobileFilters] = useState(false);
 
   // Categorías disponibles
-  const availableCategories = [
-    "Electrónica",
-    "Ropa",
-    "Hogar",
-    "Deportes",
-    "Belleza",
-    "Juguetes",
-  ];
+  const availableCategories = categories.map((category) => category.name);
 
   // Marcas disponibles
-  const availableBrands = [
-    "Apple",
-    "Samsung",
-    "Nike",
-    "Adidas",
-    "Sony",
-    "LG",
-    "Zara",
-    "IKEA",
-  ];
+  const availableBrands = brands.map((brand) => brand.name);
 
   useEffect(() => {
     fetchProducts();
@@ -109,44 +96,44 @@ export default function ProductsPage() {
     let result = [...products];
 
     // Aplicar filtro de búsqueda
-    if (searchQuery) {
-      result = result.filter(
-        (product) =>
-          product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          product.subName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          product.subName.toLowerCase().includes(searchQuery.toLowerCase())
-      );
-    }
+    // if (searchQuery) {
+    //   result = result.filter(
+    //     (product) =>
+    //       product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    //       product.subName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    //       product.subName.toLowerCase().includes(searchQuery.toLowerCase())
+    //   );
+    // }
 
     // Aplicar filtros de categoría
     if (filters.categories.length > 0) {
       result = result.filter((product) =>
-        filters.categories.includes(product.subName)
+        filters.categories.includes(product.category?.name || "")
       );
     }
 
     // Aplicar filtros de marca
     if (filters.brands.length > 0) {
       result = result.filter((product) =>
-        filters.brands.includes(product.subName)
+        filters.brands.includes(product.brand?.name || "")
       );
     }
 
     // Aplicar filtro de precio
-    result = result.filter(
-      (product) =>
-        product.cost >= filters.priceRange[0] &&
-        product.cost <= filters.priceRange[1]
-    );
+    // result = result.filter(
+    //   (product) =>
+    //     product.total >= filters.priceRange[0] &&
+    //     product.total <= filters.priceRange[1]
+    // );
 
     // Aplicar filtro de valoración
-    if (filters.rating) {
-      result = result.filter((product) => product.rating >= filters.rating!);
-    }
+    // if (filters.rating) {
+    //   result = result.filter((product) => product.rating >= filters.rating!);
+    // }
 
     // Aplicar filtros de disponibilidad
-    if (filters.availability.includes("discount")) {
-      result = result.filter((product) => product.discount !== undefined);
+    if (filters.availability.includes("top-sales")) {
+      result = result.filter((product) => product.isBestSeller);
     }
     if (filters.availability.includes("new")) {
       result = result.filter((product) => product.isNew);
@@ -155,10 +142,10 @@ export default function ProductsPage() {
     // Aplicar ordenamiento
     switch (sortOption) {
       case "price-low":
-        result.sort((a, b) => a.cost - b.cost);
+        result.sort((a, b) => a.total - b.total);
         break;
       case "price-high":
-        result.sort((a, b) => b.cost - a.cost);
+        result.sort((a, b) => b.total - a.total);
         break;
       case "rating":
         result.sort((a, b) => b.rating - a.rating);
@@ -251,7 +238,7 @@ export default function ProductsPage() {
           filters.priceRange[0] > 0 ||
           filters.priceRange[1] < 1000) && (
           <Button
-            variant="ghost"
+            variant={"destructive"}
             size="sm"
             onClick={clearAllFilters}
             className="h-8 px-2 text-xs"
@@ -415,17 +402,17 @@ export default function ProductsPage() {
               <div className="space-y-2">
                 <div className="flex items-center space-x-2">
                   <Checkbox
-                    id="availability-discount"
-                    checked={filters.availability.includes("discount")}
+                    id="top-sales"
+                    checked={filters.availability.includes("top-sales")}
                     onCheckedChange={(checked) =>
-                      handleAvailabilityChange("discount", checked as boolean)
+                      handleAvailabilityChange("top-sales", checked as boolean)
                     }
                   />
                   <label
-                    htmlFor="availability-discount"
+                    htmlFor="top-sales"
                     className="text-sm leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                   >
-                    En oferta
+                    Top Ventas
                   </label>
                 </div>
                 <div className="flex items-center space-x-2">
@@ -440,7 +427,7 @@ export default function ProductsPage() {
                     htmlFor="availability-new"
                     className="text-sm leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                   >
-                    Nuevos
+                    Nuevo
                   </label>
                 </div>
               </div>
@@ -564,7 +551,7 @@ export default function ProductsPage() {
                   variant="outline"
                   className="flex items-center gap-1"
                 >
-                  {type === "discount" ? "En oferta" : "Nuevos"}
+                  {type === "top-sales" ? "Top Ventas" : "Nuevo"}
                   <button
                     onClick={() => handleAvailabilityChange(type, false)}
                     className="ml-1 rounded-full hover:bg-gray-200"

@@ -11,6 +11,7 @@ export const editProduct = async (product: Partial<Product>) => {
 
     const { id, ...productWithoutId } = product;
 
+
     const response = await fetch(
       `${envs.BackendUrl}/products/updateProduct/${id}`,
       {

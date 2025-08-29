@@ -24,6 +24,7 @@ import { currencyFormat } from "@/utils/currencyFormat";
 import { convertFromMilliunits } from "@/utils/covertAmountMiliunits";
 import { SaleStatusBadge } from "../sale/sale-status-badge";
 import { updateSale } from "@/actions";
+import Link from "next/link";
 
 type Props = {
   sale: Sale;
@@ -134,45 +135,52 @@ export function DetailsProduct({ sale, mode }: Props) {
             </h4>
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-2 gap-2">
               {sale.products.map((product) => (
-                <div
+                <Link
+                  href={`/product/${product.productId}`}
                   key={product.id}
-                  className="border rounded-lg p-3 space-y-2"
+                  target="_blank"
+                  rel="noopener noreferrer"
                 >
-                  <div className="flex items-start gap-3">
-                    {product.images.length > 0 && (
-                      <Image
-                        src={product.images[0] || "/placeholder.svg"}
-                        alt={product.name}
-                        className="object-cover rounded my-auto"
-                        width={64}
-                        height={64}
-                      />
-                    )}
-                    <div className="flex-1">
-                      <h5 className="font-medium">{product.name}</h5>
-                      <div className="grid grid-cols-1  text-sm text-muted-foreground">
-                        <div>Cantidad: {product.quantity}</div>
-                        <div>
-                          Precio:{" "}
-                          {currencyFormat(
-                            convertFromMilliunits(product.revenue)
+                  <div
+                    key={product.id}
+                    className="border rounded-lg p-3 space-y-2"
+                  >
+                    <div className="flex items-start gap-3">
+                      {product.images.length > 0 && (
+                        <Image
+                          src={product.images[0] || "/placeholder.svg"}
+                          alt={product.name}
+                          className="object-cover rounded my-auto"
+                          width={64}
+                          height={64}
+                        />
+                      )}
+                      <div className="flex-1">
+                        <h5 className="font-medium">{product.name}</h5>
+                        <div className="grid grid-cols-1  text-sm text-muted-foreground">
+                          <div>Cantidad: {product.quantity}</div>
+                          <div>
+                            Precio:{" "}
+                            {currencyFormat(
+                              convertFromMilliunits(product.revenue)
+                            )}
+                          </div>
+                          {isAdmin && (
+                            <>
+                              <div>
+                                Costo:{" "}
+                                {currencyFormat(
+                                  convertFromMilliunits(product.cost)
+                                )}
+                              </div>
+                              {/* <div>ID: {product.productId.slice(0, 8)}...</div> */}
+                            </>
                           )}
                         </div>
-                        {isAdmin && (
-                          <>
-                            <div>
-                              Costo:{" "}
-                              {currencyFormat(
-                                convertFromMilliunits(product.cost)
-                              )}
-                            </div>
-                            {/* <div>ID: {product.productId.slice(0, 8)}...</div> */}
-                          </>
-                        )}
                       </div>
                     </div>
                   </div>
-                </div>
+                </Link>
               ))}
             </div>
           </div>
