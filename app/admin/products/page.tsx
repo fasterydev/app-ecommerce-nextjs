@@ -49,6 +49,7 @@ export default function ProductsAdmin() {
             <TableRow>
               <TableHead>Nombre</TableHead>
               <TableHead>Marca</TableHead>
+              <TableHead>Categoría</TableHead>
               <TableHead>Stock</TableHead>
               <TableHead>Estado</TableHead>
               <TableHead>Acciones</TableHead>
@@ -73,6 +74,14 @@ export default function ProductsAdmin() {
                     className={`px-2 py-0.5 flex items-center gap-1`}
                   >
                     {product?.brand ? product.brand.name : "Sin marca"}
+                  </Badge>
+                </TableCell>
+                <TableCell className="font-medium">
+                  <Badge
+                    variant="outline"
+                    className={`px-2 py-0.5 flex items-center gap-1`}
+                  >
+                    {product?.category ? product.category.name : "Sin categoría"}
                   </Badge>
                 </TableCell>
                 <TableCell className="font-medium">

@@ -19,8 +19,8 @@ export interface Product {
   quantity?: number;
   brand?: Brand;
   brandId?: string | null;
+  categoryId?: string | null;
   rating: number;
-  subName: string;
   status: "draft" | "published" | "archived";
   images: string[];
   cost: number;

@@ -1,9 +1,8 @@
 "use client";
-
 import type React from "react";
 import { useState } from "react";
 import Image from "next/image";
-import { Upload, X, Save, ImageIcon, DollarSignIcon } from "lucide-react";
+import { Upload, X, Save, ImageIcon, DollarSignIcon, PackageIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -45,7 +44,8 @@ export default function ProductForm({
 
   const [formData, setFormData] = useState<Partial<Product>>({
     name: product?.name || "",
-    brandId: product?.brandId,
+    brandId: product?.brand?.id || null,
+    categoryId: product?.category?.id || null,
     description: product?.description || "",
     images: product?.images || [],
     isNew: product?.isNew || false,
@@ -55,6 +55,7 @@ export default function ProductForm({
     revenue: product?.revenue || 0,
     htmlContent: product?.htmlContent || "",
     status: product?.status || "draft",
+    stock: product?.stock || 0,
     ...(product?.id && { id: product.id }),
   });
 
@@ -132,7 +133,7 @@ export default function ProductForm({
       newErrors.description = "La descripción es requerida";
     if (!formData.sku || !formData.sku.trim())
       newErrors.sku = "El SKU es requerido";
-    // if (!formData.brandId) newErrors.brandId = "La marca es requerida";
+    if (!formData.brandId) newErrors.brandId = "La marca es requerida";
     if (formData.isNew === undefined)
       newErrors.isNew = "El estado es requerido";
     if (formData.isBestSeller === undefined)
@@ -141,6 +142,8 @@ export default function ProductForm({
       newErrors.cost = "El costo debe ser mayor a 0";
     if (formData.revenue === undefined || formData.revenue <= 0)
       newErrors.revenue = "La ganancia debe ser mayor a 0";
+    if (formData.stock === undefined || formData.stock < 0)
+      newErrors.stock = "El stock debe ser mayor o igual a 0";
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -342,7 +345,28 @@ export default function ProductForm({
                     </p>
                   )}
                 </div>
-                <div className="grid md:grid-cols-3 gap-4">
+                <div className="grid md:grid-cols-4 gap-4">
+                  <div className="grid gap-1.5">
+                    <Label htmlFor="stock">Stock *</Label>
+                    <AmountInput
+                      id="stock"
+                      Icon={PackageIcon}
+                      decimalScale={0}
+                      decimalsLimit={0}
+                      defaultValue={
+                        isEditing
+                          ? formData.stock
+                          : formData.stock
+                      }
+                      onValueChange={(value) =>
+                        handleInputChange("stock", Number(value) )
+                      }
+                      className={errors.stock ? "border-red-500" : ""}
+                    />
+                    {errors.stock && (
+                      <p className="text-sm text-red-500 mt-1">{errors.stock}</p>
+                    )}
+                  </div>
                   <div className="grid gap-1.5">
                     <Label htmlFor="cost">Costo *</Label>
                     <AmountInput
@@ -386,6 +410,12 @@ export default function ProductForm({
                 </div>
               </CardContent>
             </Card>
+            <pre>
+              <code className="text-sm">{JSON.stringify(formData, null, 2)}</code>
+            </pre>
+            <pre>
+              <code className="text-sm">{JSON.stringify(product, null, 2)}</code>
+            </pre>
             <div className="m-auto">
               <HtmlEditor
                 defaultValue={defaultHtmlContent}

@@ -36,7 +36,6 @@ export const addFavorite = async (id: string) => {
     }
 
     const resData = await response.json();
-    console.log("Favorito añadido:", resData);
 
     return {
       statusCode: response.status,

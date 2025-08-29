@@ -6,7 +6,6 @@ type ShoppingCartItem = {
   quantity: number;
 };
 export const createSale = async (shoppingCartItem: ShoppingCartItem[]) => {
-  console.log("Creating sale with items:", shoppingCartItem);
   try {
     const { getToken } = await auth();
     const token = await getToken();

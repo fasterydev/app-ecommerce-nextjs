@@ -6,6 +6,8 @@ import { LucideProps } from "lucide-react";
 import { ForwardRefExoticComponent, RefAttributes } from "react";
 type Props = {
   id?: string | undefined;
+  decimalsLimit?: number ;
+  decimalScale?: number ;
   defaultValue?: string | number | undefined;
   value?: string | number | readonly string[] | undefined;
   onValueChange?: (
@@ -25,6 +27,8 @@ export const AmountInput = ({
   id,
   defaultValue,
   value,
+  decimalsLimit = 2,
+  decimalScale = 2,
   onValueChange,
   placeholder,
   disabled,
@@ -47,8 +51,8 @@ export const AmountInput = ({
         placeholder={placeholder}
         value={value}
         defaultValue={defaultValue}
-        decimalsLimit={2}
-        decimalScale={2}
+        decimalsLimit={decimalsLimit}
+        decimalScale={decimalScale}
         onValueChange={onValueChange}
         disabled={disabled}
         allowDecimals={true}

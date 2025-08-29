@@ -137,9 +137,11 @@ export function HtmlEditor({
         style={{ cursor: "text" }}
         data-placeholder={placeholder}
       />
-      <pre>
+      <div className="hidden">
+        <pre>
         <code className="text-sm">{html}</code>
       </pre>
+      </div>
     </div>
   );
 }
