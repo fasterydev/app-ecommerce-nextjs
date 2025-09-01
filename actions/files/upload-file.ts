@@ -3,7 +3,7 @@ export const uploadFile = async (file: File) => {
     const formData = new FormData();
     formData.append("file", file);
     const response = await fetch(
-      `https://api.nexus.fastery.dev/api/files/uploadToFolder/nextjs-ecommerce-template`,
+      `https://api.nexus.fastery.dev/api/files/uploadToFolder/prod-ecommerce-cabellosdelsol`,
       {
         method: "POST",
         body: formData,
