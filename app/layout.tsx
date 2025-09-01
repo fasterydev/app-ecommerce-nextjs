@@ -29,21 +29,6 @@ export const metadata: Metadata = {
     "User Authentication",
     "Server Actions",
   ],
-  openGraph: {
-    title: "Fastery Shop Template",
-    description: "A simple ecommerce template built with Next.js and Clerk",
-    url: "https://fastery-shop-template.vercel.app",
-    siteName: "Fastery Shop Template",
-    images: [
-      {
-        url: "https://fastery-shop-template.vercel.app/og-image.png",
-        width: 1200,
-        height: 630,
-      },
-    ],
-    locale: "es_MX",
-    type: "website",
-  },
 };
 
 export default function RootLayout({
