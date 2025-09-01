@@ -46,7 +46,7 @@ const data = {
     },
     {
       title: "Reseñas",
-      url: "/admin/reviews",
+      url: "/admin/sales",
       icon: StarIcon,
     },
     {
@@ -56,7 +56,7 @@ const data = {
     },
     {
       title: "Usuarios",
-      url: "/admin/users",
+      url: "/admin/sales",
       icon: UserIcon,
     },
   ],
