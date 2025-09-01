@@ -38,7 +38,7 @@ export default function SalesPage() {
           <span className="font-medium ">Mis Pedidos</span>
         </div> */}
 
-        <div className="mb-8">
+        <div className="mb-4">
           <h1 className="mb-2 text-2xl font-semibold sm:text-3xl">
             Mis Pedidos
           </h1>
@@ -48,7 +48,7 @@ export default function SalesPage() {
         </div>
         {/* Desktop Table */}
 
-        <div className="hidden md:block">
+        <div className="hidden md:block overflow-hidden rounded-lg border">
           <Table>
             <TableHeader className="bg-muted">
               <TableRow>
