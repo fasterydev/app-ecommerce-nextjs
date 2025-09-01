@@ -14,10 +14,6 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Link from "next/link";
 import { LogoTheme } from "@/components/shared/logo-theme";
-import {
-  ShieldIcon,
-  User2Icon,
-} from "lucide-react";
 
 export default function SignInPage() {
   return (
@@ -113,7 +109,6 @@ export default function SignInPage() {
                         </Clerk.Label>
                         <Clerk.Input
                           type="email"
-                          value={"user@fastery.dev"}
                           required
                           asChild
                         >
@@ -217,7 +212,6 @@ export default function SignInPage() {
                           </Clerk.Label>
                           <Clerk.Input
                             type="password"
-                            value={"user@fastery.dev"}
                             asChild
                           >
                             <Input />
@@ -338,32 +332,6 @@ export default function SignInPage() {
             )}
           </Clerk.Loading>
         </SignIn.Root>
-        <Card className="p-4 text-xs hidden gap-1.5 ">
-          <div className="flex items-center mx-auto gap-2">
-            <User2Icon size={15} />
-            <div>Usuario de Prueba</div>
-          </div>
-          <div className="justify-between flex items-center gap-2">
-            <div>Correo:</div>
-            <div className="text-muted-foreground">user@fastery.dev</div>
-          </div>
-          <div className="justify-between flex items-center gap-2">
-            <div>Contraseña:</div>
-            <div className="text-muted-foreground">Abc123</div>
-          </div>
-          <div className="flex items-center mx-auto gap-2">
-            <ShieldIcon size={15} />
-            <div>Usuario Administrador</div>
-          </div>
-          <div className="justify-between flex items-center gap-2">
-            <div>Correo:</div>
-            <div className="text-muted-foreground">admin@fastery.dev</div>
-          </div>
-          <div className="justify-between flex items-center gap-2">
-            <div>Contraseña:</div>
-            <div className="text-muted-foreground">Abc123</div>
-          </div>
-        </Card>
       </div>
     </div>
   );
