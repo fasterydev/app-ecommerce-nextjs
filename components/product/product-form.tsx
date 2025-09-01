@@ -428,7 +428,7 @@ export default function ProductForm({
                 </div>
               </CardContent>
             </Card>
-            <pre>
+            {/* <pre>
               <code className="text-sm">
                 {JSON.stringify(formData, null, 2)}
               </code>
@@ -437,7 +437,7 @@ export default function ProductForm({
               <code className="text-sm">
                 {JSON.stringify(product, null, 2)}
               </code>
-            </pre>
+            </pre> */}
             <div className="m-auto">
               <HtmlEditor
                 defaultValue={defaultHtmlContent}
