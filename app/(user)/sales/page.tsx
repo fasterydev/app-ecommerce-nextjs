@@ -126,6 +126,14 @@ export default function SalesPage() {
                       {currencyFormat(convertFromMilliunits(sale.total))}
                     </span>
                   </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm font-medium text-muted-foreground">
+                      Detalles:
+                    </span>
+                    <span>
+                      <DetailsProduct sale={sale} mode={"view"} />
+                    </span>
+                  </div>
                 </div>
               </CardContent>
             </Card>

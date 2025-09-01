@@ -150,7 +150,7 @@ export const useCartStore = create<CartStore>((set, get) => ({
         quantity: Number(item.quantity),
       }));
       const res = await createSale(itemsSale);
-      console.log("Respuesta de crear venta:", res);
+      await get().fetchCart();
       toast.success(res.message || "Venta creada exitosamente");
     } catch (err) {
       console.error("Error al crear la venta:", err);
