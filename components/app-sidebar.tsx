@@ -9,11 +9,18 @@ import {
   SidebarFooter,
   SidebarHeader,
   SidebarMenu,
-  SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import { ListTodoIcon, PackageIcon, SettingsIcon, TagIcon, UserIcon } from "lucide-react";
+import {
+  ListTodoIcon,
+  PackageIcon,
+  SettingsIcon,
+  StarIcon,
+  TagIcon,
+  UserIcon,
+} from "lucide-react";
 import { LogoTheme } from "./shared/logo-theme";
+import Link from "next/link";
 
 const data = {
   user: {
@@ -36,6 +43,11 @@ const data = {
       title: "Marcas",
       url: "/admin/brands",
       icon: TagIcon,
+    },
+    {
+      title: "Reseñas",
+      url: "/admin/reviews",
+      icon: StarIcon,
     },
     {
       title: "Pedidos",
@@ -68,14 +80,9 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
-            <SidebarMenuButton
-              asChild
-              className="data-[slot=sidebar-menu-button]:!p-1.5"
-            >
-              <a href="/admin/products">
-                <LogoTheme />
-              </a>
-            </SidebarMenuButton>
+            <Link className="mx-auto" href="/admin/products">
+              <LogoTheme />
+            </Link>
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarHeader>

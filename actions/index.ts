@@ -30,3 +30,6 @@ export * from "./brands/delete-brand";
 export * from "./brands/update-brand";
 // FILES
 export * from "./files/upload-file";
+// AUTH
+export * from "./user/get-data-user";
+export * from "./user/update-user";

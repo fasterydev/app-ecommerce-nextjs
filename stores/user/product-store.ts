@@ -1,6 +1,7 @@
 import { create } from "zustand";
-import { getProducts } from "@/actions";
+import { createProduct, getProducts } from "@/actions";
 import { Product } from "@/components/product/interface";
+import { toast } from "sonner";
 
 type ProductStore = {
   products: Product[];
@@ -8,6 +9,7 @@ type ProductStore = {
 
   fetchProducts: () => Promise<void>;
   setProducts: (items: Product[]) => void;
+  createProduct: (product: Partial<Product>) => Promise<void>;
 };
 
 export const useProductStore = create<ProductStore>((set) => ({
@@ -29,4 +31,20 @@ export const useProductStore = create<ProductStore>((set) => ({
       set({ isLoading: false });
     }
   },
+
+  createProduct: async (product: Partial<Product>) => {
+    set({ isLoading: true });
+    try {
+      const res = await createProduct(product);
+      if (res.statusCode === 201) {
+        await useProductStore.getState().fetchProducts();
+      }
+    } catch (err) {
+      toast.error("Error al crear el producto");
+      console.error("Error al crear el producto:", err);
+    } finally {
+      set({ isLoading: false });
+    }
+  },
+
 }));

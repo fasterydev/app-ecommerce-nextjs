@@ -1,31 +1,26 @@
 "use client";
-import { createProduct } from "@/actions";
 import { Product } from "@/components/product/interface";
 import ProductForm from "@/components/product/product-form";
+import { useProductStore } from "@/stores/user/product-store";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { toast } from "sonner";
 
 export default function CreateProductPage() {
   const router = useRouter();
   const [editingProduct] = useState<Product | undefined>();
+  const { createProduct } = useProductStore();
 
   const handleSave = async (product: Partial<Product>) => {
     try {
-      const res = await createProduct(product);
-      if (res.statusCode === 201) {
-        toast.success(res.message);
-        router.push("/admin/products");
-      } else {
-        toast.error(res.message);
-      }
+      await createProduct(product);
+      router.push("/admin/products");
     } catch (error) {
       console.error("Error creating product:", error);
     }
   };
 
   const handleCancel = () => {
-    router.push("/admin/products");
+    router.replace("/admin/products");
   };
 
   return (

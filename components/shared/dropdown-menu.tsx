@@ -51,7 +51,7 @@ export function DropdownMenuHome() {
         {isLoaded ? (
           <Button className="text-sm items-center text-center my-auto relative">
             <UserCircleIcon />
-            <div>{user.firstName}</div>
+            {user.firstName ? user.firstName : null}
           </Button>
         ) : (
           <Button disabled className="text-sm items-center">

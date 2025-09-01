@@ -21,7 +21,7 @@ const MosaicCategory = () => {
           image="/home/wella-2-bw.jpg"
           align="center"
           fullHeight
-          link="#"
+          link="/shop"
         />
       </div>
       <div className="lg:row-span-2 h-full">
@@ -30,20 +30,20 @@ const MosaicCategory = () => {
           image="/home/wella-2-bw.jpg"
           align="center"
           fullHeight
-          link="#"
+          link="/shop"
         />
       </div>
       <CategoryCard
         label={categories[2]?.name || ""}
         image="/home/wella-2-bw.jpg"
         align="center"
-        link="#"
+        link="/shop"
       />
       <CategoryCard
         label={categories[3]?.name || ""}
         image="/home/wella-2-bw.jpg"
         align="center"
-        link="#"
+        link="/shop"
       />
     </div>
   );
