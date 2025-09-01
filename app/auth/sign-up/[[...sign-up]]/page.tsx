@@ -36,7 +36,7 @@ export default function SignUpPage() {
                     </CardHeader>
                     <CardContent className="grid gap-y-4">
                       <div className="grid grid-cols-3 gap-x-4">
-                        <Clerk.Connection name="apple" asChild>
+                        {/* <Clerk.Connection name="apple" asChild>
                           <Button
                             size="sm"
                             variant="outline"
@@ -46,11 +46,9 @@ export default function SignUpPage() {
                             <Clerk.Loading scope="provider:apple">
                               {(isLoading) =>
                                 isLoading ? (
-                                  // <Icons.spinner className="size-4 animate-spin" />
                                   <div>Cargando</div>
                                 ) : (
                                   <>
-                                    {/* <Icons.gitHub className="mr-2 size-4" /> */}
                                     Apple
                                   </>
                                 )
@@ -68,11 +66,9 @@ export default function SignUpPage() {
                             <Clerk.Loading scope="provider:google">
                               {(isLoading) =>
                                 isLoading ? (
-                                  // <Icons.spinner className="size-4 animate-spin" />
                                   <div>Cargando</div>
                                 ) : (
                                   <>
-                                    {/* <Icons.google className="mr-2 size-4" /> */}
                                     Google
                                   </>
                                 )
@@ -90,18 +86,16 @@ export default function SignUpPage() {
                             <Clerk.Loading scope="provider:facebook">
                               {(isLoading) =>
                                 isLoading ? (
-                                  // <Icons.spinner className="size-4 animate-spin" />
                                   <div>Cargando</div>
                                 ) : (
                                   <>
-                                    {/* <Icons.google className="mr-2 size-4" /> */}
                                     Facebook
                                   </>
                                 )
                               }
                             </Clerk.Loading>
                           </Button>
-                        </Clerk.Connection>
+                        </Clerk.Connection> */}
                       </div>
                       <p className="flex items-center gap-x-3 text-sm text-muted-foreground before:h-px before:flex-1 before:bg-border after:h-px after:flex-1 after:bg-border">
                         ó

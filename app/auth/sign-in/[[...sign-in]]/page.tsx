@@ -15,12 +15,9 @@ import { Label } from "@/components/ui/label";
 import Link from "next/link";
 import { LogoTheme } from "@/components/shared/logo-theme";
 import {
-  FacebookIcon,
-  LoaderCircleIcon,
   ShieldIcon,
   User2Icon,
 } from "lucide-react";
-import { Icons } from "@/components/icons";
 
 export default function SignInPage() {
   return (
@@ -42,7 +39,7 @@ export default function SignInPage() {
                     </CardHeader>
 
                     <CardContent className="grid gap-y-4">
-                      <div className="grid grid-cols-3 gap-x-4">
+                      {/* <div className="grid grid-cols-3 gap-x-4">
                         <Clerk.Connection name="apple" asChild>
                           <Button
                             size="sm"
@@ -106,7 +103,7 @@ export default function SignInPage() {
                             </Clerk.Loading>
                           </Button>
                         </Clerk.Connection>
-                      </div>
+                      </div> */}
                       <p className="flex items-center gap-x-3 text-sm text-muted-foreground before:h-px before:flex-1 before:bg-border after:h-px after:flex-1 after:bg-border">
                         ó
                       </p>
