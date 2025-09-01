@@ -32,7 +32,6 @@ export default function FavoritesPage() {
             ))}
         </div>
       </div>
-      <pre>{JSON.stringify(favorites, null, 2)}</pre>
     </main>
   );
 }
