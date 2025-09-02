@@ -37,7 +37,7 @@ const Footer = () => {
             {/* TELEFONO */}
             <div className="flex items-center">
               <PhoneIcon size={18} className="mr-2" />
-              <div>(+593) 098-006-1377</div>
+              <div>098 306 0927</div>
             </div>
           </div>
         </div>

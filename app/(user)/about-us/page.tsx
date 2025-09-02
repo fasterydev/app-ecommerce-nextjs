@@ -1,5 +1,4 @@
 "use client";
-
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -19,6 +18,7 @@ import {
   Zap,
 } from "lucide-react";
 import Image from "next/image";
+import WhatsappButton from "@/components/shared/whatsapp-button";
 
 export default function QuienesSomosPage() {
   const stats = [
@@ -88,22 +88,48 @@ export default function QuienesSomosPage() {
       {/* Main Content */}
       <main className="flex-1">
         {/* Hero Section */}
-        <section className=" py-16">
-          <div className="container mx-auto px-4 text-center">
-            <Badge className="mb-4 bg-blue-100 text-blue-700 hover:bg-blue-100">
-              Desde 2019
-            </Badge>
-            <h1 className="mb-6 text-4xl font-bold tracking-tight sm:text-5xl">
-              Somos <span className="text-primary">Shop Fastery</span>
-            </h1>
-            <p className="mx-auto mb-8 max-w-2xl text-lg ">
-              Tu tienda online de confianza. Ofrecemos productos de calidad con
-              entregas rápidas y un servicio excepcional.
-            </p>
-            <Button size="lg" className="gap-2">
-              <Mail className="h-5 w-5" />
-              Contáctanos
-            </Button>
+        <section className="py-8">
+          <div className="container mx-auto px-4 grid grid-cols-1 md:grid-cols-2 items-center gap-8">
+            {/* Texto + Logo */}
+            <div className="flex flex-col items-center text-center md:items-start md:text-left">
+              <Badge className="mb-4 bg-blue-100 text-blue-700 hover:bg-blue-100">
+                Desde 2020
+              </Badge>
+
+              <div className="flex justify-center md:justify-start mb-6">
+                <Image
+                  src="/logo-color-webp.webp"
+                  alt="logo-color-webp"
+                  width={300}
+                  height={300}
+                />
+              </div>
+
+              <p className="mb-2 max-w-xl text-lg text-justify">
+                En Cabellos del Sol nos apasiona realzar tu belleza y cuidado
+                personal. Por eso, te ofrecemos una experiencia de compra en
+                línea fácil, segura y cercana, con una selección de productos de
+                la más alta calidad.
+              </p>
+              <p className="mb-8 max-w-xl text-lg text-justify">
+                Nuestro compromiso es brindarte un servicio al cliente cálido y
+                confiable, porque sabemos que cada detalle cuenta a la hora de
+                sentirte y verte bien.
+              </p>
+
+              <WhatsappButton>Contáctanos</WhatsappButton>
+            </div>
+
+            {/* Imagen */}
+            <div className="flex justify-center md:justify-end ">
+              <Image
+                src="/home-1.webp"
+                alt="home"
+                width={400}
+                height={400}
+                className="rounded-2xl shadow-lg"
+              />
+            </div>
           </div>
         </section>
 
@@ -301,9 +327,9 @@ export default function QuienesSomosPage() {
                     <Phone className="mx-auto mb-3 h-8 w-8 text-green-600" />
                     <h3 className="mb-2 font-semibold">Teléfono</h3>
                     <p className="text-sm ">
-                      +34 900 123 456
+                      0983060927
                       <br />
-                      Lun-Vie: 9:00 - 18:00
+                      Lun-Dom: 10:00 - 21:00
                     </p>
                   </CardContent>
                 </Card>

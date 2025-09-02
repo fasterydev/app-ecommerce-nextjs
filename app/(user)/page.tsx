@@ -18,7 +18,7 @@ export default function Home() {
       {/* <NewsLetter /> */}
       <Information />
       <a
-        href="https://wa.me/593980061377"
+        href="https://wa.me/593983060927"
         target="_blank"
         rel="noopener noreferrer"
         className="fixed bottom-4 right-4 z-50 bg-green-500 hover:bg-green-600 text-white p-3 rounded-full shadow-lg transition-colors duration-300"

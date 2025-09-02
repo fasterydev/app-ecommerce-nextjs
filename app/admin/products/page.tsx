@@ -29,7 +29,7 @@ export default function ProductsAdmin() {
     <div>
       <div className="flex items-center justify-between mb-4">
         <div>
-          <h1 className="text-xl font-semibold">Productos</h1>
+          <h1 className="text-xl font-semibold">Inventario</h1>
           <p className="text-sm text-muted-foreground">
             Aquí puedes ver y administrar los productos disponibles en la
             tienda.

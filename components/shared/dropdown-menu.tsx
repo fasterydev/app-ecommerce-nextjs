@@ -3,7 +3,7 @@ import {
   LayoutIcon,
   LifeBuoy,
   LoaderCircleIcon,
-  LogOut,
+  LogOutIcon,
   ShoppingBagIcon,
   User,
   UserCircleIcon,
@@ -89,7 +89,7 @@ export function DropdownMenuHome() {
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem onClick={() => signOut()}>
-          <LogOut />
+          <LogOutIcon />
           <span>Cerrar sesión</span>
         </DropdownMenuItem>
       </DropdownMenuContent>

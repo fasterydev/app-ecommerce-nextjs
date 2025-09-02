@@ -30,7 +30,7 @@ const data = {
   },
   navMain: [
     {
-      title: "Productos",
+      title: "Inventario",
       url: "/admin/products",
       icon: PackageIcon,
     },
@@ -91,7 +91,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <NavSecondary items={data.navSecondary} className="mt-auto" />
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={data.user} />
+        <NavUser />
       </SidebarFooter>
     </Sidebar>
   );
