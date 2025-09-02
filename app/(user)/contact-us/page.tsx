@@ -41,10 +41,10 @@ export default function ContactUs() {
                   <CardDescription>Atención personalizada</CardDescription>
                 </CardHeader>
                 <CardContent className="text-center">
-                  <p className="mb-4 text-lg font-medium">+34 900 123 456</p>
+                  <p className="mb-4 text-lg font-medium">0983060927</p>
                   <div className="flex items-center justify-center gap-2 text-sm text-gray-500">
                     <Clock className="h-4 w-4" />
-                    <span>Lun-Vie: 9:00 - 18:00</span>
+                    <span>Lun-Dom: 10:00 - 21:00</span>
                   </div>
                 </CardContent>
               </Card>
@@ -59,7 +59,7 @@ export default function ContactUs() {
                 </CardHeader>
                 <CardContent className="text-center">
                   <p className="mb-4 text-lg font-medium">
-                    soporte@mitienda.com
+                    info@cabellosdelsol.com
                   </p>
                   <p className="text-sm text-gray-500">
                     Escríbenos en cualquier momento

@@ -85,10 +85,10 @@ export default function SoportePage() {
                   <CardDescription>Atención personalizada</CardDescription>
                 </CardHeader>
                 <CardContent className="text-center">
-                  <p className="mb-4 text-lg font-medium">+34 900 123 456</p>
+                  <p className="mb-4 text-lg font-medium">0983060927</p>
                   <div className="flex items-center justify-center gap-2 text-sm text-gray-500">
                     <Clock className="h-4 w-4" />
-                    <span>Lun-Vie: 9:00 - 18:00</span>
+                    <span>Lun-Vie: 10:00 a 21:00</span>
                   </div>
                 </CardContent>
               </Card>
@@ -103,7 +103,7 @@ export default function SoportePage() {
                 </CardHeader>
                 <CardContent className="text-center">
                   <p className="mb-4 text-lg font-medium">
-                    soporte@mitienda.com
+                    info@cabellosdelsol.com
                   </p>
                   <p className="text-sm text-gray-500">
                     Escríbenos en cualquier momento
@@ -122,7 +122,7 @@ export default function SoportePage() {
                 <CardContent className="text-center">
                   <Button className="mb-4 w-full">Iniciar Chat</Button>
                   <p className="text-sm text-gray-500">
-                    Disponible de 9:00 a 22:00
+                    Disponible de 10:00 a 21:00
                   </p>
                 </CardContent>
               </Card>

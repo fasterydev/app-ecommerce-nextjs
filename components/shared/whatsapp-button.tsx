@@ -11,7 +11,7 @@ type Props = {
 };
 
 export default function WhatsappButton({
-  phone = "593980061377", // cambia por tu número
+  phone = "593983060927", // cambia por tu número
   message = "Hola! Estoy interesado en comprar.",
   className = "",
   children,
