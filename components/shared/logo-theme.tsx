@@ -22,8 +22,8 @@ export function LogoTheme() {
       {isDarkMode && (
         <div className="flex font-semibold text-lg space-x-1 my-auto">
           <Image
-            src="/logo-color-webp.webp"
-            alt="logo-color-webp"
+            src="/logo-light.webp"
+            alt="logo-light.webp"
             width={150}
             height={150}
           />
@@ -32,8 +32,8 @@ export function LogoTheme() {
       {isLightMode && (
         <div className="flex font-semibold text-lg space-x-1 my-auto">
           <Image
-            src="/logo-color-webp.webp"
-            alt="logo-color-webp"
+            src="/logo-dark.webp"
+            alt="logo-dark.webp"
             width={150}
             height={150}
           />
