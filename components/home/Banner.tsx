@@ -3,7 +3,7 @@ import React from "react";
 import { assets } from "@/assets/assets";
 import Image from "next/image";
 import { Button } from "../ui/button";
-import { ArrowRightIcon } from "lucide-react";
+import {ChevronRightIcon } from "lucide-react";
 
 const Banner = () => {
   return (
@@ -15,15 +15,14 @@ const Banner = () => {
       />
       <div className="flex flex-col items-center justify-center text-center space-y-2 px-4 md:px-0">
         <h2 className="text-2xl md:text-3xl font-semibold max-w-[290px]">
-          Mejora tu experiencia de juego
+          Transforma tu cabello con brillo solar
         </h2>
         <p className="max-w-[343px] font-medium text-muted-foreground">
-          Desde un sonido envolvente hasta controles precisos: todo lo que
-          necesitas para ganar
+          Producto y servicios profesionales para el cuidado del cabello.
         </p>
-        <Button className="group flex items-center justify-center gap-1 px-12 py-2.5 bg-primary">
-          <div>Comprar ahora</div>
-          <ArrowRightIcon />
+        <Button className="bg-primary">
+          Reserva tu cita
+          <ChevronRightIcon />
         </Button>
       </div>
       <Image
