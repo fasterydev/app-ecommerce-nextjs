@@ -1,7 +1,6 @@
 import {
   HeartIcon,
   LayoutIcon,
-  LifeBuoy,
   LoaderCircleIcon,
   LogOutIcon,
   ShoppingBagIcon,
@@ -82,11 +81,11 @@ export function DropdownMenuHome() {
             <span>Favoritos</span>
           </DropdownMenuItem>
         </DropdownMenuGroup>
-        <DropdownMenuSeparator />
+        {/* <DropdownMenuSeparator />
         <DropdownMenuItem onClick={() => router.push("/support")}>
           <LifeBuoy />
           <span>Soporte</span>
-        </DropdownMenuItem>
+        </DropdownMenuItem> */}
         <DropdownMenuSeparator />
         <DropdownMenuItem onClick={() => signOut()}>
           <LogOutIcon />

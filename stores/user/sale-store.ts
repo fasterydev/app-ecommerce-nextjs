@@ -3,8 +3,6 @@ import { deleteSale, getSales } from "@/actions";
 import { Sale } from "@/components/sale/interface";
 // import { toast } from "sonner";
 
-
-
 type SaleStore = {
   sales: Sale[];
   isLoading: boolean;
@@ -25,10 +23,13 @@ export const useSaleStore = create<SaleStore>((set, get) => ({
     try {
       const res = await getSales();
       if (res.statusCode === 200) {
-        get().setSales(res.sales);
+        get().setSales(Array.isArray(res.sales) ? res.sales : []);
+      } else {
+        get().setSales([]);
       }
     } catch (err) {
       console.error("Error al obtener las ventas:", err);
+      set({ sales: [] });
     } finally {
       set({ isLoading: false });
     }
