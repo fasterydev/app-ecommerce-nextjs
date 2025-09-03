@@ -10,9 +10,10 @@ type ProductStore = {
   fetchProducts: () => Promise<void>;
   setProducts: (items: Product[]) => void;
   createProduct: (product: Partial<Product>) => Promise<void>;
+  getProductId: (id: string) => Product | undefined;
 };
 
-export const useProductStore = create<ProductStore>((set) => ({
+export const useProductStore = create<ProductStore>((set, get) => ({
   products: [],
   isLoading: false,
 
@@ -47,4 +48,8 @@ export const useProductStore = create<ProductStore>((set) => ({
     }
   },
 
+  getProductId: (id: string) => {
+    const state = get();
+    return state.products.find((product) => product.id === id);
+  },
 }));
