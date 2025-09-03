@@ -8,7 +8,6 @@ import {
   Target,
   Heart,
   Award,
-  Globe,
   Truck,
   Shield,
   Star,
@@ -16,6 +15,7 @@ import {
   Phone,
   Mail,
   Zap,
+  StarIcon,
 } from "lucide-react";
 import Image from "next/image";
 import WhatsappButton from "@/components/shared/whatsapp-button";
@@ -34,7 +34,7 @@ export default function QuienesSomosPage() {
       value: "100,000+",
       color: "text-green-600",
     },
-    { icon: Globe, label: "Países", value: "15+", color: "text-purple-600" },
+    { icon: StarIcon, label: "Reseñas", value: "4.6", color: "text-yellow-600" },
     { icon: Award, label: "Años", value: "5+", color: "text-orange-600" },
   ];
 
@@ -228,11 +228,11 @@ export default function QuienesSomosPage() {
         </section>
 
         {/* Equipo */}
-        <section className=" py-12">
+        <section className=" py-12 hidden">
           <div className="container mx-auto px-4">
             <div className="mx-auto mb-12 max-w-2xl text-center">
               <h2 className="mb-4 text-3xl font-bold">Nuestro Equipo</h2>
-              <p className="">Las personas que hacen posible Shop Fastery</p>
+              <p className="">Las personas que hacen posible Cabellos del Sol</p>
             </div>
 
             <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
@@ -267,7 +267,7 @@ export default function QuienesSomosPage() {
         </section>
 
         {/* Historia Simple */}
-        <section className=" py-12">
+        <section className=" py-12 hidden">
           <div className="container mx-auto px-4">
             <div className="mx-auto max-w-3xl text-center">
               <h2 className="mb-6 text-3xl font-bold">Nuestra Historia</h2>
@@ -277,7 +277,7 @@ export default function QuienesSomosPage() {
                     2019 - Inicio
                   </h3>
                   <p className="text-blue-700">
-                    Fundamos Shop Fastery con la visión de simplificar las
+                    Fundamos Cabellos del Sol con la visión de simplificar las
                     compras online.
                   </p>
                 </div>
