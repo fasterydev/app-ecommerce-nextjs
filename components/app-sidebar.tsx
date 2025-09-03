@@ -15,7 +15,6 @@ import {
   ListTodoIcon,
   PackageIcon,
   SettingsIcon,
-  StarIcon,
   TagIcon,
   UserIcon,
 } from "lucide-react";
@@ -44,11 +43,11 @@ const data = {
       url: "/admin/brands",
       icon: TagIcon,
     },
-    {
-      title: "Reseñas",
-      url: "/admin/sales",
-      icon: StarIcon,
-    },
+    // {
+    //   title: "Reseñas",
+    //   url: "/admin/sales",
+    //   icon: StarIcon,
+    // },
     {
       title: "Pedidos",
       url: "/admin/sales",

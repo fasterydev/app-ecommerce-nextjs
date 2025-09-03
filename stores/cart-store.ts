@@ -38,10 +38,17 @@ export const useCartStore = create<CartStore>((set, get) => ({
     try {
       const res = await getShoppingCart();
       if (res.statusCode === 200) {
-        set({ cartItems: res.shoppingCart.items });
+        set({
+          cartItems: Array.isArray(res.shoppingCart?.items)
+            ? res.shoppingCart.items
+            : [],
+        });
+      } else {
+        set({ cartItems: [] });
       }
     } catch (err) {
       console.error("Error al obtener el carrito:", err);
+      set({ cartItems: [] });
     } finally {
       set({ isLoading: false });
     }

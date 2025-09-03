@@ -3,7 +3,7 @@ import React from "react";
 import { assets } from "@/assets/assets";
 import Image from "next/image";
 import { Button } from "../ui/button";
-import {ChevronRightIcon } from "lucide-react";
+import { ChevronRightIcon } from "lucide-react";
 
 const Banner = () => {
   return (
