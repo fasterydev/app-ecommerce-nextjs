@@ -22,50 +22,62 @@ import ProductCard from "./product-card";
 
 interface ProductIdViewProps {
   productId?: string;
+  product?: Product;
 }
 
-export default function ProductIdView({ productId }: ProductIdViewProps) {
-  const [product, setProduct] = useState<Product | undefined>();
-  const [mainImage, setMainImage] = useState<string | undefined>();
+export default function ProductIdView({
+  productId,
+  product,
+}: ProductIdViewProps) {
+  const [mainImage, setMainImage] = useState<string>();
   const [randomProducts, setRandomProducts] = useState<Product[]>([]);
+  const [currentProduct, setCurrentProduct] = useState<Product>();
 
   const { getProductsRandom, fetchProducts, getProductId } = useProductStore();
 
   useEffect(() => {
-    async function loadProducts() {
+    async function loadData() {
+      // Siempre cargamos productos random
       await fetchProducts();
+      setRandomProducts(getProductsRandom(5));
 
-      // set product específico
+      // Lógica para producto actual
       if (productId) {
         const prod = getProductId(productId);
-        setProduct(prod);
+        setCurrentProduct(prod);
         setMainImage(prod?.images?.[0]);
+      } else if (product) {
+        setCurrentProduct(product);
+        setMainImage(product.images?.[0]);
+      } else {
+        // Si no hay ni productId ni product
+        setCurrentProduct(undefined);
       }
-
-      // set productos random
-      const random = getProductsRandom(5);
-      setRandomProducts(random);
     }
 
-    loadProducts();
-  }, [productId, fetchProducts, getProductId, getProductsRandom]);
+    loadData();
+  }, [productId, product, fetchProducts, getProductsRandom, getProductId]);
 
-  if (!product) {
+  // Validación: si no hay producto válido -> Skeleton
+  if (!currentProduct) {
     return <ProductSkeleton />;
   }
 
   return (
     <div className="pt-14 space-y-10">
+      {/* <pre>
+        {JSON.stringify({ productId, product, currentProduct }, null, 2)}
+      </pre> */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-16">
         <div className="px-5 lg:px-16 xl:px-20">
           <div className="rounded-lg overflow-hidden bg-gray-500/10 mb-4">
             <Image
               src={
                 mainImage ||
-                product?.images[0] ||
+                currentProduct?.images[0] ||
                 "https://placehold.co/600x600.png"
               }
-              alt={product?.name || "Product Image"}
+              alt={currentProduct?.name || "Product Image"}
               className="w-full h-auto object-cover mix-blend-multiply"
               width={1280}
               height={720}
@@ -73,7 +85,7 @@ export default function ProductIdView({ productId }: ProductIdViewProps) {
           </div>
 
           <div className="grid grid-cols-4 gap-4">
-            {product?.images.map((image, index) => (
+            {currentProduct?.images.map((image, index) => (
               <div
                 key={index}
                 onClick={() => setMainImage(image)}
@@ -93,37 +105,37 @@ export default function ProductIdView({ productId }: ProductIdViewProps) {
 
         <div className="flex flex-col">
           <h1 className="text-3xl font-medium text-gray-800/90 mb-3">
-            {product?.name}
+            {currentProduct?.name}
           </h1>
-          {product.brand ? (
+          {currentProduct.brand ? (
             <div className="text-muted-foreground flex items-center gap-2 text-sm">
-              <p>{product.brand.name}</p>
+              <p>{currentProduct.brand.name}</p>
               <div className="flex items-center gap-0.5">
                 <BadgeCheckIcon size={20} className="text-blue-500" />
               </div>
             </div>
           ) : null}
-          <p className="text-gray-600 mt-3">{product?.description}</p>
+          <p className="text-gray-600 mt-3">{currentProduct?.description}</p>
           <p className="text-3xl font-medium mt-6">
-            {currencyFormat(convertFromMilliunits(product?.cost) || 0)}
+            {currencyFormat(convertFromMilliunits(currentProduct?.cost) || 0)}
           </p>
           <hr className="bg-gray-600 my-6" />
           <div className="overflow-x-auto">
             <table className="table-auto border-collapse w-full max-w-72">
               <tbody>
-                {product?.brand && (
+                {currentProduct?.brand && (
                   <tr>
                     <td className="text-gray-600 font-medium">Marca</td>
                     <td className="text-gray-800/50 ">
-                      {product.brand.name || "Desconocida"}
+                      {currentProduct.brand.name || "Desconocida"}
                     </td>
                   </tr>
                 )}
-                {product?.category && (
+                {currentProduct?.category && (
                   <tr>
                     <td className="text-gray-600 font-medium">Categoria</td>
                     <td className="text-gray-800/50">
-                      {product.category.name || "Desconocida"}
+                      {currentProduct.category.name || "Desconocida"}
                     </td>
                   </tr>
                 )}
@@ -177,12 +189,12 @@ export default function ProductIdView({ productId }: ProductIdViewProps) {
           </div>
         </div>
         <div className="flex flex-col xl:col-span-2 col-span-1 w-full">
-          {product?.htmlContent ? (
+          {currentProduct?.htmlContent ? (
             <ScrollArea className="h-[400px] w-full rounded-md">
               <div
                 className="prose prose-sm sm:prose lg:prose-lg xl:prose-xl max-w-full text-justify break-words [&_img]:max-w-full [&_table]:w-full [&_table]:block [&_table]:overflow-x-auto [&_table]:whitespace-nowrap"
                 dangerouslySetInnerHTML={{
-                  __html: product.htmlContent,
+                  __html: currentProduct.htmlContent,
                 }}
               />
             </ScrollArea>
