@@ -5,7 +5,6 @@ import { Button } from "../ui/button";
 import {
   BadgeCheckIcon,
   CheckCircle2Icon,
-  HeartIcon,
   Loader2Icon,
   PlusIcon,
   ShoppingCartIcon,
@@ -20,11 +19,9 @@ import { useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import { currencyFormat } from "@/utils/currencyFormat";
 import { Product } from "./interface";
-import { useFavoriteStore } from "@/stores/user/favorite-store";
 import Link from "next/link";
 
 const ProductCard = ({ product }: { product: Product }) => {
-  const { toggleFavorite, isFavorite } = useFavoriteStore();
   const [isAddingToCart, setIsAddingToCart] = useState(false);
   const [isAddedToCart, setIsAddedToCart] = useState(false);
   const { addItem, cartItems } = useCartStore();
@@ -84,7 +81,7 @@ const ProductCard = ({ product }: { product: Product }) => {
                 </Badge>
               )}
             </div>
-            <button
+            {/* <button
               onClick={() => toggleFavorite(product.id)}
               className={cn(
                 "top-2 right-2 border absolute flex items-center justify-center h-8 w-8 rounded-full shadow-md transition-all duration-300 ease-in-out",
@@ -106,7 +103,7 @@ const ProductCard = ({ product }: { product: Product }) => {
               {isFavorite(product.id) && (
                 <span className="absolute inset-0 rounded-full animate-ping-slow bg-rose-400 opacity-75"></span>
               )}
-            </button>
+            </button> */}
           </div>
           {product.brand ? (
             <div className="w-full text-xs pt-1.5 -mb-1 text-muted-foreground flex items-center truncate">

@@ -3,17 +3,28 @@ import { useState } from "react";
 import Image from "next/image";
 import { Product } from "@/components/product/interface";
 import { Button } from "@/components/ui/button";
-import { ShoppingCartIcon, StarIcon } from "lucide-react";
+import {
+  BadgeCheckIcon,
+  ShoppingCartIcon,
+  StoreIcon,
+  TruckIcon,
+} from "lucide-react";
 import { currencyFormat } from "@/utils/currencyFormat";
 import { convertFromMilliunits } from "@/utils/covertAmountMiliunits";
 import WhatsappButton from "@/components/shared/whatsapp-button";
 import ProductSkeleton from "./product-id-skeleton";
+import { Separator } from "../ui/separator";
+import { ScrollArea } from "../ui/scroll-area";
 
-export default function ProductId({ product }: { product: Product | undefined }) {
+export default function ProductId({
+  product,
+}: {
+  product: Product | undefined;
+}) {
   const [mainImage, setMainImage] = useState<string | undefined>();
 
   if (!product) {
-    return <ProductSkeleton/>
+    return <ProductSkeleton />;
   }
 
   return (
@@ -54,21 +65,20 @@ export default function ProductId({ product }: { product: Product | undefined })
         </div>
 
         <div className="flex flex-col">
-          <h1 className="text-3xl font-medium text-gray-800/90 mb-4">
+          <h1 className="text-3xl font-medium text-gray-800/90 mb-3">
             {product?.name}
           </h1>
-          <div className="flex items-center gap-2">
-            <div className="flex items-center gap-0.5">
-              <StarIcon className="fill-amber-400 text-amber-400" size={16} />
+          {product.brand ? (
+            <div className="text-muted-foreground flex items-center gap-2 text-sm">
+              <p>{product.brand.name}</p>
+              <div className="flex items-center gap-0.5">
+                <BadgeCheckIcon size={20} className="text-blue-500" />
+              </div>
             </div>
-            <p>(4.5)</p>
-          </div>
+          ) : null}
           <p className="text-gray-600 mt-3">{product?.description}</p>
           <p className="text-3xl font-medium mt-6">
             {currencyFormat(convertFromMilliunits(product?.cost) || 0)}
-            <span className="text-base font-normal text-gray-800/60 line-through ml-2">
-              {currencyFormat(convertFromMilliunits(product?.cost) || 0)}
-            </span>
           </p>
           <hr className="bg-gray-600 my-6" />
           <div className="overflow-x-auto">
@@ -94,22 +104,44 @@ export default function ProductId({ product }: { product: Product | undefined })
             </table>
           </div>
 
-          <div className="grid grid-cols-2 items-center mt-5 gap-4">
+          <div className="grid md:grid-cols-2 xl:grid-cols-2 grid-cols-1 items-center mt-5 gap-4">
             <Button size={"lg"}>
               <ShoppingCartIcon />
               Añadir al carrito
             </Button>
-            <WhatsappButton />
+            <WhatsappButton className="w-full" />
+          </div>
+          <Separator className="my-8" />
+          <div>
+            <div className="flex items-center gap-2 mb-3">
+              <TruckIcon className="text-green-500" size={20} />
+              <p className="text-gray-600 text-sm">Envío a todo el Ecuador</p>
+            </div>
+            {/* COMPRA SEGURA */}
+            <div className="flex items-center gap-2 mb-3">
+              <BadgeCheckIcon className="text-green-500" size={20} />
+              <p className="text-gray-600 text-sm">
+                Productos originales y de alta calidad
+              </p>
+            </div>
+            <div className="flex items-center gap-2 mb-3">
+              <StoreIcon className="text-green-500" size={20} />
+              <p className="text-gray-600 text-sm">
+                Compra online y retira en nuestras sucursales
+              </p>
+            </div>
           </div>
         </div>
-        <div className="flex flex-col xl:col-span-2 col-span-1 items-center">
+        <div className="flex flex-col xl:col-span-2 col-span-1 w-full">
           {product?.htmlContent ? (
-            <div
-              className="prose max-w-none"
-              dangerouslySetInnerHTML={{
-                __html: product.htmlContent,
-              }}
-            />
+            <ScrollArea className="h-[400px] w-full rounded-md">
+              <div
+                className="prose prose-sm sm:prose lg:prose-lg xl:prose-xl max-w-full text-justify break-words [&_img]:max-w-full [&_table]:w-full [&_table]:block [&_table]:overflow-x-auto [&_table]:whitespace-nowrap"
+                dangerouslySetInnerHTML={{
+                  __html: product.htmlContent,
+                }}
+              />
+            </ScrollArea>
           ) : (
             <p className="text-gray-600">No hay contenido adicional.</p>
           )}
