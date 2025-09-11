@@ -11,6 +11,7 @@ type ProductStore = {
   setProducts: (items: Product[]) => void;
   createProduct: (product: Partial<Product>) => Promise<void>;
   getProductId: (id: string) => Product | undefined;
+  getProductsRandom: (count: number) => Product[];
 };
 
 export const useProductStore = create<ProductStore>((set, get) => ({
@@ -49,7 +50,20 @@ export const useProductStore = create<ProductStore>((set, get) => ({
   },
 
   getProductId: (id: string) => {
+    try {
+      const state = get();
+      return state.products.find((product) => product.id === id);
+    } catch (error) {
+      console.error("Error al obtener el producto por ID:", error);
+      return undefined;
+    } finally {
+      set({ isLoading: false });
+    }
+  },
+  
+  getProductsRandom: (count: number) => {
     const state = get();
-    return state.products.find((product) => product.id === id);
+    const shuffled = [...state.products].sort(() => 0.5 - Math.random());
+    return shuffled.slice(0, count);
   },
 }));

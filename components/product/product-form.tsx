@@ -165,50 +165,52 @@ export default function ProductForm({
   };
   const defaultHtmlContent = `
   <h2 style="font-size: 1.5rem; font-weight: bold; margin-bottom: 0.5rem;">
-    Smartphone Galaxy X Ultra 5G - 256GB
+    Lorem Ipsum Dolor Sit Amet
   </h2>
 
   <p style="font-size: 1rem; margin-bottom: 1rem;">
-    El nuevo <strong>Galaxy X Ultra</strong> combina potencia, diseño y velocidad 5G en un solo dispositivo. Perfecto para fotografía profesional, gaming y productividad sin límites.
+    El <strong>Lorem Ipsum</strong> es simplemente el texto de relleno de las imprentas y archivos de texto. Ha sido el estándar de la industria desde el siglo XVI.
   </p>
 
   <p style="font-size: 1rem; margin-bottom: 1.5rem;">
-    <em>Descubre un rendimiento sorprendente con su procesador Octa-Core y su pantalla AMOLED de 6.8”.</em>
+    <em>
+      Se ha utilizado como texto de prueba en tipografías, maquetación y diseño web para simular el contenido real.
+    </em>
   </p>
 
   <table style="width: 100%; border-collapse: collapse; border: 1px solid #1e293b; margin-bottom: 1rem;">
     <thead>
       <tr>
-        <th style="border: 1px solid #1e293b; padding: 8px; font-weight: bold;">Característica</th>
+        <th style="border: 1px solid #1e293b; padding: 8px; font-weight: bold;">Encabezado</th>
         <th style="border: 1px solid #1e293b; padding: 8px; font-weight: bold;">Detalle</th>
       </tr>
     </thead>
     <tbody>
       <tr>
-        <td style="border: 1px solid #1e293b; padding: 8px;">Pantalla</td>
-        <td style="border: 1px solid #1e293b; padding: 8px;">6.8" AMOLED 120Hz</td>
+        <td style="border: 1px solid #1e293b; padding: 8px;">Lorem</td>
+        <td style="border: 1px solid #1e293b; padding: 8px;">Texto de ejemplo</td>
       </tr>
       <tr>
-        <td style="border: 1px solid #1e293b; padding: 8px;">Procesador</td>
-        <td style="border: 1px solid #1e293b; padding: 8px;">Snapdragon 8 Gen 2</td>
+        <td style="border: 1px solid #1e293b; padding: 8px;">Ipsum</td>
+        <td style="border: 1px solid #1e293b; padding: 8px;">Contenido simulado</td>
       </tr>
       <tr>
-        <td style="border: 1px solid #1e293b; padding: 8px;">Memoria</td>
-        <td style="border: 1px solid #1e293b; padding: 8px;">256GB + 12GB RAM</td>
+        <td style="border: 1px solid #1e293b; padding: 8px;">Dolor</td>
+        <td style="border: 1px solid #1e293b; padding: 8px;">Maquetación web</td>
       </tr>
       <tr>
-        <td style="border: 1px solid #1e293b; padding: 8px;">Cámara</td>
-        <td style="border: 1px solid #1e293b; padding: 8px;">108MP + 12MP UltraWide</td>
+        <td style="border: 1px solid #1e293b; padding: 8px;">Sit</td>
+        <td style="border: 1px solid #1e293b; padding: 8px;">Texto de prueba</td>
       </tr>
       <tr>
-        <td style="border: 1px solid #1e293b; padding: 8px;">Batería</td>
-        <td style="border: 1px solid #1e293b; padding: 8px;">5000mAh con carga rápida</td>
+        <td style="border: 1px solid #1e293b; padding: 8px;">Amet</td>
+        <td style="border: 1px solid #1e293b; padding: 8px;">Diseño responsivo</td>
       </tr>
     </tbody>
   </table>
 
   <p style="font-size: 1rem;">
-    <strong>Incluye:</strong> Cargador rápido, cable USB-C, manual y protector de pantalla.
+    <strong>Incluye:</strong> párrafos de prueba, encabezados, tablas y estilos básicos para maquetación.
   </p>
 `;
 
