@@ -1,19 +1,30 @@
 import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 
-// Rutas públicas accesibles sin login
-const isPublicRoute = createRouteMatcher(["/","/product/", "/terminos-y-condiciones"]);
+// 🌐 Rutas públicas (no requieren login)
+const isPublicRoute = createRouteMatcher([
+  "/",
+  "/shop",
+  "/product(.*)",
+  "/about-us",
+  "/contact-us",
+]);
 
-// Rutas del sistema de auth de Clerk
+// 🔑 Rutas de auth
 const isAuthRoute = createRouteMatcher([
   "/auth/sign-in(.*)",
   "/auth/sign-up(.*)",
   "/auth/forgot-password(.*)",
 ]);
 
-// Rutas privadas por rol
+// 🔐 Rutas privadas por rol
 const isAdminRoute = createRouteMatcher(["/admin(.*)"]);
-const isUserRoute = createRouteMatcher(["/user(.*)"]);
+const isUserRoute = createRouteMatcher([
+  "/shopping-cart",
+  "/profile",
+  "/favorites",
+  "/sales",
+]);
 
 export default clerkMiddleware(async (auth, request) => {
   const session = await auth();
@@ -30,21 +41,26 @@ export default clerkMiddleware(async (auth, request) => {
     return NextResponse.redirect(new URL("/auth/sign-in", request.url));
   }
 
+  // 🚫 Usuario ya logueado pero intenta entrar a /auth/*
   if (isAuthRoute(request)) {
-    if (role === "admin") {
+    if (role === "admin")
       return NextResponse.redirect(new URL("/admin", request.url));
-    } else if (role === "user") {
+    if (role === "user")
       return NextResponse.redirect(new URL("/", request.url));
-    }
   }
 
-  // 🔐 Rutas protegidas por rol
+  // 🔐 Admin area
   if (isAdminRoute(request) && role !== "admin") {
-    return NextResponse.redirect(new URL("/admin", request.url));
+    return NextResponse.redirect(new URL("/", request.url));
   }
 
-  if (isUserRoute(request) && role !== "user") {
-    return NextResponse.redirect(new URL("/", request.url));
+  // 🔐 User area
+  // if (isUserRoute(request) && role !== "user") {
+  //   return NextResponse.redirect(new URL("/", request.url));
+  // }
+  if (isUserRoute(request)) {
+    // Solo requiere estar logueado
+    return NextResponse.next();
   }
 
   return NextResponse.next();

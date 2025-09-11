@@ -17,9 +17,5 @@ export default function ProductIdPage() {
     setProductData(product);
   }, [fetchProducts, productId, getProductId]);
 
-  
-
-  return (
-    <ProductIdView productId={productData?.id} />
-  );
+  return <ProductIdView product={productData} productId={productId} />;
 }
