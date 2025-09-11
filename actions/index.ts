@@ -34,3 +34,4 @@ export * from "./files/upload-file";
 // AUTH
 export * from "./user/get-data-user";
 export * from "./user/update-user";
+export * from "./user/get-users";

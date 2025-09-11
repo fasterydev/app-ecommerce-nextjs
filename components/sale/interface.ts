@@ -1,3 +1,4 @@
+import { User } from "../interfaces/user";
 import { Product } from "../product/interface";
 
 export interface Sale {
@@ -12,18 +13,3 @@ export interface Sale {
     total:     number;
 }
 
-export interface User {
-    id:               string;
-    email:            string;
-    fullName:         null;
-    userName:         null;
-    firstName:        null;
-    lastName:         null;
-    isActive:         boolean;
-    roles:            string[];
-    createAt:         Date;
-    updateAt:         Date;
-    clerkId:          string;
-    stripeCustomerId: null;
-    brevoId:          null;
-}

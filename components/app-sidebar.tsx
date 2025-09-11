@@ -43,11 +43,6 @@ const data = {
       url: "/admin/brands",
       icon: TagIcon,
     },
-    // {
-    //   title: "Reseñas",
-    //   url: "/admin/sales",
-    //   icon: StarIcon,
-    // },
     {
       title: "Pedidos",
       url: "/admin/sales",
@@ -55,7 +50,7 @@ const data = {
     },
     {
       title: "Usuarios",
-      url: "/admin/sales",
+      url: "/admin/users",
       icon: UserIcon,
     },
   ],
