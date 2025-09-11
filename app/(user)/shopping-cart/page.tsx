@@ -15,6 +15,7 @@ import { Separator } from "@/components/ui/separator";
 import { useCartStore } from "@/stores/cart-store";
 import { currencyFormat } from "@/utils/currencyFormat";
 import { convertFromMilliunits } from "@/utils/covertAmountMiliunits";
+import { CartSummary } from "@/components/shared/cart-summary";
 
 export default function ShoppingCartPage() {
   const {
@@ -124,41 +125,7 @@ export default function ShoppingCartPage() {
           </Card>
         </div>
         <div>
-          <Card>
-            <CardHeader>
-              <CardTitle>Resumen del pedido</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-2">
-              <div className="flex justify-between">
-                <span>Subtotal:</span>
-
-                <span>{currencyFormat(convertFromMilliunits(subtotal))}</span>
-              </div>
-              <div className="flex justify-between">
-                <span>Total:</span>
-                <span>{currencyFormat(convertFromMilliunits(total))}</span>
-              </div>
-              {/* <div className="flex justify-between">
-                  <span>Envío:</span>
-                  <span className="text-sm">
-                    Calculado al finalizar la compra
-                  </span>
-                </div> */}
-              <Separator />
-              <div className="flex justify-between font-medium">
-                <span>Total</span>
-                {/* <span>${subtotal.toFixed(2)}</span> */}
-              </div>
-            </CardContent>
-            <CardFooter>
-              <Button
-                onClick={createSale.bind(null, cartItems)}
-                className="w-full"
-              >
-                Finalizar compra
-              </Button>
-            </CardFooter>
-          </Card>
+          <CartSummary/>
         </div>
       </div>
     </main>
