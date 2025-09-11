@@ -7,11 +7,9 @@ import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
 import { useCartStore } from "@/stores/cart-store";
 import { currencyFormat } from "@/utils/currencyFormat";
 import { convertFromMilliunits } from "@/utils/covertAmountMiliunits";
@@ -24,7 +22,6 @@ export default function ShoppingCartPage() {
     addItem,
     decreaseItem,
     removeItem,
-    createSale,
   } = useCartStore();
   const [subtotal, setSubtotal] = useState(0);
   const [total, setTotal] = useState(0);
@@ -122,6 +119,10 @@ export default function ShoppingCartPage() {
                 </div>
               ))}
             </CardContent>
+            <pre>
+              {total}
+              {subtotal}
+            </pre>
           </Card>
         </div>
         <div>
