@@ -1,6 +1,6 @@
 "use client";
 
-import { Minus, Plus, ShoppingBagIcon, Trash2, X } from "lucide-react";
+import { Minus, Plus, ShoppingCartIcon, Trash2, X } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
@@ -54,7 +54,7 @@ export function ShoppingCartIconHome() {
       {/* Icono móvil */}
       <Link href="/shopping-cart" className="xl:hidden block my-auto">
         <Button className="relative p-3" size={"icon"} variant="outline">
-          <ShoppingBagIcon size={20} />
+          <ShoppingCartIcon size={20} />
           {cartCount > 0 && (
             <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-primary-foreground">
               {cartCount}
@@ -72,7 +72,7 @@ export function ShoppingCartIconHome() {
             size="icon"
             className="relative hidden xl:flex"
           >
-            <ShoppingBagIcon size={20} />
+            <ShoppingCartIcon size={20} />
             {cartCount > 0 && (
               <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-primary-foreground">
                 {cartCount}
@@ -102,7 +102,7 @@ export function ShoppingCartIconHome() {
 
           {cartCount === 0 ? (
             <div className="flex flex-col items-center justify-center py-6 text-center">
-              <ShoppingBagIcon className="mb-2 h-10 w-10 text-muted-foreground" />
+              <ShoppingCartIcon className="mb-2 h-10 w-10 text-muted-foreground" />
               <p className="mb-1 text-lg font-medium">Su carrito está vacío</p>
               <p className="text-sm text-muted-foreground">
                 Añade artículos a tu carrito
