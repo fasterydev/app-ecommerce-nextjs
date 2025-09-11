@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import { Product } from "@/components/product/interface";
 import { Button } from "@/components/ui/button";
@@ -15,13 +15,38 @@ import WhatsappButton from "@/components/shared/whatsapp-button";
 import ProductSkeleton from "./product-id-skeleton";
 import { Separator } from "../ui/separator";
 import { ScrollArea } from "../ui/scroll-area";
+import { useProductStore } from "@/stores/user/product-store";
+import ProductCard from "./product-card";
 
-export default function ProductId({
-  product,
-}: {
-  product: Product | undefined;
-}) {
+interface ProductIdViewProps {
+  productId?: string;
+}
+
+export default function ProductIdView({ productId }: ProductIdViewProps) {
+  const [product, setProduct] = useState<Product | undefined>();
   const [mainImage, setMainImage] = useState<string | undefined>();
+  const [randomProducts, setRandomProducts] = useState<Product[]>([]);
+
+  const { getProductsRandom, fetchProducts, getProductId } = useProductStore();
+
+  useEffect(() => {
+    async function loadProducts() {
+      await fetchProducts();
+
+      // set product específico
+      if (productId) {
+        const prod = getProductId(productId);
+        setProduct(prod);
+        setMainImage(prod?.images?.[0]);
+      }
+
+      // set productos random
+      const random = getProductsRandom(5);
+      setRandomProducts(random);
+    }
+
+    loadProducts();
+  }, [productId, fetchProducts, getProductId, getProductsRandom]);
 
   if (!product) {
     return <ProductSkeleton />;
@@ -155,15 +180,13 @@ export default function ProductId({
           </p>
           <div className="w-28 h-0.5 bg-primary mt-2"></div>
         </div>
-        {/* <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 mt-6 pb-14 w-full">
-              {products.slice(0, 5).map((product, index) => (
-                <ProductCard key={index} product={product} />
-              ))}
-            </div> */}
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 mt-6 pb-14 w-full">
+          {randomProducts.slice(0, 5).map((product, index) => (
+            <ProductCard key={index} product={product} />
+          ))}
+        </div>
         <Button className="px-8 py-2 mb-16">Ver más productos</Button>
       </div>
-      {/* <pre>{JSON.stringify(product, null, 2)}</pre> */}
-      {/* <pre>{JSON.stringify(mainImage, null, 2)}</pre> */}
     </div>
   );
 }

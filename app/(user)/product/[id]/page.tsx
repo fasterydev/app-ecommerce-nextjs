@@ -3,7 +3,7 @@ import { useProductStore } from "@/stores/user/product-store";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Product } from "@/components/product/interface";
-import ProductId from "@/components/product/product-Id";
+import ProductIdView from "@/components/product/product-id.-view";
 
 export default function ProductIdPage() {
   const params = useParams();
@@ -20,6 +20,6 @@ export default function ProductIdPage() {
   
 
   return (
-    <ProductId product={productData} />
+    <ProductIdView productId={productData?.id} />
   );
 }
