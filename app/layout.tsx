@@ -6,11 +6,15 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { esMX } from "@clerk/localizations";
 import { Toaster } from "sonner";
 
-const outfit = Outfit({ subsets: ["latin"], weight: ["300", "400", "500"] });
+const outfit = Outfit({
+  subsets: ["latin"],
+  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
+});
 
 export const metadata: Metadata = {
   title: "Cabellos del Sol | Peluquería - Estética",
-  description: "Bienvenido a Cabellos del Sol, tu destino para la peluquería y estética.",
+  description:
+    "Bienvenido a Cabellos del Sol, tu destino para la peluquería y estética.",
   robots: {
     index: true,
     follow: true,

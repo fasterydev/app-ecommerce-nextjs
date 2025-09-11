@@ -4,25 +4,15 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useCartStore } from "@/stores/cart-store";
 import { currencyFormat } from "@/utils/currencyFormat";
 import { convertFromMilliunits } from "@/utils/covertAmountMiliunits";
 import { CartSummary } from "@/components/shared/cart-summary";
 
 export default function ShoppingCartPage() {
-  const {
-    cartItems,
-    isLoading,
-    addItem,
-    decreaseItem,
-    removeItem,
-  } = useCartStore();
+  const { cartItems, isLoading, addItem, decreaseItem, removeItem } =
+    useCartStore();
   const [subtotal, setSubtotal] = useState(0);
   const [total, setTotal] = useState(0);
 
@@ -126,7 +116,7 @@ export default function ShoppingCartPage() {
           </Card>
         </div>
         <div>
-          <CartSummary/>
+          <CartSummary />
         </div>
       </div>
     </main>
