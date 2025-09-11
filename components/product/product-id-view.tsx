@@ -5,6 +5,8 @@ import { Product } from "@/components/product/interface";
 import { Button } from "@/components/ui/button";
 import {
   BadgeCheckIcon,
+  HeartIcon,
+  Share2Icon,
   ShoppingCartIcon,
   StoreIcon,
   TruckIcon,
@@ -129,13 +131,30 @@ export default function ProductIdView({ productId }: ProductIdViewProps) {
             </table>
           </div>
 
-          <div className="grid md:grid-cols-2 xl:grid-cols-2 grid-cols-1 items-center mt-5 gap-4">
-            <Button size={"lg"}>
-              <ShoppingCartIcon />
+          <div className="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-3 gap-4 mt-5 items-stretch">
+            {/* Botón principal */}
+            <Button
+              size="lg"
+              className="w-full flex items-center justify-center gap-2"
+            >
+              <ShoppingCartIcon className="w-5 h-5" />
               Añadir al carrito
             </Button>
+
+            {/* WhatsApp */}
             <WhatsappButton className="w-full" />
+
+            {/* Grupo de acciones secundarias */}
+            <div className="flex items-center justify-center gap-2 w-full">
+              <Button variant="outline" size="icon" className="rounded-full">
+                <HeartIcon className="w-5 h-5" />
+              </Button>
+              <Button variant="outline" size="icon" className="rounded-full">
+                <Share2Icon className="w-5 h-5" />
+              </Button>
+            </div>
           </div>
+
           <Separator className="my-8" />
           <div>
             <div className="flex items-center gap-2 mb-3">
