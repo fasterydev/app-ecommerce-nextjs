@@ -64,12 +64,12 @@ export default function ProductIdView({
   }
 
   return (
-    <div className="pt-14 space-y-10">
+    <div className="xl:pt-14 pt-5 space-y-10">
       {/* <pre>
         {JSON.stringify({ productId, product, currentProduct }, null, 2)}
       </pre> */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-16">
-        <div className="px-5 lg:px-16 xl:px-20">
+        <div className=" lg:px-16 xl:px-20">
           <div className="rounded-lg overflow-hidden bg-gray-500/10 mb-4">
             <Image
               src={

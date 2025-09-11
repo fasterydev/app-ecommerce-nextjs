@@ -441,17 +441,16 @@ export default function ProductsPage() {
   return (
     <div className="flex min-h-screen flex-col">
       <main className="flex-1 pb-12 pt-6">
-        <div className="container mx-auto px-4">
+        <div className="container mx-auto">
           <div className="flex items-center justify-between">
             <h1 className="text-2xl font-bold sm:text-3xl">Productos</h1>
-            <div className="flex items-center space-x-2">
+            <div className="items-center space-x-2 flex">
               <Sheet>
                 <SheetTrigger asChild>
                   <Button
                     variant="outline"
                     size="sm"
                     className="flex md:hidden"
-                    // onClick={() => setShowMobileFilters(true)}
                   >
                     <Filter className="mr-2 h-4 w-4" />
                     Filtrar
@@ -495,7 +494,6 @@ export default function ProductsPage() {
             </div>
           </div>
 
-          {/* Chips de filtros activos */}
           {(filters.categories.length > 0 ||
             filters.brands.length > 0 ||
             filters.rating !== null ||
@@ -603,7 +601,7 @@ export default function ProductsPage() {
                     {Math.min(indexOfLastProduct, filteredProducts.length)} de{" "}
                     {filteredProducts.length} productos
                   </p>
-                  <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                  <div className="grid grid-cols-2 gap-4 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                     {currentProducts.map((product) => (
                       <ProductCard product={product} key={product.id} />
                     ))}
