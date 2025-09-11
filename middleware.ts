@@ -2,7 +2,7 @@ import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 
 // Rutas públicas accesibles sin login
-const isPublicRoute = createRouteMatcher(["/", "/terminos-y-condiciones"]);
+const isPublicRoute = createRouteMatcher(["/","/product/", "/terminos-y-condiciones"]);
 
 // Rutas del sistema de auth de Clerk
 const isAuthRoute = createRouteMatcher([
