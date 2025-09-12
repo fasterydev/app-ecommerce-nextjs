@@ -1,57 +1,15 @@
 "use client";
-import { useState } from "react";
 import Image from "next/image";
-import { Button } from "../ui/button";
-import {
-  BadgeCheckIcon,
-  CheckCircle2Icon,
-  Loader2Icon,
-  PlusIcon,
-  ShoppingCartIcon,
-  StarIcon,
-} from "lucide-react";
-import { cn } from "@/lib/utils";
+import { BadgeCheckIcon, StarIcon } from "lucide-react";
 import { Card } from "../ui/card";
 import { Badge } from "../ui/badge";
 import { convertFromMilliunits } from "@/utils/covertAmountMiliunits";
-import { useCartStore } from "@/stores/cart-store";
-import { useUser } from "@clerk/nextjs";
-import { useRouter } from "next/navigation";
 import { currencyFormat } from "@/utils/currencyFormat";
 import { Product } from "../interfaces/interface";
 import Link from "next/link";
+import ButtonAddToCart from "./button-add-to-cart";
 
 const ProductCard = ({ product }: { product: Product }) => {
-  const [isAddingToCart, setIsAddingToCart] = useState(false);
-  const [isAddedToCart, setIsAddedToCart] = useState(false);
-  const { addItem, cartItems } = useCartStore();
-  const { user, isLoaded } = useUser();
-  const router = useRouter();
-  const handleAddToCart = () => {
-    if (user === null && isLoaded) {
-      router.push("/auth/sign-in");
-      return;
-    }
-
-    addItem(product.id);
-    setIsAddingToCart(true);
-
-    // Simulate loading for 2 seconds
-    setTimeout(() => {
-      setIsAddingToCart(false);
-      setIsAddedToCart(true);
-
-      // Reset the added state after 2 seconds
-      setTimeout(() => {
-        setIsAddedToCart(false);
-      }, 2000);
-    }, 2000);
-  };
-
-  const isProductInCart = Array.isArray(cartItems)
-    ? cartItems.some((item) => item.product.id === product.id)
-    : false;
-
   return (
     <Card className="p-2.5 relative mb-auto">
       <Link href={`/product/${product.slug}`}>
@@ -142,41 +100,7 @@ const ProductCard = ({ product }: { product: Product }) => {
       </Link>
 
       <div className="-mt-6">
-        <Button
-          onClick={handleAddToCart}
-          disabled={isAddingToCart}
-          className={cn(
-            "mt-1 text-xs w-full",
-            isAddedToCart &&
-              "bg-green-100 hover:bg-green-100 text-green-700 hover:text-green-700 border-green-200 hover:border-green-200"
-          )}
-        >
-          {isAddingToCart ? (
-            <>
-              <Loader2Icon size={18} className="animate-spin" />
-              Cargando...
-            </>
-          ) : isAddedToCart ? (
-            <>
-              <CheckCircle2Icon size={18} className="  animate-appear" />
-              Añadido
-            </>
-          ) : (
-            <>
-              {isProductInCart ? (
-                <>
-                  <PlusIcon size={18} />
-                  Añadir uno más
-                </>
-              ) : (
-                <>
-                  <ShoppingCartIcon size={18} />
-                  Añadir al carrito
-                </>
-              )}
-            </>
-          )}
-        </Button>
+        <ButtonAddToCart classNameButton="mt-1 text-xs w-full" productId={product.id} />
       </div>
     </Card>
   );

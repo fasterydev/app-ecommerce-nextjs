@@ -7,7 +7,6 @@ import {
   BadgeCheckIcon,
   HeartIcon,
   Share2Icon,
-  ShoppingCartIcon,
   StoreIcon,
   TruckIcon,
 } from "lucide-react";
@@ -19,6 +18,7 @@ import { Separator } from "../ui/separator";
 import { ScrollArea } from "../ui/scroll-area";
 import { useProductStore } from "@/stores/user/product-store";
 import ProductCard from "./product-card";
+import ButtonAddToCart from "./button-add-to-cart";
 
 interface ProductIdViewProps {
   productId?: string;
@@ -64,13 +64,14 @@ export default function ProductIdView({
   }
 
   return (
-    <div className="xl:pt-14 pt-5 space-y-10">
+    <div className="xl:pt-14 pt-3 space-y-10">
       {/* <pre>
         {JSON.stringify({ productId, product, currentProduct }, null, 2)}
       </pre> */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-16">
-        <div className=" lg:px-16 xl:px-20">
-          <div className="rounded-lg overflow-hidden bg-gray-500/10 mb-4">
+        <div className="lg:px-16 xl:px-20">
+          {/* Imagen principal */}
+          <div className="rounded-lg overflow-hidden bg-gray-500/10 mb-4 aspect-square">
             <Image
               src={
                 mainImage ||
@@ -78,25 +79,26 @@ export default function ProductIdView({
                 "https://placehold.co/600x600.png"
               }
               alt={currentProduct?.name || "Product Image"}
-              className="w-full h-auto object-cover mix-blend-multiply"
+              className="w-full h-full object-cover mix-blend-multiply"
               width={1280}
-              height={720}
+              height={1280}
             />
           </div>
 
+          {/* Miniaturas */}
           <div className="grid grid-cols-4 gap-4">
             {currentProduct?.images.map((image, index) => (
               <div
                 key={index}
                 onClick={() => setMainImage(image)}
-                className="cursor-pointer rounded-lg overflow-hidden bg-gray-500/10"
+                className="cursor-pointer rounded-lg overflow-hidden bg-gray-500/10 aspect-square"
               >
                 <Image
                   src={image}
-                  alt="alt"
-                  className="w-full h-auto object-cover mix-blend-multiply"
+                  alt={`Thumbnail ${index}`}
+                  className="w-full h-full object-cover mix-blend-multiply"
                   width={1280}
-                  height={720}
+                  height={1280}
                 />
               </div>
             ))}
@@ -149,13 +151,8 @@ export default function ProductIdView({
 
           <div className="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-3 gap-4 mt-5 items-stretch">
             {/* Botón principal */}
-            <Button
-              size="lg"
-              className="w-full flex items-center justify-center gap-2"
-            >
-              <ShoppingCartIcon className="w-5 h-5" />
-              Añadir al carrito
-            </Button>
+
+            <ButtonAddToCart size="lg" productId={currentProduct.id} />
 
             {/* WhatsApp */}
             <WhatsappButton className="w-full" />
