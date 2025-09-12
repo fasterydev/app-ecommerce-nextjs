@@ -13,7 +13,7 @@ import {
 import { useSaleStore } from "@/stores/user/sale-store";
 import { convertFromMilliunits } from "@/utils/covertAmountMiliunits";
 import { currencyFormat } from "@/utils/currencyFormat";
-import { TrashIcon } from "lucide-react";
+import { PackageIcon, TrashIcon } from "lucide-react";
 import { useEffect } from "react";
 
 export default function SalesAdminPage() {
@@ -33,10 +33,12 @@ export default function SalesAdminPage() {
         <Table>
           <TableHeader className="bg-muted sticky top-0 z-10">
             <TableRow>
-              <TableHead>Nombre</TableHead>
-              <TableHead>Cliente</TableHead>
+              <TableHead>#</TableHead>
+              <TableHead>Contacto</TableHead>
               <TableHead>Estado</TableHead>
               <TableHead>Productos</TableHead>
+              <TableHead>Subtotal</TableHead>
+              <TableHead>Envío</TableHead>
               <TableHead>Total</TableHead>
               <TableHead>Acciones</TableHead>
             </TableRow>
@@ -52,16 +54,25 @@ export default function SalesAdminPage() {
                   <SaleStatusBadge status={sale.status} />
                 </TableCell>
                 <TableCell className="font-medium">
-                  {sale.products.reduce(
-                    (acc, product) => acc + (product?.quantity ?? 1),
-                    0
-                  )}
+                  <PackageIcon size={20} className="inline-block mr-1 mb-1" />
+                  <span>
+                    {sale.products.reduce(
+                      (acc, product) => acc + (product?.quantity ?? 1),
+                      0
+                    )}
+                  </span>
+                </TableCell>
+                <TableCell className="font-medium">
+                  {currencyFormat(convertFromMilliunits(sale.subtotal))}
+                </TableCell>
+                <TableCell className="font-medium">
+                  {currencyFormat(convertFromMilliunits(sale.shippingFee))}
                 </TableCell>
                 <TableCell className="font-medium">
                   {currencyFormat(convertFromMilliunits(sale.total))}
                 </TableCell>
                 <TableCell className="font-medium flex gap-2">
-                  <DetailsProduct sale={sale} mode="edit"/>
+                  <DetailsProduct sale={sale} mode="edit" />
                   <Button
                     disabled={isLoading}
                     size="icon"
