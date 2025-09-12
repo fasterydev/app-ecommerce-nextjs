@@ -98,7 +98,7 @@ export default function ProductsAdmin() {
                 </TableCell>
                 <TableCell className="space-x-2 justify-end items-center">
                   <Link
-                    href={`/product/${product.id}`}
+                    href={`/product/${product.slug}`}
                     target="_blank"
                     rel="noopener noreferrer"
                   >
