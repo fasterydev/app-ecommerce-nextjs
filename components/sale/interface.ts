@@ -11,5 +11,6 @@ export interface Sale {
     updatedAt: Date;
     subtotal:  number;
     total:     number;
+    shippingFee: number;
 }
 

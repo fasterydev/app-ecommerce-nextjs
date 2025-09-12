@@ -25,6 +25,7 @@ import { convertFromMilliunits } from "@/utils/covertAmountMiliunits";
 import { SaleStatusBadge } from "../sale/sale-status-badge";
 import { updateSale } from "@/actions";
 import Link from "next/link";
+import { dateFormat } from "@/utils/dateFormat";
 
 type Props = {
   sale: Sale;
@@ -94,7 +95,7 @@ export function DetailsProduct({ sale, mode }: Props) {
           <div className="flex items-center justify-between">
             <SaleStatusBadge status={sale.status} />
             <span className="text-sm text-muted-foreground">
-              {sale.createdAt.toString()}
+              {dateFormat(sale.createdAt)}
             </span>
           </div>
 
@@ -136,7 +137,7 @@ export function DetailsProduct({ sale, mode }: Props) {
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-2 gap-2">
               {sale.products.map((product) => (
                 <Link
-                  href={`/product/${product.productId}`}
+                  href={`/product/${product.slug}`}
                   key={product.id}
                   target="_blank"
                   rel="noopener noreferrer"
@@ -162,7 +163,7 @@ export function DetailsProduct({ sale, mode }: Props) {
                           <div>
                             Precio:{" "}
                             {currencyFormat(
-                              convertFromMilliunits(product.revenue)
+                              convertFromMilliunits(product.total)
                             )}
                           </div>
                           {isAdmin && (
@@ -173,7 +174,6 @@ export function DetailsProduct({ sale, mode }: Props) {
                                   convertFromMilliunits(product.cost)
                                 )}
                               </div>
-                              {/* <div>ID: {product.productId.slice(0, 8)}...</div> */}
                             </>
                           )}
                         </div>
@@ -197,6 +197,12 @@ export function DetailsProduct({ sale, mode }: Props) {
                 <span>Subtotal:</span>
                 <span>
                   {currencyFormat(convertFromMilliunits(sale.subtotal))}
+                </span>
+              </div>
+              <div className="flex justify-between">
+                <span>Envío:</span>
+                <span>
+                  {currencyFormat(convertFromMilliunits(sale.shippingFee))}
                 </span>
               </div>
               <div className="flex justify-between font-semibold">
@@ -254,6 +260,9 @@ export function DetailsProduct({ sale, mode }: Props) {
             </>
           )}
         </div>
+        {/* <pre>
+          {JSON.stringify(sale, null, 2)}
+        </pre> */}
       </SheetContent>
     </Sheet>
   );

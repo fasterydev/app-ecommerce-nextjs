@@ -70,6 +70,7 @@ export default function SalesPage() {
                   <TableHead className="w-[100px]">Pedido</TableHead>
                   <TableHead>Estado</TableHead>
                   <TableHead>Fecha</TableHead>
+                  <TableHead>Subtotal</TableHead>
                   <TableHead>Total</TableHead>
                   <TableHead className="text-right">Ver</TableHead>
                 </TableRow>
@@ -77,14 +78,21 @@ export default function SalesPage() {
               <TableBody>
                 {sales.map((sale) => (
                   <TableRow key={sale.id}>
-                    <TableCell className="font-medium flex space-x-1 items-center">
-                      <HashIcon size={14} />
-                      <div>{sale.idNumer}</div>
+                    <TableCell className="font-medium flex items-center">
+                      <div className="flex space-x-1 items-center my-auto pt-2">
+                        <HashIcon size={14} />
+                        <div>{sale.idNumer}</div>
+                      </div>
                     </TableCell>
                     <TableCell>
-                      <SaleStatusBadge status={sale.status} />
+                      <div className="items-center flex my-auto">
+                        <SaleStatusBadge status={sale.status} />
+                      </div>
                     </TableCell>
                     <TableCell>{dateFormat(sale.createdAt)}</TableCell>
+                    <TableCell>
+                      {currencyFormat(convertFromMilliunits(sale.subtotal))}
+                    </TableCell>
                     <TableCell>
                       {currencyFormat(convertFromMilliunits(sale.total))}
                     </TableCell>
@@ -117,17 +125,7 @@ export default function SalesPage() {
                     <span className="text-sm font-medium text-muted-foreground">
                       Estado:
                     </span>
-                    <span
-                      className={`px-2 py-1 rounded-full text-xs font-medium ${
-                        sale.status === "completed"
-                          ? "bg-green-100 text-green-800"
-                          : sale.status === "pending"
-                          ? "bg-yellow-100 text-yellow-800"
-                          : "bg-blue-100 text-blue-800"
-                      }`}
-                    >
-                      {sale.status}
-                    </span>
+                    <SaleStatusBadge status={sale.status} />
                   </div>
                   <div className="flex justify-between items-center">
                     <span className="text-sm font-medium text-muted-foreground">

@@ -30,20 +30,14 @@ import {
   Building2Icon,
 } from "lucide-react";
 import { currencyFormat } from "@/utils/currencyFormat";
+import { convertFromMilliunits } from "@/utils/covertAmountMiliunits";
+import { useCartStore } from "@/stores/cart-store";
 
-const cartItems = [
-  { id: 1, name: "Producto 1", price: 2500, quantity: 2 },
-  { id: 2, name: "Producto 2", price: 1800, quantity: 1 },
-];
+type TypeShipping = "local_delivery" | "national_delivery" | "pickup";
 
 const sucursales = [
-  { id: 1, name: "Sucursal Centro", address: "Calle 10 #15-20, Centro" },
-  { id: 2, name: "Sucursal Norte", address: "Carrera 15 #85-30, Zona Rosa" },
-  { id: 3, name: "Sucursal Sur", address: "Avenida 68 #40-50, Kennedy" },
+  { id: 1, name: "Mall del Sol", address: "Calle 10 #15-20, Centro" },
 ];
-
-// Mock functions - replace with your actual functions
-const convertFromMilliunits = (amount: number) => amount / 100;
 
 export function CartSummary() {
   const [deliveryMethod, setDeliveryMethod] = useState<string>("");
@@ -58,18 +52,15 @@ export function CartSummary() {
     city: "",
   });
 
-  const subtotal = cartItems.reduce(
-    (sum, item) => sum + item.price * item.quantity,
-    0
-  );
+  const { createSale, totalPriceCart } = useCartStore();
 
   const getShippingCost = () => {
-    if (deliveryMethod === "city") return 300; // $3 in cents
-    if (deliveryMethod === "national") return 600; // $6 in cents
+    if (deliveryMethod === "local_delivery") return 300; // $3 in cents
+    if (deliveryMethod === "national_delivery") return 600; // $6 in cents
     return 0;
   };
 
-  const total = subtotal + getShippingCost();
+  const total = totalPriceCart() + getShippingCost();
 
   const handleAddAddress = () => {
     if (newAddress.name && newAddress.address && newAddress.city) {
@@ -85,13 +76,6 @@ export function CartSummary() {
     if (value !== "pickup") {
       setSelectedBranch("");
     }
-  };
-
-  const createSale = (items: typeof cartItems) => {
-    console.log("Creating sale with items:", items);
-    console.log("Delivery method:", deliveryMethod);
-    console.log("Selected branch:", selectedBranch);
-    console.log("Total:", total);
   };
 
   return (
@@ -110,8 +94,11 @@ export function CartSummary() {
           >
             <div className="space-y-4">
               <div className="flex items-center space-x-2 p-3 border rounded-lg">
-                <RadioGroupItem value="city" id="city" />
-                <Label htmlFor="city" className="flex-1 cursor-pointer">
+                <RadioGroupItem value="local_delivery" id="local_delivery" />
+                <Label
+                  htmlFor="local_delivery"
+                  className="flex-1 cursor-pointer"
+                >
                   <div className="flex items-center justify-between w-full">
                     <div className="flex items-center w-full gap-3">
                       <ZapIcon size={20} className="text-primary" />
@@ -130,17 +117,17 @@ export function CartSummary() {
               </div>
 
               <div className="flex items-center space-x-2 p-3 border rounded-lg">
-                <RadioGroupItem value="national" id="national" />
-                <Label htmlFor="national" className="flex-1 cursor-pointer">
+                <RadioGroupItem
+                  value="national_delivery"
+                  id="national_delivery"
+                />
+                <Label
+                  htmlFor="national_delivery"
+                  className="flex-1 cursor-pointer"
+                >
                   <div className="flex items-center justify-between w-full">
                     <div className="flex items-center w-full gap-3">
-                      {/* <Image
-                        src="/assets/servientrega-logo.webp"
-                        alt="servientrega"
-                        width={100}
-                        height={100}
-                      /> */}
-                      <TruckIcon size={20} className=" text-primary"/>
+                      <TruckIcon size={20} className=" text-primary" />
                       <div>
                         <p className="font-medium">Envío Nacional</p>
                         <p className="text-sm text-muted-foreground">
@@ -379,7 +366,9 @@ export function CartSummary() {
         <CardContent className="space-y-2">
           <div className="flex justify-between">
             <span>Subtotal:</span>
-            <span>{currencyFormat(convertFromMilliunits(subtotal))}</span>
+            <span>
+              {currencyFormat(convertFromMilliunits(totalPriceCart()))}
+            </span>
           </div>
           {deliveryMethod && deliveryMethod !== "pickup" && (
             <div className="flex justify-between">
@@ -397,7 +386,7 @@ export function CartSummary() {
         </CardContent>
         <CardFooter>
           <Button
-            onClick={() => createSale(cartItems)}
+            onClick={() => createSale(deliveryMethod as TypeShipping)}
             className="w-full"
             disabled={
               !deliveryMethod ||
