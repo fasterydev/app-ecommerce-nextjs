@@ -14,7 +14,7 @@ import {
 import {
   ListTodoIcon,
   PackageIcon,
-  SettingsIcon,
+  ServerIcon,
   TagIcon,
   UserIcon,
 } from "lucide-react";
@@ -56,14 +56,9 @@ const data = {
   ],
   navSecondary: [
     {
-      title: "Settings",
-      url: "#",
-      icon: SettingsIcon,
-    },
-    {
-      title: "Get Help",
-      url: "#",
-      icon: ListTodoIcon,
+      title: "Pago de Mantenimiento",
+      url: "https://www.fastery.dev/",
+      icon: ServerIcon,
     },
   ],
 };
