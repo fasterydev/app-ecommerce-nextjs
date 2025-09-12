@@ -2,7 +2,7 @@
 import {
   CheckCircle2Icon,
   Loader2Icon,
-  PlusIcon,
+  PlusCircleIcon,
   ShoppingCartIcon,
 } from "lucide-react";
 import { Button } from "../ui/button";
@@ -80,8 +80,8 @@ export default function ButtonAddToCart({
         <>
           {isProductInCart ? (
             <>
-              <PlusIcon size={18} />
-              Añadir uno más
+              <PlusCircleIcon size={18} />
+              Añadir otro
             </>
           ) : (
             <>

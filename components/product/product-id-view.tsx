@@ -34,6 +34,20 @@ export default function ProductIdView({
   const [currentProduct, setCurrentProduct] = useState<Product>();
 
   const { getProductsRandom, fetchProducts, getProductId } = useProductStore();
+  const handleShare = async () => {
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: currentProduct?.name,
+          url: window.location.href,
+        });
+      } catch (error) {
+        console.error("Error sharing:", error);
+      }
+    } else {
+      console.log("Sharing not supported");
+    }
+  };
 
   useEffect(() => {
     async function loadData() {
@@ -162,7 +176,12 @@ export default function ProductIdView({
               <Button variant="outline" size="icon" className="rounded-full">
                 <HeartIcon className="w-5 h-5" />
               </Button>
-              <Button variant="outline" size="icon" className="rounded-full">
+              <Button
+                onClick={handleShare}
+                variant="outline"
+                size="icon"
+                className="rounded-full"
+              >
                 <Share2Icon className="w-5 h-5" />
               </Button>
             </div>

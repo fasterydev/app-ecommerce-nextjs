@@ -122,7 +122,7 @@ export function CartSummary() {
                         </p>
                       </div>
                     </div>
-                    <div className="font-semibold text-lg text-primary">
+                    <div className="hidden font-semibold text-lg text-primary">
                       {currencyFormat(convertFromMilliunits(300))}
                     </div>
                   </div>
@@ -148,7 +148,7 @@ export function CartSummary() {
                         </p>
                       </div>
                     </div>
-                    <div className="font-semibold text-lg text-primary">
+                    <div className="hidden font-semibold text-lg text-primary">
                       {currencyFormat(convertFromMilliunits(600))}
                     </div>
                   </div>
