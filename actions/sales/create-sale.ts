@@ -2,7 +2,9 @@
 import { envs } from "@/env";
 import { auth } from "@clerk/nextjs/server";
 
-export const createSale = async () => {
+type TypeShipping = 'local_delivery' | 'national_delivery' | 'pickup';
+
+export const createSale = async (typeShipping:TypeShipping) => {
   try {
     const { getToken } = await auth();
     const token = await getToken();
@@ -14,6 +16,9 @@ export const createSale = async () => {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
+      body: JSON.stringify({
+        typeShipping,
+      }),
     });
 
     if (!response.ok) {

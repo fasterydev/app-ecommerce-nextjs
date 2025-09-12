@@ -1,4 +1,3 @@
-import { Button } from "@/components/ui/button";
 import { Clock, HelpCircle, Mail, MessageSquare, Phone } from "lucide-react";
 import {
   Card,
@@ -7,6 +6,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import WhatsappButton from "@/components/shared/whatsapp-button";
 
 export default function ContactUs() {
   return (
@@ -76,7 +76,9 @@ export default function ContactUs() {
                   <CardDescription>Ayuda instantánea</CardDescription>
                 </CardHeader>
                 <CardContent className="text-center">
-                  <Button className="mb-4 w-full">Iniciar Chat</Button>
+                  <WhatsappButton className="mb-3 w-full" >
+                    Chatear por WhatsApp
+                  </WhatsappButton>
                   <p className="text-sm text-gray-500">
                     Disponible de 9:00 a 22:00
                   </p>

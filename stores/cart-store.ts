@@ -8,7 +8,7 @@ import {
 } from "@/actions";
 import { toast } from "sonner";
 import { Product } from "@/components/interfaces/interface";
-
+type TypeShipping = "local_delivery" | "national_delivery" | "pickup";
 type ShoppingCartItem = {
   id: string;
   product: Product;
@@ -24,7 +24,8 @@ type CartStore = {
   addItem: (productId: string) => Promise<void>;
   decreaseItem: (productId: string) => Promise<void>;
   removeItem: (productId: string) => Promise<void>;
-  createSale: () => Promise<void>;
+  createSale: (typeShipping: TypeShipping) => Promise<void>;
+  totalPriceCart: () => number;
 };
 
 export const useCartStore = create<CartStore>((set, get) => ({
@@ -149,10 +150,10 @@ export const useCartStore = create<CartStore>((set, get) => ({
     }
   },
 
-  createSale: async () => {
+  createSale: async (typeShipping: TypeShipping) => {
     set({ isLoading: true });
     try {
-      const res = await createSale();
+      const res = await createSale(typeShipping);
       await get().fetchCart();
       toast.success(res.message || "Venta creada exitosamente");
     } catch (err) {
@@ -161,5 +162,12 @@ export const useCartStore = create<CartStore>((set, get) => ({
     } finally {
       set({ isLoading: false });
     }
+  },
+  totalPriceCart: () => {
+    const items = get().cartItems;
+    return items.reduce(
+      (total, item) => total + item.product.total * item.quantity,
+      0
+    );
   },
 }));
