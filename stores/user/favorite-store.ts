@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { addFavorite, getFavorites } from "@/actions";
-import { Product } from "@/components/product/interface";
+import { Product } from "@/components/interfaces/interface";
 import { toast } from "sonner";
 
 

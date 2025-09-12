@@ -1,27 +1,20 @@
 "use server";
 import { envs } from "@/env";
 import { auth } from "@clerk/nextjs/server";
-type ShoppingCartItem = {
-  productId: string;
-  quantity: number;
-};
-export const createSale = async (shoppingCartItem: ShoppingCartItem[]) => {
+
+export const createSale = async () => {
   try {
     const { getToken } = await auth();
     const token = await getToken();
     if (!token) throw new Error("Debe de estar autenticado");
 
-    const response = await fetch(
-      `${envs.BackendUrl}/sales/createSale`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({shoppingCartItem}),
-      }
-    );
+    const response = await fetch(`${envs.BackendUrl}/sales/createSale`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
 
     if (!response.ok) {
       let errorMessage = "Error desconocido";

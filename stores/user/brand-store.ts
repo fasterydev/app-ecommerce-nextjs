@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { deleteBrand, getBrands } from "@/actions";
-import { Brand } from "@/components/product/interface";
+import { Brand } from "@/components/interfaces/interface";
 
 type BrandStore = {
   brands: Brand[];

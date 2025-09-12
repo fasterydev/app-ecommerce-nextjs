@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import { Product } from "@/components/product/interface";
+import { Product } from "@/components/interfaces/interface";
 import { Button } from "@/components/ui/button";
 import {
   BadgeCheckIcon,
@@ -116,10 +116,14 @@ export default function ProductIdView({
             </div>
           ) : null}
           <p className="text-gray-600 mt-3">{currentProduct?.description}</p>
-          <p className="text-3xl font-medium mt-6">
-            {currencyFormat(convertFromMilliunits(currentProduct?.cost) || 0)}
+          <p className="mt-4">
+            <Button className="text-3xl font-medium py-6">
+              {currencyFormat(
+                convertFromMilliunits(currentProduct?.total) || 0
+              )}
+            </Button>
           </p>
-          <hr className="bg-gray-600 my-6" />
+          <hr className="bg-gray-600 my-5" />
           <div className="overflow-x-auto">
             <table className="table-auto border-collapse w-full max-w-72">
               <tbody>

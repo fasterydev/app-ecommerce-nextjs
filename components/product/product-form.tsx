@@ -18,7 +18,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { BrandSelector } from "../product/brand-selector";
 import { Switch } from "../ui/switch";
-import { Product } from "../product/interface";
+import { Product } from "../interfaces/interface";
 import { HtmlEditor } from "../shared/simple-editor";
 import { AmountInput } from "../shared/amount-input";
 import {

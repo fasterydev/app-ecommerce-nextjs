@@ -98,13 +98,12 @@ export default function QuienesSomosPage() {
 
               <div className="flex justify-center md:justify-start mb-6">
                 <Image
-                  src="/logo-color-webp.webp"
-                  alt="logo-color-webp"
+                  src="/logo_color.webp"
+                  alt="logo-color"
                   width={300}
                   height={300}
                 />
               </div>
-
               <p className="mb-2 max-w-xl text-lg text-justify">
                 En Cabellos del Sol nos apasiona realzar tu belleza y cuidado
                 personal. Por eso, te ofrecemos una experiencia de compra en

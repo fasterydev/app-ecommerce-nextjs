@@ -1,5 +1,4 @@
 "use client";
-
 import { Minus, Plus, ShoppingCartIcon, Trash2, X } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useState } from "react";
@@ -14,6 +13,8 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import Link from "next/link";
 import { useCartStore } from "@/stores/cart-store";
 import { useUser } from "@clerk/nextjs";
+import { currencyFormat } from "@/utils/currencyFormat";
+import { convertFromMilliunits } from "@/utils/covertAmountMiliunits";
 
 export function ShoppingCartIconHome() {
   const [open, setOpen] = useState(false);
@@ -35,8 +36,7 @@ export function ShoppingCartIconHome() {
       );
       setSubtotal(subtotalValue);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [cartItems]);
 
   useEffect(() => {
     if (isLoaded && user) {
@@ -44,8 +44,6 @@ export function ShoppingCartIconHome() {
     }
     // }, []);
   }, [fetchCart, isLoaded, user]);
-
-  const total = subtotal; // Aquí puedes sumar envío si luego lo manejas
 
   const cartCount = cartItems?.length || 0;
 
@@ -130,7 +128,9 @@ export function ShoppingCartIconHome() {
                         {item?.product?.name}
                       </h4>
                       <p className="text-sm font-medium">
-                        ${item?.product?.total}
+                        {currencyFormat(
+                          convertFromMilliunits(item?.product?.total) || 0
+                        )}
                       </p>
                       <div className="flex items-center gap-2">
                         <Button
@@ -172,21 +172,18 @@ export function ShoppingCartIconHome() {
           )}
 
           <DropdownMenuSeparator />
-          <div className="p-4 space-y-2">
+          <div className="p-2 space-y-2">
             <div className="flex items-center justify-between text-sm">
               <span>Subtotal:</span>
-              <span className="font-medium">${subtotal.toFixed(2)}</span>
+              <span className="font-medium">
+                {currencyFormat(convertFromMilliunits(subtotal) || 0)}
+              </span>
             </div>
-            <div className="flex items-center justify-between text-sm">
+            <div className="flex items-center justify-between text-sm pb-1">
               <span>Envío:</span>
               <span className="font-medium">
                 Calculado al finalizar la compra
               </span>
-            </div>
-            <DropdownMenuSeparator />
-            <div className="flex items-center justify-between font-medium">
-              <span>Total:</span>
-              <span>${total.toFixed(2)}</span>
             </div>
             <Link href="/shopping-cart">
               <Button onClick={() => setOpen(false)} className="w-full">

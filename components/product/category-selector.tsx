@@ -10,7 +10,7 @@ import {
 import { Label } from "@/components/ui/label";
 import clsx from "clsx";
 import { useEffect } from "react";
-import { Category } from "./interface";
+import { Category } from "../interfaces/interface";
 import { useCategoryStore } from "@/stores/user/category-store";
 
 type CategorySelectorProps = {

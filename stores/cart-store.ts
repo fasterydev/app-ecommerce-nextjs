@@ -7,7 +7,7 @@ import {
   createSale,
 } from "@/actions";
 import { toast } from "sonner";
-import { Product } from "@/components/product/interface";
+import { Product } from "@/components/interfaces/interface";
 
 type ShoppingCartItem = {
   id: string;
@@ -24,7 +24,7 @@ type CartStore = {
   addItem: (productId: string) => Promise<void>;
   decreaseItem: (productId: string) => Promise<void>;
   removeItem: (productId: string) => Promise<void>;
-  createSale: (items: ShoppingCartItem[]) => Promise<void>;
+  createSale: () => Promise<void>;
 };
 
 export const useCartStore = create<CartStore>((set, get) => ({
@@ -149,14 +149,10 @@ export const useCartStore = create<CartStore>((set, get) => ({
     }
   },
 
-  createSale: async (items) => {
+  createSale: async () => {
     set({ isLoading: true });
     try {
-      const itemsSale = items.map((item) => ({
-        productId: item.product.id,
-        quantity: Number(item.quantity),
-      }));
-      const res = await createSale(itemsSale);
+      const res = await createSale();
       await get().fetchCart();
       toast.success(res.message || "Venta creada exitosamente");
     } catch (err) {

@@ -18,7 +18,7 @@ import { useCartStore } from "@/stores/cart-store";
 import { useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import { currencyFormat } from "@/utils/currencyFormat";
-import { Product } from "./interface";
+import { Product } from "../interfaces/interface";
 import Link from "next/link";
 
 const ProductCard = ({ product }: { product: Product }) => {
@@ -54,7 +54,7 @@ const ProductCard = ({ product }: { product: Product }) => {
 
   return (
     <Card className="p-2.5 relative mb-auto">
-      <Link href={`/product/${product.id}`}>
+      <Link href={`/product/${product.slug}`}>
         <div className="flex flex-col items-start w-full cursor-pointer">
           <div className="cursor-pointer group rounded-lg w-full md:h-52 flex items-center justify-center ">
             <Image

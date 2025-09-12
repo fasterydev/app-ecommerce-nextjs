@@ -1,7 +1,7 @@
 "use client";
 import { createBrand, updateCategory } from "@/actions";
 import BrandAlert from "@/components/product/form-brand";
-import { Brand, Category } from "@/components/product/interface";
+import { Brand, Category } from "@/components/interfaces/interface";
 import { DeleteAlert } from "@/components/shared/delete-alert";
 import {
   Table,
