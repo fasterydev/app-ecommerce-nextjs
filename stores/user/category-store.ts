@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { deleteCategory, getCategories } from "@/actions";
-import { Category } from "@/components/product/interface";
+import { Category } from "@/components/interfaces/interface";
 
 type CategoryStore = {
   categories: Category[];

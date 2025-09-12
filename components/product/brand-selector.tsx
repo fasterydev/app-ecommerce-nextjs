@@ -10,7 +10,7 @@ import {
 import { Label } from '@/components/ui/label';
 import clsx from 'clsx';
 import { useEffect, useState } from 'react';
-import { Brand } from './interface';
+import { Brand } from '../interfaces/interface';
 import { getBrands } from '@/actions';
 
 type BrandSelectorProps = {

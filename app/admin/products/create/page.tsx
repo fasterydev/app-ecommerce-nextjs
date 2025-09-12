@@ -1,5 +1,5 @@
 "use client";
-import { Product } from "@/components/product/interface";
+import { Product } from "@/components/interfaces/interface";
 import ProductForm from "@/components/product/product-form";
 import { useProductStore } from "@/stores/user/product-store";
 import { useRouter } from "next/navigation";

@@ -2,7 +2,6 @@
 import { Minus, Plus, ShoppingCartIcon, Trash2 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useCartStore } from "@/stores/cart-store";
@@ -13,21 +12,6 @@ import { CartSummary } from "@/components/shared/cart-summary";
 export default function ShoppingCartPage() {
   const { cartItems, isLoading, addItem, decreaseItem, removeItem } =
     useCartStore();
-  const [subtotal, setSubtotal] = useState(0);
-  const [total, setTotal] = useState(0);
-
-  useEffect(() => {
-    const calculateSubtotal = () => {
-      const subtotalValue = cartItems.reduce(
-        (acc, item) => acc + item.product.total * item.quantity,
-        0
-      );
-      setSubtotal(subtotalValue);
-      setTotal(subtotalValue);
-    };
-
-    calculateSubtotal();
-  }, [cartItems]);
 
   if (cartItems.length === 0) {
     return (
@@ -109,10 +93,6 @@ export default function ShoppingCartPage() {
                 </div>
               ))}
             </CardContent>
-            <pre>
-              {total}
-              {subtotal}
-            </pre>
           </Card>
         </div>
         <div>

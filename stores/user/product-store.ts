@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { createProduct, getProducts } from "@/actions";
-import { Product } from "@/components/product/interface";
+import { Product } from "@/components/interfaces/interface";
 import { toast } from "sonner";
 
 type ProductStore = {
@@ -10,7 +10,7 @@ type ProductStore = {
   fetchProducts: () => Promise<void>;
   setProducts: (items: Product[]) => void;
   createProduct: (product: Partial<Product>) => Promise<void>;
-  getProductId: (id: string) => Product | undefined;
+  getProductId: (slug: string) => Product | undefined;
   getProductsRandom: (count: number) => Product[];
 };
 
@@ -49,12 +49,12 @@ export const useProductStore = create<ProductStore>((set, get) => ({
     }
   },
 
-  getProductId: (id: string) => {
+  getProductId: (slug: string) => {
     try {
       const state = get();
-      return state.products.find((product) => product.id === id);
+      return state.products.find((product) => product.slug === slug);
     } catch (error) {
-      console.error("Error al obtener el producto por ID:", error);
+      console.error("Error al obtener el producto por slug:", error);
       return undefined;
     } finally {
       set({ isLoading: false });
