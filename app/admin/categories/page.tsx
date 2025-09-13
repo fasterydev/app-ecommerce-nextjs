@@ -15,6 +15,8 @@ import {
 import { useCategoryStore } from "@/stores/user/category-store";
 import { useEffect } from "react";
 import { toast } from "sonner";
+import { Card } from "@/components/ui/card";
+import { TagIcon } from "lucide-react";
 
 export default function CategoriesPage() {
   const { categories, fetchCategories, deleteCategory } = useCategoryStore();
@@ -61,7 +63,12 @@ export default function CategoriesPage() {
     <div>
       <div className="flex items-center justify-between mb-4">
         <div>
-          <h1 className="text-xl font-semibold">Categorias</h1>
+          <div className="flex items-center gap-3">
+            <Card className="p-2 w-fit shadow-sm">
+              <TagIcon className="text-primary" size={28} />
+            </Card>
+            <h1 className="text-xl font-semibold">Categorias</h1>
+          </div>
           <p className="text-sm text-muted-foreground">
             Aquí puedes ver todas las categorías de productos. Puedes editar o
             eliminar cada categoría según sea necesario.

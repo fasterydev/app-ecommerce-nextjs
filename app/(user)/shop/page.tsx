@@ -442,7 +442,7 @@ export default function ProductsPage() {
     <div className="flex min-h-screen flex-col">
       <main className="flex-1 pb-12 pt-6">
         <div className="container mx-auto">
-          <div className="flex items-center justify-between">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 sm:gap-0">
             <h1 className="text-2xl font-bold sm:text-3xl">Productos</h1>
             <div className="items-center space-x-2 flex">
               <Sheet>

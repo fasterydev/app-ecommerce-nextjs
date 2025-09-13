@@ -16,6 +16,7 @@ import { Button } from "@/components/ui/button";
 import { EditIcon, EyeIcon, PackageIcon, PlusIcon } from "lucide-react";
 import { useEffect } from "react";
 import { Badge } from "@/components/ui/badge";
+import { Card } from "@/components/ui/card";
 
 export default function ProductsAdmin() {
   const { products, fetchProducts } = useProductStore();
@@ -29,7 +30,12 @@ export default function ProductsAdmin() {
     <div>
       <div className="flex items-center justify-between mb-4">
         <div>
-          <h1 className="text-xl font-semibold">Inventario</h1>
+          <div className="flex items-center gap-3">
+            <Card className="p-2 w-fit shadow-sm">
+              <PackageIcon className="text-primary" size={28} />
+            </Card>
+            <h1 className="text-xl font-semibold">Inventario</h1>
+          </div>
           <p className="text-sm text-muted-foreground">
             Aquí puedes ver y administrar los productos disponibles en la
             tienda.
@@ -81,7 +87,9 @@ export default function ProductsAdmin() {
                     variant="outline"
                     className={`px-2 py-0.5 flex items-center gap-1`}
                   >
-                    {product?.category ? product.category.name : "Sin categoría"}
+                    {product?.category
+                      ? product.category.name
+                      : "Sin categoría"}
                   </Badge>
                 </TableCell>
                 <TableCell className="font-medium">
