@@ -1,9 +1,9 @@
 "use client";
 import {
-  CheckCircle2Icon,
   Loader2Icon,
   PlusCircleIcon,
   ShoppingCartIcon,
+  XCircleIcon,
 } from "lucide-react";
 import { Button } from "../ui/button";
 import { useRouter } from "next/navigation";
@@ -11,6 +11,7 @@ import { useState } from "react";
 import { useUser } from "@clerk/nextjs";
 import { useCartStore } from "@/stores/cart-store";
 import { cn } from "@/lib/utils";
+import { useProductStore } from "@/stores/user/product-store";
 
 type Props = {
   productId: string;
@@ -23,72 +24,79 @@ export default function ButtonAddToCart({
   classNameButton,
   size = "default",
 }: Props) {
-  const [isAddingToCart, setIsAddingToCart] = useState(false);
   const [isAddedToCart, setIsAddedToCart] = useState(false);
-
   const { user, isLoaded } = useUser();
   const router = useRouter();
   const { addItem, cartItems } = useCartStore();
+  const { getProductId } = useProductStore();
 
-  const handleAddToCart = () => {
+  const product = getProductId(productId);
+
+  const handleAddToCart = (id: string) => {
     if (user === null && isLoaded) {
       router.push("/auth/sign-in");
       return;
     }
 
-    addItem(productId);
-    setIsAddingToCart(true);
+    if (!product || product.stock <= 0) return;
+    setIsAddedToCart(true);
 
-    // Simulate loading for 2 seconds
+    addItem(id);
+
     setTimeout(() => {
-      setIsAddingToCart(false);
-      setIsAddedToCart(true);
-
-      // Reset the added state after 2 seconds
-      setTimeout(() => {
-        setIsAddedToCart(false);
-      }, 2000);
+      setIsAddedToCart(false);
     }, 2000);
   };
 
-  const isProductInCart = Array.isArray(cartItems)
-    ? cartItems.some((item) => item.product.id === productId)
-    : false;
+  const productInCart = cartItems.find(
+    (item) => item.product.slug === productId
+  );
+
+  if (!product) {
+    return null;
+  }
+
+  const isOutOfStock = product.stock - (productInCart?.quantity || 0) <= 0;
 
   return (
     <Button
       size={size}
-      onClick={handleAddToCart}
-      disabled={isAddingToCart}
+      onClick={() => handleAddToCart(product.id)}
+      disabled={isAddedToCart || isOutOfStock}
       className={cn(
-        isAddedToCart &&
-          "bg-green-100 hover:bg-green-100 text-green-700 hover:text-green-700 border-green-200 hover:border-green-200",
+        isOutOfStock && "bg-gray-200 text-gray-500 cursor-not-allowed",
         classNameButton
       )}
     >
-      {isAddingToCart ? (
+      {/* Loading */}
+      {isAddedToCart && (
         <>
           <Loader2Icon size={18} className="animate-spin" />
           Cargando...
         </>
-      ) : isAddedToCart ? (
+      )}
+
+      {/* Sin stock */}
+      {isOutOfStock && !isAddedToCart && (
         <>
-          <CheckCircle2Icon size={18} className="  animate-appear" />
-          Añadido
+          <XCircleIcon size={18} />
+          Sin stock
         </>
-      ) : (
+      )}
+
+      {/* Ya en carrito */}
+      {productInCart && !isOutOfStock && !isAddedToCart && (
         <>
-          {isProductInCart ? (
-            <>
-              <PlusCircleIcon size={18} />
-              Añadir otro
-            </>
-          ) : (
-            <>
-              <ShoppingCartIcon size={18} />
-              Añadir al carrito
-            </>
-          )}
+          <PlusCircleIcon size={18} />
+          Añadir otro
+        </>
+      )}
+
+      {/* No está en carrito */}
+      {!productInCart && !isOutOfStock && !isAddedToCart && (
+        <>
+          <ShoppingCartIcon size={18} />
+          Añadir al carrito
         </>
       )}
     </Button>

@@ -56,11 +56,9 @@ export const useProductStore = create<ProductStore>((set, get) => ({
     } catch (error) {
       console.error("Error al obtener el producto por slug:", error);
       return undefined;
-    } finally {
-      set({ isLoading: false });
     }
   },
-  
+
   getProductsRandom: (count: number) => {
     const state = get();
     const shuffled = [...state.products].sort(() => 0.5 - Math.random());
