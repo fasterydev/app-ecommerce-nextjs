@@ -8,7 +8,9 @@ import {
 } from "@/actions";
 import { toast } from "sonner";
 import { Product } from "@/components/interfaces/interface";
+
 type TypeShipping = "local_delivery" | "national_delivery" | "pickup";
+
 type ShoppingCartItem = {
   id: string;
   product: Product;
@@ -32,58 +34,53 @@ export const useCartStore = create<CartStore>((set, get) => ({
   cartItems: [],
   isLoading: false,
 
-  setCartItems: (items) => set({ cartItems: items }),
+  setCartItems: (items) =>
+    set({ cartItems: Array.isArray(items) ? items : [] }),
 
   fetchCart: async () => {
     set({ isLoading: true });
     try {
       const res = await getShoppingCart();
-      if (res.statusCode === 200) {
-        set({
-          cartItems: Array.isArray(res.shoppingCart?.items)
-            ? res.shoppingCart.items
-            : [],
-        });
+      if (res.statusCode === 200 && Array.isArray(res.shoppingCart?.items)) {
+        set({ cartItems: res.shoppingCart.items });
       } else {
         set({ cartItems: [] });
       }
     } catch (err) {
-      console.error("Error al obtener el carrito:", err);
+      console.error(" Error al obtener el carrito:", err);
       set({ cartItems: [] });
+      toast.error("Error al obtener el carrito");
     } finally {
       set({ isLoading: false });
     }
   },
 
   addItem: async (productId) => {
-    const prevItems = Array.isArray(get().cartItems) ? get().cartItems : [];
-    const existingItem = prevItems.find(
-      (item) => item.product.id === productId
-    );
-
+    const prevItems = [...get().cartItems];
+    const existingItem = prevItems.find((i) => i.product.id === productId);
     if (existingItem) {
-      set({
-        cartItems: prevItems.map((item) =>
-          item.product.id === productId
-            ? { ...item, quantity: item.quantity + 1 }
-            : item
-        ),
+      existingItem.quantity += 1;
+    } else {
+      prevItems.push({
+        id: crypto.randomUUID(),
+        product: { id: productId } as Product, // placeholder hasta fetch real
+        quantity: 1,
       });
     }
+    set({ cartItems: prevItems, isLoading: true });
 
-    set({ isLoading: true });
     try {
       const res = await addItemToCart(productId);
       if (res.statusCode === 201) {
         await get().fetchCart();
-        // toast.success("Producto agregado al carrito");
+        toast.success("Producto agregado al carrito");
       } else {
-        set({ cartItems: prevItems });
+        set({ cartItems: get().cartItems }); // revertimos
         toast.error(res.message || "Error al agregar el producto");
       }
     } catch (err) {
-      console.error("Error al agregar el producto:", err);
-      set({ cartItems: prevItems });
+      console.error("Error al agregar producto:", err);
+      set({ cartItems: get().cartItems });
       toast.error("Error de red al agregar el producto");
     } finally {
       set({ isLoading: false });
@@ -91,60 +88,51 @@ export const useCartStore = create<CartStore>((set, get) => ({
   },
 
   decreaseItem: async (productId) => {
-    const prevItems = get().cartItems;
-    const existingItem = prevItems.find(
-      (item) => item.product.id === productId
-    );
+    const prevItems = [...get().cartItems];
+    const updatedItems = prevItems
+      .map((item) =>
+        item.product.id === productId
+          ? { ...item, quantity: item.quantity - 1 }
+          : item
+      )
+      .filter((item) => item.quantity > 0);
 
-    if (existingItem && existingItem.quantity === 1) {
-      set({
-        cartItems: prevItems.filter((item) => item.product.id !== productId),
-      });
-    } else {
-      set({
-        cartItems: prevItems.map((item) =>
-          item.product.id === productId
-            ? { ...item, quantity: item.quantity - 1 }
-            : item
-        ),
-      });
-    }
+    set({ cartItems: updatedItems, isLoading: true });
 
-    set({ isLoading: true });
     try {
       const res = await decreaseItemQuantity(productId);
       if (res.statusCode === 201) {
         await get().fetchCart();
       } else {
-        set({ cartItems: prevItems });
-        toast.error(res.message || "Error al eliminar el producto");
+        set({ cartItems: prevItems }); // revertimos
+        toast.error(res.message || "Error al disminuir producto");
       }
     } catch (err) {
-      console.error("Error al eliminar el producto:", err);
+      console.error("❌ Error al disminuir producto:", err);
       set({ cartItems: prevItems });
-      toast.error("Error de red al eliminar el producto");
+      toast.error("Error de red al disminuir producto");
     } finally {
       set({ isLoading: false });
     }
   },
 
   removeItem: async (productId) => {
-    const prevItems = get().cartItems;
+    const prevItems = [...get().cartItems];
     set({
-      cartItems: prevItems.filter((item) => item.product.id !== productId),
+      cartItems: prevItems.filter((i) => i.product.id !== productId),
       isLoading: true,
     });
 
     try {
       const res = await removeItemFromCart(productId);
       if (res.statusCode !== 201) {
-        set({ cartItems: prevItems });
+        set({ cartItems: prevItems }); // revertimos
         toast.error(res.message || "Error al eliminar el producto");
       }
     } catch (err) {
-      console.error("Error al eliminar el producto:", err);
+      console.error("❌ Error al eliminar producto:", err);
       set({ cartItems: prevItems });
-      toast.error("Error de red al eliminar el producto");
+      toast.error("Error de red al eliminar producto");
     } finally {
       set({ isLoading: false });
     }
@@ -155,18 +143,22 @@ export const useCartStore = create<CartStore>((set, get) => ({
     try {
       const res = await createSale(typeShipping);
       await get().fetchCart();
-      toast.success(res.message || "Venta creada exitosamente");
+      if (res.statusCode === 201) {
+        toast.success(res.message || "✅ Venta creada exitosamente");
+      } else {
+        toast.error(res.message || "Error al crear la venta");
+      }
     } catch (err) {
-      console.error("Error al crear la venta:", err);
-      toast.error("Error al crear la venta");
+      console.error("❌ Error al crear venta:", err);
+      toast.error("Error de red al crear la venta");
     } finally {
       set({ isLoading: false });
     }
   },
+
   totalPriceCart: () => {
-    const items = get().cartItems;
-    return items.reduce(
-      (total, item) => total + item.product.total * item.quantity,
+    return get().cartItems.reduce(
+      (total, item) => total + (item.product.total || 0) * item.quantity,
       0
     );
   },

@@ -166,7 +166,7 @@ export default function ProductIdView({
           <div className="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-3 gap-4 mt-5 items-stretch">
             {/* Botón principal */}
 
-            <ButtonAddToCart size="lg" productId={currentProduct.id} />
+            <ButtonAddToCart size="lg" productId={currentProduct.slug} />
 
             {/* WhatsApp */}
             <WhatsappButton className="w-full" />

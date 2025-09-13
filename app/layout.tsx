@@ -48,11 +48,12 @@ export default function RootLayout({
             attribute="class"
             defaultTheme="light"
             enableSystem={true}
+            forcedTheme="light"
             themes={["light", "dark", "system"]}
             disableTransitionOnChange
           >
             <main>{children}</main>
-            <Toaster expand={false} position="top-center" richColors />
+            <Toaster expand={false} position="bottom-right" richColors />
           </ThemeProvider>
         </body>
       </html>

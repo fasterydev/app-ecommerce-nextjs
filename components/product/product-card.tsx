@@ -38,30 +38,12 @@ const ProductCard = ({ product }: { product: Product }) => {
                   Top ventas
                 </Badge>
               )}
+              {product.stock < 1 && (
+                <Badge className="bg-rose-500 text-xs font-medium text-white hover:bg-rose-500">
+                  Sin stock
+                </Badge>
+              )}
             </div>
-            {/* <button
-              onClick={() => toggleFavorite(product.id)}
-              className={cn(
-                "top-2 right-2 border absolute flex items-center justify-center h-8 w-8 rounded-full shadow-md transition-all duration-300 ease-in-out",
-                isFavorite(product.id)
-                  ? "bg-rose-500 hover:bg-rose-600"
-                  : "bg-white hover:bg-gray-100"
-              )}
-            >
-              <HeartIcon
-                className={cn(
-                  "transition-all duration-300 ease-in-out",
-                  isFavorite(product.id)
-                    ? "text-white fill-white animate-heartbeat"
-                    : "text-gray-500 hover:text-rose-500"
-                )}
-                size={15}
-              />
-
-              {isFavorite(product.id) && (
-                <span className="absolute inset-0 rounded-full animate-ping-slow bg-rose-400 opacity-75"></span>
-              )}
-            </button> */}
           </div>
           {product.brand ? (
             <div className="w-full text-xs pt-1.5 -mb-1 text-muted-foreground flex items-center truncate">
@@ -87,7 +69,7 @@ const ProductCard = ({ product }: { product: Product }) => {
                 />
               ))}
             </div>
-            <span className="text-xs text-gray-500">(24)</span>
+            {/* <span className="text-xs text-gray-500">(24)</span> */}
           </div>
           <div className="flex items-center pt-1">
             <>
@@ -100,7 +82,10 @@ const ProductCard = ({ product }: { product: Product }) => {
       </Link>
 
       <div className="-mt-6">
-        <ButtonAddToCart classNameButton="mt-1 text-xs w-full" productId={product.id} />
+        <ButtonAddToCart
+          classNameButton="mt-1 text-xs w-full"
+          productId={product.slug}
+        />
       </div>
     </Card>
   );
