@@ -24,7 +24,7 @@ export default function UserAdminPage() {
   return (
     <div>
       {/* Header with icon inside card, title outside */}
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-3">
         <Card className="p-2 w-fit shadow-sm">
           <UserIcon className="text-primary" size={28} />
         </Card>
@@ -39,10 +39,9 @@ export default function UserAdminPage() {
         <Table>
           <TableHeader className="bg-muted sticky top-0 z-10">
             <TableRow>
-              <TableHead>User Name</TableHead>
-              <TableHead>First Name</TableHead>
-              <TableHead>Last Name</TableHead>
-              <TableHead>Email</TableHead>
+              <TableHead className="text-center">Nombre</TableHead>
+              <TableHead>Apellido</TableHead>
+              <TableHead>Correo</TableHead>
               <TableHead>Role</TableHead>
               <TableHead>Status</TableHead>
               <TableHead>Actions</TableHead>
@@ -51,8 +50,7 @@ export default function UserAdminPage() {
           <TableBody>
             {users.map((user) => (
               <TableRow key={user.id}>
-                <TableCell>{user.userName}</TableCell>
-                <TableCell>{user.firstName}</TableCell>
+                <TableCell className="text-center">{user.firstName}</TableCell>
                 <TableCell>{user.lastName}</TableCell>
                 <TableCell>{user.email}</TableCell>
                 <TableCell>{user.roles.join(", ")}</TableCell>

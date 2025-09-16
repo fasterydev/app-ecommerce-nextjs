@@ -4,6 +4,7 @@ import {
   CheckCircle,
   DollarSign,
   EyeIcon,
+  Loader2Icon,
   Package,
   RotateCcwIcon,
   User,
@@ -26,6 +27,7 @@ import { SaleStatusBadge } from "../sale/sale-status-badge";
 import { updateSale } from "@/actions";
 import Link from "next/link";
 import { dateFormat } from "@/utils/dateFormat";
+import { useState } from "react";
 
 type Props = {
   sale: Sale;
@@ -33,38 +35,54 @@ type Props = {
 };
 
 export function DetailsProduct({ sale, mode }: Props) {
+  const [isLoading, setIsLoading] = useState(false);
   const isAdmin = mode === "edit";
 
   const handleCompleteSale = async (id: string) => {
-    const result = await updateSale(id, {
-      status: "completed",
-    });
-    if (result.statusCode === 200) {
-      console.log(result);
-    } else {
-      console.log(result);
+    try {
+      setIsLoading(true);
+      const result = await updateSale(id, {
+        status: "completed",
+      });
+      if (result.statusCode === 200) {
+        console.log(result);
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
   const handleCancelSale = async (id: string) => {
-    const result = await updateSale(id, {
-      status: "canceled",
-    });
-    if (result.statusCode === 200) {
-      console.log(result);
-    } else {
-      console.log(result);
+    try {
+      setIsLoading(true);
+      const result = await updateSale(id, {
+        status: "canceled",
+      });
+      if (result.statusCode === 200) {
+        console.log(result);
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
   const handleResetSale = async (id: string) => {
-    const result = await updateSale(id, {
-      status: "pending",
-    });
-    if (result.statusCode === 200) {
-      console.log(result);
-    } else {
-      console.log(result);
+    try {
+      setIsLoading(true);
+      const result = await updateSale(id, {
+        status: "pending",
+      });
+      if (result.statusCode === 200) {
+        console.log(result);
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -222,19 +240,39 @@ export function DetailsProduct({ sale, mode }: Props) {
                     size="sm"
                     variant="default"
                     onClick={() => handleCompleteSale?.(sale.id)}
+                    disabled={isLoading}
                     className="flex items-center gap-2 w-full bg-emerald-500 hover:bg-emerald-600 text-white"
                   >
-                    <CheckCircle className="h-4 w-4" />
-                    Marcar Completado
+                    {isLoading ? (
+                      <>
+                        <Loader2Icon size={18} className="animate-spin" />
+                        Cargando...
+                      </>
+                    ) : (
+                      <>
+                        <CheckCircle className="h-4 w-4" />
+                        Marcar Completado
+                      </>
+                    )}
                   </Button>
                   <Button
                     size="sm"
                     variant="destructive"
+                    disabled={isLoading}
                     onClick={() => handleCancelSale?.(sale.id)}
                     className="flex items-center gap-2 w-full"
                   >
-                    <XCircle className="h-4 w-4" />
-                    Cancelar Pedido
+                    {isLoading ? (
+                      <>
+                        <Loader2Icon size={18} className="animate-spin" />
+                        Cargando...
+                      </>
+                    ) : (
+                      <>
+                        <XCircle className="h-4 w-4" />
+                        Cancelar Pedido
+                      </>
+                    )}
                   </Button>
                 </div>
               </div>
@@ -249,11 +287,21 @@ export function DetailsProduct({ sale, mode }: Props) {
                   <Button
                     size="sm"
                     variant="default"
+                    disabled={isLoading}
                     onClick={() => handleResetSale?.(sale.id)}
                     className="flex items-center gap-2 w-full bg-purple-500 hover:bg-purple-600 text-white"
                   >
-                    <RotateCcwIcon className="h-4 w-4" />
-                    Reiniciar Estado
+                    {isLoading ? (
+                      <>
+                        <Loader2Icon size={18} className="animate-spin" />
+                        Cargando...
+                      </>
+                    ) : (
+                      <>
+                        <RotateCcwIcon className="h-4 w-4" />
+                        Reiniciar Estado
+                      </>
+                    )}
                   </Button>
                 </div>
               </div>

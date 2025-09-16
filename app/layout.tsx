@@ -49,7 +49,7 @@ export default function RootLayout({
             defaultTheme="light"
             enableSystem={true}
             forcedTheme="light"
-            themes={["light", "dark", "system"]}
+            themes={["light"]}
             disableTransitionOnChange
           >
             <main>{children}</main>
