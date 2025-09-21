@@ -9,13 +9,13 @@ FasteryShop is a modern e-commerce platform built with cutting-edge technologies
 - **Backend/API:** NestJS
 - **External Services:**
   - **Fastery Nexus API:** Money management and cash flow system.
-  - **Tracking Plus API:** Package logistics and shipment tracking system.
+  - **Traky App API:** Package logistics and shipment tracking system.
 
 ## Features
 - Secure authentication and user management with Clerk.
 - Seamless communication between frontend and backend through REST APIs.
 - Fastery Nexus integration for handling financial operations.
-- Tracking Plus integration for real-time package tracking.
+- Traky App integration for real-time package tracking.
 - Scalable architecture for future growth.
 
 ## Getting Started
