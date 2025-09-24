@@ -12,12 +12,6 @@ export default function NotFound() {
           <div className="grid md:grid-cols-2">
             <div className="relative hidden md:block -my-8">
               <div className="absolute inset-0 bg-gradient-to-r from-primary/80 to-primary/40 z-10"></div>
-              {/* <Image
-                src="/iamge.webp"
-                alt="Shop Fastery"
-                fill
-                className="object-cover"
-              /> */}
               <div className="absolute inset-0 flex items-center justify-center z-20">
                 <div className="text-white text-center p-6">
                   <h2 className="text-2xl font-bold mb-2">¿Necesitas ayuda?</h2>
