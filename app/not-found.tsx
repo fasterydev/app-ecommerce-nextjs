@@ -53,14 +53,6 @@ export default function NotFound() {
           </div>
         </Card>
       </main>
-
-      <footer className="w-full border-t bg-background py-4">
-        <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
-          <p className="text-center text-sm text-muted-foreground">
-            © 2025 Cabello del Sol. Todos los derechos reservados.
-          </p>
-        </div>
-      </footer>
     </div>
   );
 }
