@@ -6,10 +6,10 @@ import { LucideProps } from "lucide-react";
 import { ForwardRefExoticComponent, RefAttributes } from "react";
 type Props = {
   id?: string | undefined;
-  decimalsLimit?: number ;
-  decimalScale?: number ;
+  decimalsLimit?: number;
+  decimalScale?: number;
   defaultValue?: string | number | undefined;
-  value?: string | number | readonly string[] | undefined;
+  value?: string | number | undefined;
   onValueChange?: (
     value: string | undefined,
     name?: string,
@@ -17,7 +17,7 @@ type Props = {
   ) => void;
   placeholder?: string | undefined;
   disabled?: boolean;
-  className?: string; 
+  className?: string;
   Icon: ForwardRefExoticComponent<
     Omit<LucideProps, "ref"> & RefAttributes<SVGSVGElement>
   >;
