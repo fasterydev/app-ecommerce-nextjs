@@ -70,7 +70,7 @@ const Navbar = () => {
         {/* Logo en XL */}
         <div className="hidden xl:block">
           <Link href="/">
-            <LogoTheme />
+            <LogoTheme mode="light" />
           </Link>
         </div>
       </div>
@@ -78,7 +78,7 @@ const Navbar = () => {
       {/* CENTRO en móvil */}
       <div className="flex justify-center xl:hidden">
         <Link href="/">
-          <LogoTheme />
+          <LogoTheme mode="light" />
         </Link>
       </div>
 

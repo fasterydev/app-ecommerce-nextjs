@@ -14,6 +14,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Link from "next/link";
 import { LogoTheme } from "@/components/shared/logo-theme";
+import { LoaderCircleIcon } from "lucide-react";
 
 export default function SignInPage() {
   return (
@@ -27,7 +28,7 @@ export default function SignInPage() {
                   <Card className="w-full sm:w-96">
                     <CardHeader>
                       <div className="text-center items-center mx-auto">
-                        <LogoTheme />
+                        <LogoTheme mode="light" />
                       </div>
                       <CardDescription className="text-center">
                         Inicia sesión en tu cuenta
@@ -35,7 +36,7 @@ export default function SignInPage() {
                     </CardHeader>
 
                     <CardContent className="grid gap-y-4">
-                      {/* <div className="grid grid-cols-3 gap-x-4">
+                      <div className="grid grid-cols-3 gap-x-4">
                         <Clerk.Connection name="apple" asChild>
                           <Button
                             size="sm"
@@ -49,7 +50,7 @@ export default function SignInPage() {
                                   <LoaderCircleIcon className="size-4 animate-spin" />
                                 ) : (
                                   <>
-                                    <Icons.apple />
+                                    <Clerk.Icon />
                                     <>Apple</>
                                   </>
                                 )
@@ -70,7 +71,7 @@ export default function SignInPage() {
                                   <LoaderCircleIcon className="size-4 animate-spin" />
                                 ) : (
                                   <>
-                                    <Icons.google />
+                                    <Clerk.Icon />
                                     <>Google</>
                                   </>
                                 )
@@ -91,7 +92,7 @@ export default function SignInPage() {
                                   <LoaderCircleIcon className="size-4 animate-spin" />
                                 ) : (
                                   <>
-                                    <FacebookIcon />
+                                    <Clerk.Icon />
                                     Facebook
                                   </>
                                 )
@@ -99,7 +100,7 @@ export default function SignInPage() {
                             </Clerk.Loading>
                           </Button>
                         </Clerk.Connection>
-                      </div> */}
+                      </div>
                       <p className="flex items-center gap-x-3 text-sm text-muted-foreground before:h-px before:flex-1 before:bg-border after:h-px after:flex-1 after:bg-border">
                         ó
                       </p>
@@ -107,11 +108,7 @@ export default function SignInPage() {
                         <Clerk.Label asChild>
                           <Label>Correo electrónico</Label>
                         </Clerk.Label>
-                        <Clerk.Input
-                          type="email"
-                          required
-                          asChild
-                        >
+                        <Clerk.Input type="email" required asChild>
                           <Input />
                         </Clerk.Input>
                         <Clerk.FieldError className="block text-sm text-destructive" />
@@ -210,10 +207,7 @@ export default function SignInPage() {
                           <Clerk.Label asChild>
                             <Label>Contraseña</Label>
                           </Clerk.Label>
-                          <Clerk.Input
-                            type="password"
-                            asChild
-                          >
+                          <Clerk.Input type="password" asChild>
                             <Input />
                           </Clerk.Input>
                           <Clerk.FieldError className="block text-sm text-destructive" />
