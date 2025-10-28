@@ -18,20 +18,30 @@ export function LogoTheme({ mode }: { mode?: "light" | "dark" }) {
   return (
     <>
       {effectiveMode === "dark" && (
-        <Image
-          src="/logo-light.webp"
-          alt="logo-light.webp"
-          width={150}
-          height={150}
-        />
+        <div className="flex font-semibold text-lg">
+          <Image
+            src="/fastery_icon_dark.svg"
+            alt="fastery_icon_dark"
+            width={18}
+            height={18}
+            className="mr-2"
+          />
+          <div>Fastery</div>
+          <div className="text-primary">Shop</div>
+        </div>
       )}
       {effectiveMode === "light" && (
-        <Image
-          src="/logo-dark.webp"
-          alt="logo-dark.webp"
-          width={150}
-          height={150}
-        />
+        <div className="flex font-semibold text-lg ">
+          <Image
+            src="/fastery_icon_light.svg"
+            alt="fastery_icon_light"
+            width={18}
+            height={18}
+            className="mr-2"
+          />
+          <div>Fastery</div>
+          <div className="text-primary">Shop</div>
+        </div>
       )}
     </>
   );

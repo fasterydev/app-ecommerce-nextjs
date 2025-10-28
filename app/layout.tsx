@@ -12,9 +12,9 @@ const outfit = Outfit({
 });
 
 export const metadata: Metadata = {
-  title: "Cabellos del Sol | Peluquería - Estética",
+  title: "Fastery Shop",
   description:
-    "Bienvenido a Cabellos del Sol, tu destino para la peluquería y estética.",
+    "Ecommerce template built with Next.js, Tailwind CSS, and Clerk.",
   robots: {
     index: true,
     follow: true,

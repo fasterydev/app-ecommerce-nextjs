@@ -103,7 +103,7 @@ export default function SoportePage() {
                 </CardHeader>
                 <CardContent className="text-center">
                   <p className="mb-4 text-lg font-medium">
-                    info@cabellosdelsol.com
+                    info@fastery.dev
                   </p>
                   <p className="text-sm text-gray-500">
                     Escríbenos en cualquier momento

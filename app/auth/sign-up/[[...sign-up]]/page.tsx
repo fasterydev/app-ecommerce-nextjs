@@ -28,7 +28,7 @@ export default function SignUpPage() {
                   <Card className="w-full sm:w-96">
                     <CardHeader>
                       <div className="text-center items-center mx-auto">
-                        <LogoTheme />
+                        <LogoTheme mode="light" />
                       </div>
                       <CardDescription>
                         Regístrate para crear una cuenta
@@ -36,7 +36,7 @@ export default function SignUpPage() {
                     </CardHeader>
                     <CardContent className="grid gap-y-4">
                       <div className="grid grid-cols-3 gap-x-4">
-                        {/* <Clerk.Connection name="apple" asChild>
+                        <Clerk.Connection name="apple" asChild>
                           <Button
                             size="sm"
                             variant="outline"
@@ -46,9 +46,10 @@ export default function SignUpPage() {
                             <Clerk.Loading scope="provider:apple">
                               {(isLoading) =>
                                 isLoading ? (
-                                  <div>Cargando</div>
+                                  <LoaderCircleIcon className="size-4 animate-spin" />
                                 ) : (
                                   <>
+                                    <Clerk.Icon />
                                     Apple
                                   </>
                                 )
@@ -66,9 +67,10 @@ export default function SignUpPage() {
                             <Clerk.Loading scope="provider:google">
                               {(isLoading) =>
                                 isLoading ? (
-                                  <div>Cargando</div>
+                                  <LoaderCircleIcon className="size-4 animate-spin" />
                                 ) : (
                                   <>
+                                    <Clerk.Icon />
                                     Google
                                   </>
                                 )
@@ -86,16 +88,17 @@ export default function SignUpPage() {
                             <Clerk.Loading scope="provider:facebook">
                               {(isLoading) =>
                                 isLoading ? (
-                                  <div>Cargando</div>
+                                  <LoaderCircleIcon className="size-4 animate-spin" />
                                 ) : (
                                   <>
+                                    <Clerk.Icon />
                                     Facebook
                                   </>
                                 )
                               }
                             </Clerk.Loading>
                           </Button>
-                        </Clerk.Connection> */}
+                        </Clerk.Connection>
                       </div>
                       <p className="flex items-center gap-x-3 text-sm text-muted-foreground before:h-px before:flex-1 before:bg-border after:h-px after:flex-1 after:bg-border">
                         ó

@@ -105,7 +105,7 @@ export default function QuienesSomosPage() {
                 />
               </div>
               <p className="mb-2 max-w-xl text-lg text-justify">
-                En Cabellos del Sol nos apasiona realzar tu belleza y cuidado
+                En FasteryShop nos apasiona realzar tu belleza y cuidado
                 personal. Por eso, te ofrecemos una experiencia de compra en
                 línea fácil, segura y cercana, con una selección de productos de
                 la más alta calidad.
@@ -231,7 +231,7 @@ export default function QuienesSomosPage() {
           <div className="container mx-auto px-4">
             <div className="mx-auto mb-12 max-w-2xl text-center">
               <h2 className="mb-4 text-3xl font-bold">Nuestro Equipo</h2>
-              <p className="">Las personas que hacen posible Cabellos del Sol</p>
+              <p className="">Las personas que hacen posible FasteryShop</p>
             </div>
 
             <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
@@ -276,7 +276,7 @@ export default function QuienesSomosPage() {
                     2019 - Inicio
                   </h3>
                   <p className="text-blue-700">
-                    Fundamos Cabellos del Sol con la visión de simplificar las
+                    Fundamos FasteryShop con la visión de simplificar las
                     compras online.
                   </p>
                 </div>
