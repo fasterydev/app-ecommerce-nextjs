@@ -46,10 +46,10 @@ export default function RootLayout({
         <body className={`${outfit.className} antialiased`}>
           <ThemeProvider
             attribute="class"
-            defaultTheme="light"
+            defaultTheme="dark"
             enableSystem={true}
-            forcedTheme="light"
-            themes={["light"]}
+            forcedTheme="dark"
+            themes={["dark"]}
             disableTransitionOnChange
           >
             <main>{children}</main>
