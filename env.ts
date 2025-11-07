@@ -1,0 +1,55 @@
+// src/env.ts
+import { z } from "zod";
+
+const envSchema = z.object({
+  NAME_PROJECT: z.string(),
+  NEXT_PUBLIC_BACKEND_URL: z.string().url(),
+
+  NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: z.string(),
+  CLERK_SECRET_KEY: z.string(),
+
+  NEXT_PUBLIC_CLERK_SIGN_IN_URL: z.string(),
+  NEXT_PUBLIC_CLERK_SIGN_UP_URL: z.string(),
+  NEXT_PUBLIC_CLERK_SIGN_IN_FORCE_REDIRECT_URL: z.string(),
+  NEXT_PUBLIC_CLERK_SIGN_UP_FORCE_REDIRECT_URL: z.string(),
+  NEXT_PUBLIC_CLERK_SIGN_IN_FALLBACK_REDIRECT_URL: z.string(),
+  NEXT_PUBLIC_CLERK_SIGN_UP_FALLBACK_REDIRECT_URL: z.string(),
+});
+
+// 👀 Ojo: usamos parse (NO safeParse)
+// Si falta algo, lanza error y rompe el build / dev inmediatamente
+const parsed = envSchema.parse({
+  NAME_PROJECT: process.env.NAME_PROJECT,
+  NEXT_PUBLIC_BACKEND_URL: process.env.NEXT_PUBLIC_BACKEND_URL,
+
+  NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY,
+  CLERK_SECRET_KEY: process.env.CLERK_SECRET_KEY,
+
+  NEXT_PUBLIC_CLERK_SIGN_IN_URL: process.env.NEXT_PUBLIC_CLERK_SIGN_IN_URL,
+  NEXT_PUBLIC_CLERK_SIGN_UP_URL: process.env.NEXT_PUBLIC_CLERK_SIGN_UP_URL,
+  NEXT_PUBLIC_CLERK_SIGN_IN_FORCE_REDIRECT_URL: process.env.NEXT_PUBLIC_CLERK_SIGN_IN_FORCE_REDIRECT_URL,
+  NEXT_PUBLIC_CLERK_SIGN_UP_FORCE_REDIRECT_URL: process.env.NEXT_PUBLIC_CLERK_SIGN_UP_FORCE_REDIRECT_URL,
+  NEXT_PUBLIC_CLERK_SIGN_IN_FALLBACK_REDIRECT_URL: process.env.NEXT_PUBLIC_CLERK_SIGN_IN_FALLBACK_REDIRECT_URL,
+  NEXT_PUBLIC_CLERK_SIGN_UP_FALLBACK_REDIRECT_URL: process.env.NEXT_PUBLIC_CLERK_SIGN_UP_FALLBACK_REDIRECT_URL,
+});
+
+// 🎨 Mapeo legible
+export const envs = {
+  NameProject: parsed.NAME_PROJECT,
+  BackendUrl: parsed.NEXT_PUBLIC_BACKEND_URL,
+
+  Clerk: {
+    PublicKey: parsed.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY,
+    SecretKey: parsed.CLERK_SECRET_KEY,
+    SignInUrl: parsed.NEXT_PUBLIC_CLERK_SIGN_IN_URL,
+    SignUpUrl: parsed.NEXT_PUBLIC_CLERK_SIGN_UP_URL,
+    ForceRedirect: {
+      SignIn: parsed.NEXT_PUBLIC_CLERK_SIGN_IN_FORCE_REDIRECT_URL,
+      SignUp: parsed.NEXT_PUBLIC_CLERK_SIGN_UP_FORCE_REDIRECT_URL,
+    },
+    FallbackRedirect: {
+      SignIn: parsed.NEXT_PUBLIC_CLERK_SIGN_IN_FALLBACK_REDIRECT_URL,
+      SignUp: parsed.NEXT_PUBLIC_CLERK_SIGN_UP_FALLBACK_REDIRECT_URL,
+    },
+  },
+};
