@@ -18,29 +18,23 @@ export function LogoTheme({ mode }: { mode?: "light" | "dark" }) {
   return (
     <>
       {effectiveMode === "dark" && (
-        <div className="flex font-semibold text-lg">
-          <Image
-            src="/fastery_icon_dark.svg"
-            alt="fastery_icon_dark"
-            width={18}
-            height={18}
-            className="mr-2"
-          />
-          <div>Fastery</div>
-          <div className="text-primary">Shop</div>
+        <div className="flex-col ">
+          <div className="font-bold text-2xl tracking-wider text-center">
+            VILEZA
+          </div>
+          <div className="font-bold text-xs -mt-1 tracking-widest text-center">
+            MARKET
+          </div>
         </div>
       )}
       {effectiveMode === "light" && (
-        <div className="flex font-semibold text-lg ">
-          <Image
-            src="/fastery_icon_light.svg"
-            alt="fastery_icon_light"
-            width={18}
-            height={18}
-            className="mr-2"
-          />
-          <div>Fastery</div>
-          <div className="text-primary">Shop</div>
+        <div className="flex-col ">
+          <div className="font-bold text-2xl tracking-wider text-center">
+            VILEZA
+          </div>
+          <div className="font-bold text-xs -mt-1 tracking-widest text-center">
+            MARKET
+          </div>
         </div>
       )}
     </>

@@ -1,37 +1,29 @@
 import type { Metadata } from "next";
-import { Outfit } from "next/font/google";
+import { Space_Grotesk } from "next/font/google";
 import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
 import { ThemeProvider } from "@/components/theme-provider";
 import { esMX } from "@clerk/localizations";
 import { Toaster } from "sonner";
 
-const outfit = Outfit({
+const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
-  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
+  weight: ["300", "400", "500", "600", "700"],
 });
 
 export const metadata: Metadata = {
-  title: "Fastery Shop",
+  title: "Vileza Market - Tu tienda en línea de confianza",
   description:
-    "Ecommerce template built with Next.js, Tailwind CSS, and Clerk.",
+    "Descubre Vileza Market, tu tienda en línea confiable para productos de calidad a precios competitivos. Compra fácil y seguro con envío rápido y atención al cliente excepcional.",
   robots: {
     index: true,
     follow: true,
   },
   keywords: [
-    "Next.js",
-    "Clerk",
-    "Ecommerce",
-    "Template",
-    "Shop",
-    "React",
-    "Tailwind CSS",
-    "UI Components",
-    "Admin Dashboard",
-    "Product Management",
-    "User Authentication",
-    "Server Actions",
+    "Vileza Market",
+    "tienda en línea",
+    "compras en línea",
+    "productos de calidad",
   ],
 };
 
@@ -43,7 +35,7 @@ export default function RootLayout({
   return (
     <ClerkProvider localization={esMX}>
       <html lang="es" suppressHydrationWarning>
-        <body className={`${outfit.className} antialiased`}>
+        <body className={`${spaceGrotesk.className} antialiased`}>
           <ThemeProvider
             attribute="class"
             defaultTheme="light"
