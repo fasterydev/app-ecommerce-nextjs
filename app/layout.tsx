@@ -12,7 +12,7 @@ const outfit = Outfit({
 });
 
 export const metadata: Metadata = {
-  title: "Fastery Shop",
+  title: "Fastery Shop1",
   description:
     "Ecommerce template built with Next.js, Tailwind CSS, and Clerk.",
   robots: {
