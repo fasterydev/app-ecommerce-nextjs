@@ -1,3 +1,13 @@
+# VALIDAR CUANDO SE CREE OTRO ECOMMERCE
+# BRANDING
+app/globals.css
+app/favicon.ico
+components/shared/logo-theme.tsx
+# METADATA
+app/layout.tsx
+# FIXME: analizar codigo para poner json
+# COMPANY DATA
+
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 .vscode
 # dependencies
