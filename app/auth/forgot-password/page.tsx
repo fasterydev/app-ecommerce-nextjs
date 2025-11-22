@@ -82,7 +82,7 @@ export default function ForgotPasswordPage() {
       <Card className="w-full max-w-md">
         <CardHeader className="text-center">
           <div className="flex justify-center mb-2">
-            <LogoTheme />
+            <LogoTheme mode="light" />
           </div>
           <CardTitle>¿Olvidaste tu contraseña?</CardTitle>
           <CardDescription>
@@ -144,7 +144,7 @@ export default function ForgotPasswordPage() {
             )}
           </CardContent>
 
-          <CardFooter className="flex flex-col gap-3">
+          <CardFooter className="flex flex-col gap-3 pt-3">
             <Button type="submit" className="w-full">
               {!successfulCreation
                 ? "Enviar código de recuperación"

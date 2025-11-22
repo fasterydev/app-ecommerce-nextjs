@@ -70,7 +70,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <SidebarMenu>
           <SidebarMenuItem>
             <Link className="mx-auto" href="/admin/products">
-              <LogoTheme />
+              <LogoTheme mode="light"/>
             </Link>
           </SidebarMenuItem>
         </SidebarMenu>

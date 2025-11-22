@@ -22,7 +22,7 @@ const Footer = () => {
       <div className="flex flex-col md:flex-row items-start justify-center px-3 md:px-12 lg:px-12 gap-4 py-14 border-b border-gray-500/30">
         <div className="w-4/5">
           <div>
-            <LogoTheme />
+            <LogoTheme mode="light" />
           </div>
           <div className="text-sm space-y-3 mt-4">
             <div className="flex items-center">
@@ -131,7 +131,7 @@ const Footer = () => {
         rel="noopener noreferrer"
         className="py-4 text-center text-xs md:text-sm flex items-center justify-center gap-1"
       >
-        <span>© 2025 Cabellos del Sol. Desarrollado por</span>
+        <span>© 2025 FasteryShop. Desarrollado por</span>
         <Image
           src="/fastery_logo_light.svg"
           alt="FasteryDev Logo"

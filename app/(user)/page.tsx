@@ -1,18 +1,15 @@
 "use client";
 import Banner from "@/components/home/Banner";
-// import FeaturedProduct from "@/components/home/FeaturedProduct";
-// import HeaderSlider from "@/components/home/HeaderSlider";
+import HeaderSlider from "@/components/home/HeaderSlider";
 import HomeProducts from "@/components/home/HomeProducts";
 import Information from "@/components/home/Information";
-import MosaicCategory from "@/components/home/MosaicCategory";
-// import NewsLetter from "@/components/home/NewsLetter";
 import { MessageCircle } from "lucide-react";
 
 export default function Home() {
   return (
     <>
-      <MosaicCategory />
-      {/* <HeaderSlider /> */}
+      {/* <MosaicCategory /> */}
+      <HeaderSlider />
       <HomeProducts />
       {/* <FeaturedProduct /> */}
       <Banner />

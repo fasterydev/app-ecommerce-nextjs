@@ -12,12 +12,6 @@ export default function NotFound() {
           <div className="grid md:grid-cols-2">
             <div className="relative hidden md:block -my-8">
               <div className="absolute inset-0 bg-gradient-to-r from-primary/80 to-primary/40 z-10"></div>
-              {/* <Image
-                src="/iamge.webp"
-                alt="Shop Fastery"
-                fill
-                className="object-cover"
-              /> */}
               <div className="absolute inset-0 flex items-center justify-center z-20">
                 <div className="text-white text-center p-6">
                   <h2 className="text-2xl font-bold mb-2">¿Necesitas ayuda?</h2>
@@ -59,14 +53,6 @@ export default function NotFound() {
           </div>
         </Card>
       </main>
-
-      <footer className="w-full border-t bg-background py-4">
-        <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
-          <p className="text-center text-sm text-muted-foreground">
-            © 2025 Cabello del Sol. Todos los derechos reservados.
-          </p>
-        </div>
-      </footer>
     </div>
   );
 }
