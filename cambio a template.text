@@ -9,3 +9,5 @@ git pull origin main
 git push template main:vilezamarket-main-to-template-dev
 
 # 4. crear PR → dev
+
+git push template main:dev --force
