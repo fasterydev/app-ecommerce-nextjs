@@ -12,7 +12,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { useCategoryStore } from "@/stores/user/category-store";
+import { useCategoryStore } from "@/stores/customer/category-store";
 import { useEffect } from "react";
 import { toast } from "sonner";
 import { Card } from "@/components/ui/card";

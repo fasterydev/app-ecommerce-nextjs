@@ -1,7 +1,7 @@
 "use client";
 import { Product } from "@/components/interfaces/interface";
 import ProductForm from "@/components/product/product-form";
-import { useProductStore } from "@/stores/user/product-store";
+import { useProductStore } from "@/stores/customer/product-store";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 

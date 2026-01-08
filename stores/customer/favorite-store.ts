@@ -1,14 +1,12 @@
 import { create } from "zustand";
-import { addFavorite, getFavorites } from "@/actions";
-import { Product } from "@/components/interfaces/interface";
+import { addFavorite, deleteFavorite, getFavorites } from "@/actions";
+import { Product } from "@/components/interfaces/product";
 import { toast } from "sonner";
-
 
 type Favorite = {
   id: string;
   product: Product;
 };
-
 
 type FavoriteStore = {
   favorites: Favorite[];
@@ -20,7 +18,7 @@ type FavoriteStore = {
   isFavorite: (id: string) => boolean;
 };
 
-export const useFavoriteStore = create<FavoriteStore>((set,get) => ({
+export const useFavoriteStore = create<FavoriteStore>((set, get) => ({
   favorites: [],
   isLoading: false,
 
@@ -30,7 +28,7 @@ export const useFavoriteStore = create<FavoriteStore>((set,get) => ({
     set({ isLoading: true });
     try {
       const res = await getFavorites();
-      if (res.statusCode === 200) {
+      if (res.statusCode === 200 && "favorites" in res) {
         set({ favorites: res.favorites });
       }
     } catch (err) {
@@ -42,18 +40,22 @@ export const useFavoriteStore = create<FavoriteStore>((set,get) => ({
 
   toggleFavorite: async (id: string) => {
     try {
-      const res = await addFavorite(id);
-      if (res.statusCode === 200) {
+      const isFav = get().isFavorite(id);
+      const res = isFav ? await deleteFavorite(id) : await addFavorite(id);
+      
+      if (res.statusCode === 200 || res.statusCode === 201) {
         get().fetchFavorites();
       }
     } catch (error) {
-      toast.error(error instanceof Error ? error.message : "Error al agregar favorito");
-      console.error("Error al agregar favorito:", error);
+      toast.error(
+        error instanceof Error ? error.message : "Error al modificar favorito"
+      );
+      console.error("Error al modificar favorito:", error);
     }
   },
 
   isFavorite: (id: string) => {
-    const favorite = get().favorites.find((fav) => fav.id === id);
+    const favorite = get().favorites.find((fav) => fav.product.id === id);
     return favorite !== undefined;
   },
 }));

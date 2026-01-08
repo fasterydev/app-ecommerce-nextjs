@@ -11,7 +11,7 @@ import { useState } from "react";
 import { useUser } from "@clerk/nextjs";
 import { useCartStore } from "@/stores/cart-store";
 import { cn } from "@/lib/utils";
-import { useProductStore } from "@/stores/user/product-store";
+import { useProductStore } from "@/stores/customer/product-store";
 
 type Props = {
   productId: string;

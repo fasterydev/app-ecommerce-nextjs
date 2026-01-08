@@ -16,7 +16,7 @@ import WhatsappButton from "@/components/shared/whatsapp-button";
 import ProductSkeleton from "./product-id-skeleton";
 import { Separator } from "../ui/separator";
 import { ScrollArea } from "../ui/scroll-area";
-import { useProductStore } from "@/stores/user/product-store";
+import { useProductStore } from "@/stores/customer/product-store";
 import ProductCard from "./product-card";
 import ButtonAddToCart from "./button-add-to-cart";
 

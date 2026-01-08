@@ -38,10 +38,10 @@ import {
 import { Filter, Search, Star, X } from "lucide-react";
 import ProductCard from "@/components/product/product-card";
 import ProductCardSkeleton from "@/components/product/product-card-skeleton";
-import { useProductStore } from "@/stores/user/product-store";
+import { useProductStore } from "@/stores/customer/product-store";
 import { Product } from "@/components/interfaces/interface";
-import { useBrandStore } from "@/stores/user/brand-store";
-import { useCategoryStore } from "@/stores/user/category-store";
+import { useBrandStore } from "@/stores/customer/brand-store";
+import { useCategoryStore } from "@/stores/customer/category-store";
 
 type FilterState = {
   categories: string[];

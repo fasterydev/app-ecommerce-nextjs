@@ -4,7 +4,7 @@ import ProductCard from "../product/product-card";
 import { Button } from "../ui/button";
 import Link from "next/link";
 import ProductCardSkeleton from "../product/product-card-skeleton";
-import { useProductStore } from "@/stores/user/product-store";
+import { useProductStore } from "@/stores/customer/product-store";
 
 const HomeProducts = () => {
   const { products, fetchProducts, isLoading } = useProductStore();

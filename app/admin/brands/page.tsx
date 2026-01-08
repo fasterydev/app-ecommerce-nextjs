@@ -11,7 +11,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { useBrandStore } from "@/stores/user/brand-store";
+import { useBrandStore } from "@/stores/customer/brand-store";
 import { useEffect } from "react";
 import { toast } from "sonner";
 import { TagIcon } from "lucide-react";
