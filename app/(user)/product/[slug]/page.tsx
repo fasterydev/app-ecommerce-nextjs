@@ -1,5 +1,5 @@
 "use client";
-import { useProductStore } from "@/stores/user/product-store";
+import { useProductStore } from "@/stores/customer/product-store";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Product } from "@/components/interfaces/interface";

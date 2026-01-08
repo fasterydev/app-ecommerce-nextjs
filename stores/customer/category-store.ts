@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { deleteCategory, getCategories } from "@/actions";
-import { Category } from "@/components/interfaces/interface";
+import { Category } from "@/components/interfaces/category";
 
 type CategoryStore = {
   categories: Category[];
@@ -21,7 +21,7 @@ export const useCategoryStore = create<CategoryStore>((set) => ({
     set({ isLoading: true });
     try {
       const res = await getCategories();
-      if (res.statusCode === 200) {
+      if (res.statusCode === 200 && "categories" in res) {
         set({ categories: res.categories });
       }
     } catch (err) {
@@ -31,7 +31,7 @@ export const useCategoryStore = create<CategoryStore>((set) => ({
     }
   },
 
-  deleteCategory: async (id) => {
+  deleteCategory: async (id: string) => {
     set((state) => ({
       categories: state.categories.filter((category) => category.id !== id),
     }));

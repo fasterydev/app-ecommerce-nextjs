@@ -1,7 +1,6 @@
 import { create } from "zustand";
 import { deleteSale, getSales } from "@/actions";
 import { Sale } from "@/components/sale/interface";
-// import { toast } from "sonner";
 
 type SaleStore = {
   sales: Sale[];
@@ -22,7 +21,7 @@ export const useSaleStore = create<SaleStore>((set, get) => ({
     set({ isLoading: true });
     try {
       const res = await getSales();
-      if (res.statusCode === 200) {
+      if (res.statusCode === 200 && "sales" in res) {
         get().setSales(Array.isArray(res.sales) ? res.sales : []);
       } else {
         get().setSales([]);

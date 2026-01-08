@@ -1,30 +1,15 @@
 // PRODUCTS
-export * from "./products/products";
+export * from "./customer/products";
 // CATEGORIES
-export * from "./categories/create-category";
-export * from "./categories/get-categories";
-export * from "./categories/delete-category";
-export * from "./categories/edit-category";
+export * from "./customer/categories";
 // SHOPPING CARTS
-export * from "./shopping-carts/get-shopping-cart";
-export * from "./shopping-carts/create-shopping-cart";
-export * from "./shopping-carts/add-Item-to-cart";
-export * from "./shopping-carts/remove-item-from-cart";
-export * from "./shopping-carts/decrease-item-quantity";
+export * from "./customer/shopping-carts";
 // SALES
-export * from "./sales/create-sale";
-export * from "./sales/get-sales";
-export * from "./sales/delete-sale";
-export * from "./sales/update-sale";
+export * from "./customer/sales";
 // FAVORITES
-export * from "./favorites/get-favorites";
-export * from "./favorites/add-favorite";
-export * from "./favorites/delete-favorite";
+export * from "./customer/favorites";
 // BRANDS
-export * from "./brands/create-brand";
-export * from "./brands/get-brands";
-export * from "./brands/delete-brand";
-export * from "./brands/update-brand";
+export * from "./customer/brands";
 // FILES
 export * from "./files/upload-file";
 // AUTH

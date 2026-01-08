@@ -11,7 +11,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { useSaleStore } from "@/stores/user/sale-store";
+import { useSaleStore } from "@/stores/customer/sale-store";
 import { convertFromMilliunits } from "@/utils/covertAmountMiliunits";
 import { currencyFormat } from "@/utils/currencyFormat";
 import { dateFormat } from "@/utils/dateFormat";

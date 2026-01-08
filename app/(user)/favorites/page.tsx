@@ -1,7 +1,7 @@
 "use client";
 import ProductCard from "@/components/product/product-card";
 import ProductCardSkeleton from "@/components/product/product-card-skeleton";
-import { useFavoriteStore } from "@/stores/user/favorite-store";
+import { useFavoriteStore } from "@/stores/customer/favorite-store";
 import { useEffect } from "react";
 
 export default function FavoritesPage() {

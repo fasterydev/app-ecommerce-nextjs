@@ -4,8 +4,8 @@ import { LogoTheme } from "../shared/logo-theme";
 import { MailIcon, MapPinIcon, PhoneIcon } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
-import { useCategoryStore } from "@/stores/user/category-store";
-import { useBrandStore } from "@/stores/user/brand-store";
+import { useCategoryStore } from "@/stores/customer/category-store";
+import { useBrandStore } from "@/stores/customer/brand-store";
 
 const Footer = () => {
   const { categories, fetchCategories } = useCategoryStore();

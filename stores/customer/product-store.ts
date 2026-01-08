@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { createProduct, getProducts } from "@/actions";
-import { Product } from "@/components/interfaces/interface";
 import { toast } from "sonner";
+import { Product } from "@/components/interfaces/product";
 
 type ProductStore = {
   products: Product[];
@@ -24,11 +24,11 @@ export const useProductStore = create<ProductStore>((set, get) => ({
     set({ isLoading: true });
     try {
       const res = await getProducts();
-      if (res.statusCode === 200) {
+      if (res.statusCode === 200 && "products" in res) {
         set({ products: res.products });
       }
     } catch (err) {
-      console.error("Error al obtener las marcas:", err);
+      console.error("Error al obtener los productos:", err);
     } finally {
       set({ isLoading: false });
     }

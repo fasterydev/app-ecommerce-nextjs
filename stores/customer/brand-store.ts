@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { deleteBrand, getBrands } from "@/actions";
-import { Brand } from "@/components/interfaces/interface";
+import { Brand } from "@/components/interfaces/brand";
 
 type BrandStore = {
   brands: Brand[];
@@ -21,7 +21,7 @@ export const useBrandStore = create<BrandStore>((set) => ({
     set({ isLoading: true });
     try {
       const res = await getBrands();
-      if (res.statusCode === 200) {
+      if (res.statusCode === 200 && "brands" in res) {
         set({ brands: res.brands });
       }
     } catch (err) {

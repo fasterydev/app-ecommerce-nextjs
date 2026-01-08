@@ -21,7 +21,7 @@ import {
   SheetTrigger,
   SheetHeader,
 } from "@/components/ui/sheet";
-import { useCategoryStore } from "@/stores/user/category-store";
+import { useCategoryStore } from "@/stores/customer/category-store";
 
 const navItems = [
   { label: "Inicio", href: "/", isMenu: false },

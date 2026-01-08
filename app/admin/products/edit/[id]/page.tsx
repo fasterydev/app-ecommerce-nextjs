@@ -1,10 +1,10 @@
 "use client";
 
 import { editProduct } from "@/actions";
-import { Product } from "@/components/interfaces/interface";
+import { Product } from "@/components/interfaces/product";
 import ProductForm from "@/components/product/product-form";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { useProductStore } from "@/stores/user/product-store";
+import { useProductStore } from "@/stores/customer/product-store";
 import { AlertTriangleIcon } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";

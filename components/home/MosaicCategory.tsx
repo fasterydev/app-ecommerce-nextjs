@@ -4,7 +4,7 @@ import Image from "next/image";
 import { Button } from "../ui/button";
 import clsx from "clsx";
 import Link from "next/link";
-import { useCategoryStore } from "@/stores/user/category-store";
+import { useCategoryStore } from "@/stores/customer/category-store";
 
 const MosaicCategory = () => {
   const { categories } = useCategoryStore();
