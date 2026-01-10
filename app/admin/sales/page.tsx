@@ -2,7 +2,6 @@
 import { DetailsProduct } from "@/components/product/details-product";
 import { SaleStatusBadge } from "@/components/sale/sale-status-badge";
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
 import {
   Table,
   TableBody,
@@ -16,6 +15,7 @@ import { convertFromMilliunits } from "@/utils/covertAmountMiliunits";
 import { currencyFormat } from "@/utils/currencyFormat";
 import { PackageIcon, ShoppingCartIcon, TrashIcon } from "lucide-react";
 import { useEffect } from "react";
+import { PageHeader } from "@/components/shared/page-header";
 
 export default function SalesAdminPage() {
   const { sales, fetchSales, deleteSale, isLoading } = useSaleStore();
@@ -27,13 +27,11 @@ export default function SalesAdminPage() {
 
   return (
     <div>
-      <div className="flex items-center gap-3 mb-2">
-        <Card className="p-2 w-fit shadow-sm">
-          <ShoppingCartIcon className="text-primary" size={28} />
-        </Card>
-        <h1 className="text-xl font-semibold">Ventas</h1>
-      </div>
-      <p>Aquí puedes gestionar las ventas de tus productos.</p>
+      <PageHeader
+        icon={ShoppingCartIcon}
+        title="Ventas"
+        description="Aquí puedes gestionar las ventas de tus productos."
+      />
 
       <div className="overflow-hidden rounded-lg border mt-4">
         <Table>
