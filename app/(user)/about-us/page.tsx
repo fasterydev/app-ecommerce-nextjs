@@ -243,16 +243,12 @@ export default function QuienesSomosPage() {
                   <CardContent className="pt-6">
                     <div className="mx-auto mb-4 h-20 w-20 overflow-hidden rounded-full bg-gray-100">
                       <Image
-                        src={`/professional-headshot-${
-                          index + 1
-                        }.png?height=80&width=80&query=professional headshot ${
-                          member.name
-                        }`}
+                        src={`/assets/bose_headphone_image.png`}
                         alt={member.name}
                         className="h-full w-full object-cover"
                         width={80}
                         height={80}
-                      />
+                      /> 
                     </div>
                     <h3 className="mb-1 text-lg font-semibold">
                       {member.name}
