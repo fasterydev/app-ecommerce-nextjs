@@ -9,21 +9,22 @@ import {
   TableRow,
   TableCell,
 } from "@/components/ui/table";
-import { UserIcon, ShieldBanIcon } from "lucide-react";
+import { UserIcon, ShieldBanIcon, PencilIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useEffect } from "react";
 import { useUserStore } from "@/stores/admin/user-store";
+import { Badge } from "@/components/ui/badge";
+import Link from "next/link";
 
 export default function UserAdminPage() {
   const { fetchUsers, users } = useUserStore();
 
   useEffect(() => {
     fetchUsers();
-  }, [fetchUsers]);
+  }, []);
 
   return (
     <div>
-      {/* Header with icon inside card, title outside */}
       <div className="flex items-center gap-3">
         <Card className="p-2 w-fit shadow-sm">
           <UserIcon className="text-primary" size={28} />
@@ -53,12 +54,18 @@ export default function UserAdminPage() {
                 <TableCell className="text-center">{user.firstName}</TableCell>
                 <TableCell>{user.lastName}</TableCell>
                 <TableCell>{user.email}</TableCell>
-                <TableCell>{user.roles.join(", ")}</TableCell>
+                <TableCell>
+                  <Badge variant="outline">{user.roles.join(" | ")}</Badge>
+                </TableCell>
                 <TableCell>{user.isActive ? "Active" : "Inactive"}</TableCell>
                 <TableCell>
-                  <Button variant="destructive" size="icon">
-                    <ShieldBanIcon size={18} />
-                  </Button>
+                  <div className="flex items-center gap-2">
+                    <Link href={`/admin/users/${user.id}`}>
+                      <Button variant="outline" size="icon" title="Editar usuario">
+                        <PencilIcon size={18} />
+                      </Button>
+                    </Link>
+                  </div>
                 </TableCell>
               </TableRow>
             ))}
