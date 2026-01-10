@@ -18,7 +18,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { BrandSelector } from "../product/brand-selector";
 import { Switch } from "../ui/switch";
-import { Product } from "../interfaces/interface";
+import { Product } from "@/components/interfaces/product";
 import { HtmlEditor } from "../shared/simple-editor";
 import { AmountInput } from "../shared/amount-input";
 import {
@@ -74,7 +74,7 @@ export default function ProductForm({
     field: keyof Product,
     value: string | number | boolean
   ) => {
-    setFormData((prev) => ({ ...prev, [field]: value }));
+    setFormData((prev: Partial<Product>) => ({ ...prev, [field]: value }));
     if (errors[field]) {
       setErrors((prev) => ({ ...prev, [field]: "" }));
     }
@@ -99,16 +99,16 @@ export default function ProductForm({
       }
     }
 
-    setFormData((prev) => ({
+    setFormData((prev: Partial<Product>) => ({
       ...prev,
       images: [...(prev.images ?? []), ...uploadedImages].slice(0, 6),
     }));
   };
 
   const removeImage = (index: number) => {
-    setFormData((prev) => ({
+    setFormData((prev: Partial<Product>) => ({
       ...prev,
-      images: (prev.images ?? []).filter((_, i) => i !== index),
+      images: (prev.images ?? []).filter((_: string, i: number) => i !== index),
     }));
   };
 
@@ -511,7 +511,7 @@ export default function ProductForm({
                       )}
                     </div>
                     <div className="grid grid-cols-2 gap-3">
-                      {(formData.images ?? []).map((image, index) => (
+                      {(formData.images ?? []).map((image: string, index: number) => (
                         <div key={index} className="relative group">
                           <Image
                             src={image || " "}

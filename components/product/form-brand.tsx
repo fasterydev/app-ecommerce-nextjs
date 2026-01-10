@@ -15,7 +15,8 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { EditIcon, PlusIcon } from "lucide-react";
-import { Brand, Category } from "../interfaces/interface";
+import { Brand } from "@/components/interfaces/brand";
+import { Category } from "@/components/interfaces/category";
 
 type Props = {
   brand?: Brand;

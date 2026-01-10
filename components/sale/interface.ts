@@ -1,5 +1,5 @@
-import { User } from "../interfaces/user";
-import { Product } from "../interfaces/interface";
+import { User } from "@/components/interfaces/user";
+import { Product } from "@/components/interfaces/product";
 
 export interface Sale {
     id:        string;

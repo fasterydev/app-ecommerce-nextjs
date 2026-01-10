@@ -41,8 +41,8 @@ export const useCartStore = create<CartStore>((set, get) => ({
     set({ isLoading: true });
     try {
       const res = await getShoppingCart();
-      if (res.statusCode === 200 && Array.isArray(res.shoppingCart?.items)) {
-        set({ cartItems: res.shoppingCart.items });
+      if (res.statusCode === 200 && Array.isArray((res as any).shoppingCart?.items)) {
+        set({ cartItems: (res as { shoppingCart: { items: ShoppingCartItem[] } }).shoppingCart.items });
       } else {
         set({ cartItems: [] });
       }

@@ -5,7 +5,7 @@ import { Card } from "../ui/card";
 import { Badge } from "../ui/badge";
 import { convertFromMilliunits } from "@/utils/covertAmountMiliunits";
 import { currencyFormat } from "@/utils/currencyFormat";
-import { Product } from "../interfaces/interface";
+import { Product } from "@/components/interfaces/product";
 import Link from "next/link";
 import ButtonAddToCart from "./button-add-to-cart";
 
