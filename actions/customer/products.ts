@@ -27,70 +27,8 @@ const getAuthToken = async () => {
   return token;
 };
 
-// Obtener todos los productos
-export const getProducts = async () => {
-  try {
-    const response = await fetch(`${envs.BackendUrl}/products/getProducts`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-
-    if (!response.ok) {
-      return await handleResponseError(response);
-    }
-
-    const resData = await response.json();
-
-    return {
-      statusCode: response.status,
-      message: resData.message || "Productos obtenidos correctamente",
-      products: resData || [],
-    };
-  } catch (error) {
-    console.error("Error en getProducts:", error);
-    throw new Error(
-      error instanceof Error
-        ? error.message
-        : "Error desconocido al obtener productos"
-    );
-  }
-};
-
-// Obtener un producto por ID
-export const getProduct = async (id: string) => {
-  try {
-    const response = await fetch(
-      `${envs.BackendUrl}/products/getProduct/${id}`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
-
-    if (!response.ok) {
-      return await handleResponseError(response);
-    }
-
-    const resData = await response.json();
-
-    return {
-      statusCode: response.status,
-      message: resData.message || "Producto obtenido correctamente",
-      product: resData || {},
-    };
-  } catch (error) {
-    console.error("Error en getProduct:", error);
-    throw new Error(
-      error instanceof Error
-        ? error.message
-        : "Error desconocido al obtener el producto"
-    );
-  }
-};
+// Nota: getProducts y getProduct se movieron a actions/public/products.ts
+// porque no requieren autenticación
 
 // Crear un producto (requiere autenticación)
 export const createProduct = async (product: Partial<Product>) => {

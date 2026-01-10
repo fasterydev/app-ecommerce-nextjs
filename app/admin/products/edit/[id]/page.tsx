@@ -4,7 +4,7 @@ import { editProduct } from "@/actions";
 import { Product } from "@/components/interfaces/product";
 import ProductForm from "@/components/product/product-form";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { useProductStore } from "@/stores/customer/product-store";
+import { useAdminProductStore } from "@/stores/admin/product-store";
 import { AlertTriangleIcon } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -15,14 +15,12 @@ export default function EditProductPage() {
   const params = useParams();
   const productId = params?.id as string;
   const [editingProduct, setEditingProduct] = useState<Product | undefined>();
-  const { products, fetchProducts } = useProductStore();
+  const { currentProduct, fetchProductById, updateProduct, isLoading, isSaving } = useAdminProductStore();
 
   const handleSave = async (product: Partial<Product>) => {
     try {
-      const res = await editProduct(product);
-      console.log("Respuesta de editar producto:", res);
-      if (res.statusCode === 200) {
-        toast.success(res.message || "Producto actualizado correctamente");
+      const result = await updateProduct(product);
+      if (result.success) {
         router.push("/admin/products");
       }
     } catch (error) {
@@ -31,7 +29,6 @@ export default function EditProductPage() {
           ? error.message
           : "Error desconocido al actualizar el producto"
       );
-    } finally {
     }
   };
 
@@ -39,22 +36,33 @@ export default function EditProductPage() {
     router.push("/admin/products");
   };
 
-  // Solo cargar productos al inicio
+  // Cargar producto por ID
   useEffect(() => {
-    fetchProducts();
-  }, [fetchProducts]);
+    if (productId) {
+      fetchProductById(productId).then((product) => {
+        if (product) {
+          setEditingProduct(product);
+        }
+      });
+    }
+  }, [productId, fetchProductById]);
 
-  // Buscar producto cuando productos o ID cambian
+  // Sincronizar currentProduct con editingProduct
   useEffect(() => {
-    if (!productId || products.length === 0) return;
-
-    const product = products.find((p) => p.id === productId);
-    setEditingProduct(product);
-  }, [products, productId]);
+    if (currentProduct && currentProduct.id === productId) {
+      setEditingProduct(currentProduct);
+    }
+  }, [currentProduct, productId]);
 
   return (
     <>
-      {editingProduct ? (
+      {isLoading ? (
+        <Card className="w-full max-w-md mx-auto">
+          <CardContent className="py-8 text-center">
+            <p className="text-muted-foreground">Cargando producto...</p>
+          </CardContent>
+        </Card>
+      ) : editingProduct ? (
         <ProductForm
           product={editingProduct}
           onSave={handleSave}

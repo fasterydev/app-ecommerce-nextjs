@@ -27,10 +27,9 @@ const getAuthToken = async () => {
   return token;
 };
 
-// Nota: getBrands se movió a actions/public/brands.ts
-// porque no requiere autenticación
+// ========== BRANDS ==========
 
-// Crear una marca (requiere autenticación)
+// Admin: Crear marca
 export const createBrand = async (brand: Partial<Brand>) => {
   try {
     const token = await getAuthToken();
@@ -56,6 +55,7 @@ export const createBrand = async (brand: Partial<Brand>) => {
     return {
       statusCode: response.status,
       message: resData.message || "Marca creada exitosamente",
+      brand: resData || {},
     };
   } catch (error) {
     console.error("Error al crear la marca:", error);
@@ -67,7 +67,7 @@ export const createBrand = async (brand: Partial<Brand>) => {
   }
 };
 
-// Editar una marca (requiere autenticación)
+// Admin: Actualizar marca
 export const updateBrand = async (brand: Partial<Brand>) => {
   try {
     const token = await getAuthToken();
@@ -99,6 +99,7 @@ export const updateBrand = async (brand: Partial<Brand>) => {
     return {
       statusCode: response.status,
       message: resData.message || "Marca actualizada correctamente",
+      brand: resData || {},
     };
   } catch (error) {
     console.error("Error al actualizar la marca:", error);
@@ -110,7 +111,7 @@ export const updateBrand = async (brand: Partial<Brand>) => {
   }
 };
 
-// Eliminar una marca (requiere autenticación)
+// Admin: Eliminar marca
 export const deleteBrand = async (id: string) => {
   try {
     const token = await getAuthToken();
@@ -142,6 +143,79 @@ export const deleteBrand = async (id: string) => {
       error instanceof Error
         ? error.message
         : "Error desconocido al eliminar la marca"
+    );
+  }
+};
+
+// Admin/Usuario: Obtener todas las marcas
+export const getBrands = async () => {
+  try {
+    const token = await getAuthToken();
+
+    const response = await fetch(`${envs.BackendUrl}/products/getBrands`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      cache: "no-store",
+    });
+
+    if (!response.ok) {
+      return await handleResponseError(response);
+    }
+
+    const resData = await response.json();
+
+    return {
+      statusCode: response.status,
+      message: resData.message || "Marcas obtenidas correctamente",
+      brands: Array.isArray(resData) ? resData : resData.brands || resData.data || [],
+    };
+  } catch (error) {
+    console.error("Error en getBrands:", error);
+    throw new Error(
+      error instanceof Error
+        ? error.message
+        : "Error desconocido al obtener las marcas"
+    );
+  }
+};
+
+// Admin/Usuario: Obtener una marca por ID
+export const getBrand = async (id: string) => {
+  try {
+    const token = await getAuthToken();
+
+    const response = await fetch(
+      `${envs.BackendUrl}/products/getBrand/${id}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        cache: "no-store",
+      }
+    );
+
+    if (!response.ok) {
+      return await handleResponseError(response);
+    }
+
+    const resData = await response.json();
+
+    return {
+      statusCode: response.status,
+      message: resData.message || "Marca obtenida correctamente",
+      brand: resData || {},
+    };
+  } catch (error) {
+    console.error("Error en getBrand:", error);
+    throw new Error(
+      error instanceof Error
+        ? error.message
+        : "Error desconocido al obtener la marca"
     );
   }
 };

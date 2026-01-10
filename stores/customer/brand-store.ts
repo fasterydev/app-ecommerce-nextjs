@@ -1,6 +1,8 @@
 import { create } from "zustand";
-import { deleteBrand, getBrands } from "@/actions";
+import { deleteBrand } from "@/actions/customer/brands";
+import { getBrands } from "@/actions/public/brands";
 import { Brand } from "@/components/interfaces/brand";
+import { toast } from "sonner";
 
 type BrandStore = {
   brands: Brand[];
@@ -11,7 +13,7 @@ type BrandStore = {
   deleteBrand: (id: string) => Promise<void>;
 };
 
-export const useBrandStore = create<BrandStore>((set) => ({
+export const useBrandStore = create<BrandStore>((set, get) => ({
   brands: [],
   isLoading: false,
 
@@ -25,20 +27,30 @@ export const useBrandStore = create<BrandStore>((set) => ({
         set({ brands: res.brands });
       }
     } catch (err) {
-      console.error("Error al obtener las marcas:", err);
+      console.error("❌ Error al obtener las marcas:", err);
+      toast.error("Error al obtener las marcas");
     } finally {
       set({ isLoading: false });
     }
   },
 
   deleteBrand: async (id: string) => {
+    const prevBrands = get().brands;
     set((state) => ({
       brands: state.brands.filter((brand) => brand.id !== id),
     }));
     try {
-      await deleteBrand(id);
+      const res = await deleteBrand(id);
+      if (res.statusCode !== 200 && res.statusCode !== 204) {
+        set({ brands: prevBrands });
+        toast.error(res.message || "Error al eliminar la marca");
+      } else {
+        toast.success("Marca eliminada correctamente");
+      }
     } catch (err) {
-      console.error("Error al eliminar la marca:", err);
+      console.error("❌ Error al eliminar la marca:", err);
+      set({ brands: prevBrands });
+      toast.error("Error al eliminar la marca");
     }
   },
 }));

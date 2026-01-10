@@ -52,7 +52,9 @@ export default function UserAdminPage() {
                 <TableCell>
                   <Badge variant="outline">{user.roles.join(" | ")}</Badge>
                 </TableCell>
-                <TableCell>{user.isActive ? "Active" : "Inactive"}</TableCell>
+                <TableCell>
+                  <Badge variant={user.isActive ? "outline" : "destructive"}>{user.isActive ? "Activo" : "Inactivo"}</Badge>
+                </TableCell>
                 <TableCell>
                   <div className="flex items-center gap-2">
                     <Link href={`/admin/users/${user.id}`}>

@@ -31,7 +31,7 @@ import {
 } from "lucide-react";
 import { currencyFormat } from "@/utils/currencyFormat";
 import { convertFromMilliunits } from "@/utils/covertAmountMiliunits";
-import { useCartStore } from "@/stores/cart-store";
+import { useCartStore } from "@/stores/public/cart-store";
 
 type TypeShipping = "local_delivery" | "national_delivery" | "pickup";
 

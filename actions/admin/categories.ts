@@ -27,10 +27,9 @@ const getAuthToken = async () => {
   return token;
 };
 
-// Nota: getCategories se movió a actions/public/categories.ts
-// porque no requiere autenticación
+// ========== CATEGORIES ==========
 
-// Crear una categoría (requiere autenticación)
+// Admin: Crear categoría
 export const createCategory = async (category: Partial<Category>) => {
   try {
     const token = await getAuthToken();
@@ -56,6 +55,7 @@ export const createCategory = async (category: Partial<Category>) => {
     return {
       statusCode: response.status,
       message: resData.message || "Categoría creada exitosamente",
+      category: resData || {},
     };
   } catch (error) {
     console.error("Error al crear la categoría:", error);
@@ -67,7 +67,7 @@ export const createCategory = async (category: Partial<Category>) => {
   }
 };
 
-// Editar una categoría (requiere autenticación)
+// Admin: Actualizar categoría
 export const updateCategory = async (category: Partial<Category>) => {
   try {
     const token = await getAuthToken();
@@ -99,6 +99,7 @@ export const updateCategory = async (category: Partial<Category>) => {
     return {
       statusCode: response.status,
       message: resData.message || "Categoría actualizada correctamente",
+      category: resData || {},
     };
   } catch (error) {
     console.error("Error al actualizar la categoría:", error);
@@ -110,7 +111,7 @@ export const updateCategory = async (category: Partial<Category>) => {
   }
 };
 
-// Eliminar una categoría (requiere autenticación)
+// Admin: Eliminar categoría
 export const deleteCategory = async (id: string) => {
   try {
     const token = await getAuthToken();
@@ -142,6 +143,79 @@ export const deleteCategory = async (id: string) => {
       error instanceof Error
         ? error.message
         : "Error desconocido al eliminar la categoría"
+    );
+  }
+};
+
+// Admin/Usuario: Obtener todas las categorías
+export const getCategories = async () => {
+  try {
+    const token = await getAuthToken();
+
+    const response = await fetch(`${envs.BackendUrl}/products/getCategories`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      cache: "no-store",
+    });
+
+    if (!response.ok) {
+      return await handleResponseError(response);
+    }
+
+    const resData = await response.json();
+
+    return {
+      statusCode: response.status,
+      message: resData.message || "Categorías obtenidas correctamente",
+      categories: Array.isArray(resData) ? resData : resData.categories || resData.data || [],
+    };
+  } catch (error) {
+    console.error("Error en getCategories:", error);
+    throw new Error(
+      error instanceof Error
+        ? error.message
+        : "Error desconocido al obtener las categorías"
+    );
+  }
+};
+
+// Admin/Usuario: Obtener una categoría por ID
+export const getCategory = async (id: string) => {
+  try {
+    const token = await getAuthToken();
+
+    const response = await fetch(
+      `${envs.BackendUrl}/products/getCategory/${id}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        cache: "no-store",
+      }
+    );
+
+    if (!response.ok) {
+      return await handleResponseError(response);
+    }
+
+    const resData = await response.json();
+
+    return {
+      statusCode: response.status,
+      message: resData.message || "Categoría obtenida correctamente",
+      category: resData || {},
+    };
+  } catch (error) {
+    console.error("Error en getCategory:", error);
+    throw new Error(
+      error instanceof Error
+        ? error.message
+        : "Error desconocido al obtener la categoría"
     );
   }
 };

@@ -4,7 +4,7 @@ export const uploadFile = async (file: File) => {
     formData.append("file", file);
     const response = await fetch(
       // TODO: AÑADIR EN ENV
-      `https://api.nexus.fastery.dev/api/files/uploadToFolder/prod-ecommerce-cabellosdelsol`,
+      `https://api.nexus.fastery.dev/files/uploadToFolder/test-ecommerce`,
       {
         method: "POST",
         body: formData,

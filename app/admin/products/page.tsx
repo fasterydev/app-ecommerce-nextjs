@@ -9,7 +9,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { useProductStore } from "@/stores/customer/product-store";
+import { useAdminProductStore } from "@/stores/admin/product-store";
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
@@ -19,7 +19,7 @@ import { Badge } from "@/components/ui/badge";
 import { PageHeader } from "@/components/shared/page-header";
 
 export default function ProductsAdmin() {
-  const { products, fetchProducts } = useProductStore();
+  const { products, fetchProducts, isLoading } = useAdminProductStore();
 
   useEffect(() => {
     fetchProducts();
@@ -55,7 +55,20 @@ export default function ProductsAdmin() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {products.map((product) => (
+            {isLoading ? (
+              <TableRow>
+                <TableCell colSpan={6} className="text-center py-8 text-muted-foreground">
+                  Cargando productos...
+                </TableCell>
+              </TableRow>
+            ) : products.length === 0 ? (
+              <TableRow>
+                <TableCell colSpan={6} className="text-center py-8 text-muted-foreground">
+                  No hay productos disponibles
+                </TableCell>
+              </TableRow>
+            ) : (
+              products.map((product) => (
               <TableRow key={product.id}>
                 <TableCell className="font-medium flex items-center gap-2">
                   <Image
@@ -114,11 +127,14 @@ export default function ProductsAdmin() {
                   </Link>
                   <DeleteProductAlert
                     productId={product.id}
-                    onDelete={fetchProducts}
+                    onDelete={() => {
+                      fetchProducts();
+                    }}
                   />
                 </TableCell>
               </TableRow>
-            ))}
+              ))
+            )}
           </TableBody>
         </Table>
       </div>

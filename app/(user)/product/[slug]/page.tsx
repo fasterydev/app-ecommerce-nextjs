@@ -1,21 +1,19 @@
 "use client";
-import { useProductStore } from "@/stores/customer/product-store";
+import { usePublicProductStore } from "@/stores/public/product-store";
 import { useParams } from "next/navigation";
-import { useEffect, useState } from "react";
-import { Product } from "@/components/interfaces/product";
+import { useEffect } from "react";
 import ProductIdView from "@/components/product/product-id-view";
 
 export default function ProductIdPage() {
   const params = useParams();
   const productId = params?.slug as string;
-  const [productData, setProductData] = useState<Product>();
-  const { getProductId, fetchProducts } = useProductStore();
+  const { currentProduct, fetchProduct, isLoading } = usePublicProductStore();
 
   useEffect(() => {
-    fetchProducts();
-    const product = getProductId(productId);
-    setProductData(product);
-  }, [fetchProducts, productId, getProductId]);
+    if (productId) {
+      fetchProduct(productId);
+    }
+  }, [productId, fetchProduct]);
 
-  return <ProductIdView product={productData} productId={productId} />;
+  return <ProductIdView product={currentProduct || undefined} productId={productId} />;
 }
