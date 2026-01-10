@@ -4,12 +4,19 @@ import Image from "next/image";
 import { Button } from "../ui/button";
 import clsx from "clsx";
 import Link from "next/link";
-import { useCategoryStore } from "@/stores/customer/category-store";
+import { useEffect } from "react";
+import { usePublicCategoryStore } from "@/stores/public/category-store";
 
 const MosaicCategory = () => {
-  const { categories } = useCategoryStore();
+  const { categories, fetchCategories, isLoading } = usePublicCategoryStore();
 
-  if (categories.length === 0) {
+  useEffect(() => {
+    if (categories.length === 0) {
+      fetchCategories();
+    }
+  }, [categories.length, fetchCategories]);
+
+  if (isLoading || categories.length === 0) {
     return null;
   }
 
@@ -21,7 +28,7 @@ const MosaicCategory = () => {
           image="/assets/mosaic/1.png"
           align="center"
           fullHeight
-          link="/shop"
+          link={categories[0]?.id ? `/shop?categoryId=${categories[0].id}` : "/shop"}
         />
       </div>
       <div className="lg:row-span-2 h-full">
@@ -30,20 +37,20 @@ const MosaicCategory = () => {
           image="/assets/mosaic/2.png"
           align="center"
           fullHeight
-          link="/shop"
+          link={categories[1]?.id ? `/shop?categoryId=${categories[1].id}` : "/shop"}
         />
       </div>
       <CategoryCard
         label={categories[2]?.name || ""}
         image="/assets/mosaic/3.png"
         align="center"
-        link="/shop"
+        link={categories[2]?.id ? `/shop?categoryId=${categories[2].id}` : "/shop"}
       />
       <CategoryCard
         label={categories[3]?.name || ""}
         image="/assets/mosaic/4.png"
         align="center"
-        link="/shop"
+        link={categories[3]?.id ? `/shop?categoryId=${categories[3].id}` : "/shop"}
       />
     </div>
   );

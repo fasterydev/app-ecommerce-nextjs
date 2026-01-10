@@ -12,6 +12,7 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import {
+  GlobeIcon,
   ListTodoIcon,
   PackageIcon,
   ServerIcon,
@@ -28,6 +29,11 @@ const data = {
     avatar: "/avatars/shadcn.jpg",
   },
   navMain: [
+    {
+      title: "Pagina Web",
+      url: "/admin/web",
+      icon: GlobeIcon,
+    },
     {
       title: "Inventario",
       url: "/admin/products",
