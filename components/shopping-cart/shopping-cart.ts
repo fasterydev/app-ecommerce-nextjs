@@ -1,4 +1,4 @@
-import { Product } from "../interfaces/interface";
+import { Product } from "@/components/interfaces/product";
 
 export interface ShoppingCart {
   id: string;

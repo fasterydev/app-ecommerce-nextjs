@@ -10,7 +10,7 @@ import {
 import { Label } from '@/components/ui/label';
 import clsx from 'clsx';
 import { useEffect, useState } from 'react';
-import { Brand } from '../interfaces/interface';
+import { Brand } from '@/components/interfaces/brand';
 import { getBrands } from '@/actions';
 
 type BrandSelectorProps = {
@@ -35,8 +35,8 @@ export const BrandSelector: React.FC<BrandSelectorProps> = ({
     const fetchBrands = async () => {
       try {
         const res = await getBrands();
-        if (res.statusCode === 200 && res.brands) {
-          setBrands(res.brands);
+        if (res.statusCode === 200 && (res as { brands: Brand[] }).brands) {
+          setBrands((res as { brands: Brand[] }).brands);
         } else {
           console.error('Error fetching brands:', res.message);
         }
