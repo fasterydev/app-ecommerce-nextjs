@@ -47,7 +47,7 @@ export const useCartStore = create<CartStore>((set, get) => ({
         set({ cartItems: [] });
       }
     } catch (err) {
-      console.error(" Error al obtener el carrito:", err);
+      console.error("❌ Error al obtener el carrito:", err);
       set({ cartItems: [] });
       toast.error("Error al obtener el carrito");
     } finally {
@@ -79,7 +79,7 @@ export const useCartStore = create<CartStore>((set, get) => ({
         toast.error(res.message || "Error al agregar el producto");
       }
     } catch (err) {
-      console.error("Error al agregar producto:", err);
+      console.error("❌ Error al agregar producto:", err);
       set({ cartItems: get().cartItems });
       toast.error("Error de red al agregar el producto");
     } finally {

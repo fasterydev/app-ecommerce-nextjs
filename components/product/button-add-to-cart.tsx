@@ -9,7 +9,7 @@ import { Button } from "../ui/button";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useUser } from "@clerk/nextjs";
-import { useCartStore } from "@/stores/cart-store";
+import { useCartStore } from "@/stores/public/cart-store";
 import { cn } from "@/lib/utils";
 import { useProductStore } from "@/stores/customer/product-store";
 

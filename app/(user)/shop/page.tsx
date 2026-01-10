@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Select,
@@ -38,10 +38,10 @@ import {
 import { Filter, Search, Star, X } from "lucide-react";
 import ProductCard from "@/components/product/product-card";
 import ProductCardSkeleton from "@/components/product/product-card-skeleton";
-import { useProductStore } from "@/stores/customer/product-store";
+import { usePublicProductStore } from "@/stores/public/product-store";
 import { Product } from "@/components/interfaces/product";
-import { useBrandStore } from "@/stores/customer/brand-store";
-import { useCategoryStore } from "@/stores/customer/category-store";
+import { usePublicBrandStore } from "@/stores/public/brand-store";
+import { usePublicCategoryStore } from "@/stores/public/category-store";
 
 type FilterState = {
   categories: string[];
@@ -52,11 +52,9 @@ type FilterState = {
 };
 
 export default function ProductsPage() {
-  const { products, fetchProducts, isLoading } = useProductStore();
-  const { brands } = useBrandStore();
-  const { categories } = useCategoryStore();
-  // Estado para los productos
-  const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
+  const { products, fetchProducts, isLoading, pagination } = usePublicProductStore();
+  const { brands, fetchBrands } = usePublicBrandStore();
+  const { categories, fetchCategories } = usePublicCategoryStore();
 
   // Estado para la búsqueda
   const [searchQuery, setSearchQuery] = useState("");
@@ -86,50 +84,91 @@ export default function ProductsPage() {
   // Marcas disponibles
   const availableBrands = brands.map((brand) => brand.name);
 
+  // Cargar datos iniciales
   useEffect(() => {
-    fetchProducts();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    fetchBrands();
+    fetchCategories();
+  }, [fetchBrands, fetchCategories]);
 
-  // Aplicar filtros y ordenamiento
+  // Obtener IDs de categorías y marcas seleccionadas
+  const getCategoryIds = () => {
+    return categories
+      .filter((cat) => filters.categories.includes(cat.name))
+      .map((cat) => cat.id);
+  };
+
+  const getBrandIds = () => {
+    return brands
+      .filter((brand) => filters.brands.includes(brand.name))
+      .map((brand) => brand.id);
+  };
+
+  // Obtener el precio máximo de los productos para el slider (solo una vez)
+  const [maxPrice, setMaxPrice] = useState(1000);
+  const [priceRangeInitialized, setPriceRangeInitialized] = useState(false);
+  
   useEffect(() => {
+    if (products.length > 0 && !priceRangeInitialized) {
+      const calculatedMaxPrice = Math.max(...products.map((p) => p.total || 0));
+      if (calculatedMaxPrice > 0) {
+        const roundedMaxPrice = Math.ceil(calculatedMaxPrice / 100) * 100; // Redondear al siguiente 100
+        setMaxPrice(roundedMaxPrice);
+        setFilters((prev) => ({
+          ...prev,
+          priceRange: [0, roundedMaxPrice],
+        }));
+        setPriceRangeInitialized(true);
+      }
+    }
+  }, [products, priceRangeInitialized]);
+
+  // Resetear página cuando cambian los filtros (excepto cuando cambia la página misma)
+  const prevFiltersRef = useRef(filters);
+  const prevSearchRef = useRef(searchQuery);
+  
+  useEffect(() => {
+    const filtersChanged = 
+      JSON.stringify(prevFiltersRef.current) !== JSON.stringify(filters) ||
+      prevSearchRef.current !== searchQuery;
+    
+    if (filtersChanged && currentPage !== 1) {
+      setCurrentPage(1);
+    }
+    
+    prevFiltersRef.current = filters;
+    prevSearchRef.current = searchQuery;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchQuery, filters, currentPage]);
+
+  // Fetch productos cuando cambian los filtros, búsqueda o página
+  useEffect(() => {
+    const categoryIds = getCategoryIds();
+    const brandIds = getBrandIds();
+    
+    // Si hay múltiples categorías o marcas, usar solo la primera (o ajustar según API)
+    const categoryId = categoryIds.length > 0 ? categoryIds[0] : undefined;
+    const brandId = brandIds.length > 0 ? brandIds[0] : undefined;
+
+    fetchProducts({
+      page: currentPage,
+      limit: productsPerPage,
+      search: searchQuery || undefined,
+      categoryId,
+      brandId,
+      minPrice: filters.priceRange[0] > 0 ? filters.priceRange[0] : undefined,
+      maxPrice: filters.priceRange[1] < maxPrice ? filters.priceRange[1] : undefined,
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentPage, searchQuery, filters, fetchProducts, productsPerPage, maxPrice]);
+
+  // Aplicar filtros locales (rating, disponibilidad, ordenamiento) que no están en el backend
+  const filteredProducts = (() => {
     let result = [...products];
 
-    // Aplicar filtro de búsqueda
-    // if (searchQuery) {
-    //   result = result.filter(
-    //     (product) =>
-    //       product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    //       product.subName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    //       product.subName.toLowerCase().includes(searchQuery.toLowerCase())
-    //   );
-    // }
-
-    // Aplicar filtros de categoría
-    if (filters.categories.length > 0) {
-      result = result.filter((product) =>
-        filters.categories.includes(product.category?.name || "")
-      );
+    // Aplicar filtro de valoración (si el backend no lo soporta)
+    if (filters.rating) {
+      result = result.filter((product) => product.rating >= filters.rating!);
     }
-
-    // Aplicar filtros de marca
-    if (filters.brands.length > 0) {
-      result = result.filter((product) =>
-        filters.brands.includes(product.brand?.name || "")
-      );
-    }
-
-    // Aplicar filtro de precio
-    // result = result.filter(
-    //   (product) =>
-    //     product.total >= filters.priceRange[0] &&
-    //     product.total <= filters.priceRange[1]
-    // );
-
-    // Aplicar filtro de valoración
-    // if (filters.rating) {
-    //   result = result.filter((product) => product.rating >= filters.rating!);
-    // }
 
     // Aplicar filtros de disponibilidad
     if (filters.availability.includes("top-sales")) {
@@ -142,10 +181,10 @@ export default function ProductsPage() {
     // Aplicar ordenamiento
     switch (sortOption) {
       case "price-low":
-        result.sort((a, b) => a.total - b.total);
+        result.sort((a, b) => (a.total || 0) - (b.total || 0));
         break;
       case "price-high":
-        result.sort((a, b) => b.total - a.total);
+        result.sort((a, b) => (b.total || 0) - (a.total || 0));
         break;
       case "rating":
         result.sort((a, b) => b.rating - a.rating);
@@ -160,18 +199,28 @@ export default function ProductsPage() {
         );
     }
 
-    setFilteredProducts(result);
-    setCurrentPage(1); // Resetear a la primera página cuando se aplican filtros
-  }, [searchQuery, filters, sortOption, products]);
+    return result;
+  })();
 
-  // Calcular productos actuales para paginación
-  const indexOfLastProduct = currentPage * productsPerPage;
-  const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
-  const currentProducts = filteredProducts.slice(
-    indexOfFirstProduct,
-    indexOfLastProduct
-  );
-  const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
+  // Usar paginación del backend si está disponible, sino usar paginación local
+  const totalPages = pagination?.totalPages || Math.ceil(filteredProducts.length / productsPerPage);
+  const totalProducts = pagination?.total || filteredProducts.length;
+  
+  // Si tenemos paginación del backend, usar los productos directamente
+  // Si no, hacer paginación local
+  const currentProducts = pagination 
+    ? filteredProducts 
+    : filteredProducts.slice(
+        (currentPage - 1) * productsPerPage,
+        currentPage * productsPerPage
+      );
+  
+  const indexOfFirstProduct = pagination 
+    ? (currentPage - 1) * productsPerPage + 1
+    : (currentPage - 1) * productsPerPage + 1;
+  const indexOfLastProduct = pagination
+    ? Math.min(currentPage * productsPerPage, totalProducts)
+    : Math.min(currentPage * productsPerPage, filteredProducts.length);
 
   // Manejar cambios en los filtros
   const handleCategoryChange = (category: string, checked: boolean) => {
@@ -224,6 +273,7 @@ export default function ProductsPage() {
       availability: [],
     });
     setSearchQuery("");
+    setCurrentPage(1);
   };
 
   // Componente para mostrar filtros (compartido entre escritorio y móvil)
@@ -254,8 +304,9 @@ export default function ProductsPage() {
           <h4 className="text-sm font-medium">Precio</h4>
           <div className="px-2">
             <Slider
-              defaultValue={[0, 1000]}
-              max={1000}
+              defaultValue={[0, maxPrice]}
+              max={maxPrice}
+              min={0}
               step={10}
               value={filters.priceRange}
               onValueChange={handlePriceChange}
@@ -597,9 +648,9 @@ export default function ProductsPage() {
                 // Lista de productos
                 <>
                   <p className="mb-4 text-sm ">
-                    Mostrando {indexOfFirstProduct + 1}-
-                    {Math.min(indexOfLastProduct, filteredProducts.length)} de{" "}
-                    {filteredProducts.length} productos
+                    Mostrando {indexOfFirstProduct}-
+                    {indexOfLastProduct} de{" "}
+                    {totalProducts} productos
                   </p>
                   <div className="grid grid-cols-2 gap-4 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                     {currentProducts.map((product) => (
@@ -615,8 +666,10 @@ export default function ProductsPage() {
                           href="#"
                           onClick={(e) => {
                             e.preventDefault();
-                            if (currentPage > 1)
+                            if (currentPage > 1) {
                               setCurrentPage(currentPage - 1);
+                              window.scrollTo({ top: 0, behavior: "smooth" });
+                            }
                           }}
                           className={
                             currentPage === 1
@@ -640,6 +693,7 @@ export default function ProductsPage() {
                                 onClick={(e) => {
                                   e.preventDefault();
                                   setCurrentPage(page);
+                                  window.scrollTo({ top: 0, behavior: "smooth" });
                                 }}
                                 isActive={page === currentPage}
                               >
@@ -664,8 +718,10 @@ export default function ProductsPage() {
                           href="#"
                           onClick={(e) => {
                             e.preventDefault();
-                            if (currentPage < totalPages)
+                            if (currentPage < totalPages) {
                               setCurrentPage(currentPage + 1);
+                              window.scrollTo({ top: 0, behavior: "smooth" });
+                            }
                           }}
                           className={
                             currentPage === totalPages

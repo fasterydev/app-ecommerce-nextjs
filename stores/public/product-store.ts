@@ -1,6 +1,5 @@
 import { create } from "zustand";
-import { createProduct } from "@/actions/customer/products";
-import { getProducts } from "@/actions/public/products";
+import { getProducts, getProduct } from "@/actions/public/products";
 import { toast } from "sonner";
 import { Product } from "@/components/interfaces/product";
 
@@ -13,6 +12,7 @@ type PaginationInfo = {
 
 type ProductStore = {
   products: Product[];
+  currentProduct: Product | null;
   isLoading: boolean;
   pagination: PaginationInfo | null;
 
@@ -25,14 +25,15 @@ type ProductStore = {
     minPrice?: number;
     maxPrice?: number;
   }) => Promise<void>;
+  fetchProduct: (idOrSlug: string) => Promise<void>;
   setProducts: (items: Product[]) => void;
-  createProduct: (product: Partial<Product>) => Promise<void>;
-  getProductId: (slug: string) => Product | undefined;
+  getProductBySlug: (slug: string) => Product | undefined;
   getProductsRandom: (count: number) => Product[];
 };
 
-export const useProductStore = create<ProductStore>((set, get) => ({
+export const usePublicProductStore = create<ProductStore>((set, get) => ({
   products: [],
+  currentProduct: null,
   isLoading: false,
   pagination: null,
 
@@ -56,27 +57,27 @@ export const useProductStore = create<ProductStore>((set, get) => ({
     }
   },
 
-  createProduct: async (product: Partial<Product>) => {
+  fetchProduct: async (idOrSlug: string) => {
     set({ isLoading: true });
     try {
-      const res = await createProduct(product);
-      if (res.statusCode === 201) {
-        await useProductStore.getState().fetchProducts();
+      const res = await getProduct(idOrSlug);
+      if (res.statusCode === 200 && "product" in res) {
+        set({ currentProduct: res.product });
       }
     } catch (err) {
-      toast.error("Error al crear el producto");
-      console.error("Error al crear el producto:", err);
+      console.error("❌ Error al obtener el producto:", err);
+      toast.error("Error al obtener el producto");
     } finally {
       set({ isLoading: false });
     }
   },
 
-  getProductId: (slug: string) => {
+  getProductBySlug: (slug: string) => {
     try {
       const state = get();
       return state.products.find((product) => product.slug === slug);
     } catch (error) {
-      console.error("Error al obtener el producto por slug:", error);
+      console.error("❌ Error al obtener el producto por slug:", error);
       return undefined;
     }
   },

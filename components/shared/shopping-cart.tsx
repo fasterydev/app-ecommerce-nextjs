@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import Link from "next/link";
-import { useCartStore } from "@/stores/cart-store";
+import { useCartStore } from "@/stores/public/cart-store";
 import { useUser } from "@clerk/nextjs";
 import { currencyFormat } from "@/utils/currencyFormat";
 import { convertFromMilliunits } from "@/utils/covertAmountMiliunits";
