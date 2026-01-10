@@ -9,7 +9,7 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent } from "@/components/ui/card";
 import { Mail, Phone } from "lucide-react";
 import { toast } from "sonner";
-import { getUserData, updateUser } from "@/actions";
+import { getUserData, updateProfile } from "@/actions";
 import Loading from "./loading";
 
 interface ProfileData {
@@ -53,7 +53,7 @@ export function UpdateProfileForm() {
   const handleSubmit = async (formData: ProfileData) => {
     try {
       setIsLoading(true);
-      const response = await updateUser({
+      const response = await updateProfile({
         firstName: formData.nombre,
         lastName: formData.apellido,
         phone: formData.whatsapp,

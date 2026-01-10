@@ -12,7 +12,7 @@ export * from "./customer/favorites";
 export * from "./customer/brands";
 // FILES
 export * from "./files/upload-file";
-// AUTH
-export * from "./user/get-data-user";
-export * from "./user/update-user";
-export * from "./user/get-users";
+// CUSTOMER PROFILE
+export * from "./customer/profile";
+// ADMIN
+export * from "./admin/users";
