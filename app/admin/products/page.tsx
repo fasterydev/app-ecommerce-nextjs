@@ -16,7 +16,7 @@ import { Button } from "@/components/ui/button";
 import { EditIcon, EyeIcon, PackageIcon, PlusIcon } from "lucide-react";
 import { useEffect } from "react";
 import { Badge } from "@/components/ui/badge";
-import { Card } from "@/components/ui/card";
+import { PageHeader } from "@/components/shared/page-header";
 
 export default function ProductsAdmin() {
   const { products, fetchProducts } = useProductStore();
@@ -28,26 +28,19 @@ export default function ProductsAdmin() {
 
   return (
     <div>
-      <div className="flex items-center justify-between mb-4">
-        <div>
-          <div className="flex items-center gap-3">
-            <Card className="p-2 w-fit shadow-sm">
-              <PackageIcon className="text-primary" size={28} />
-            </Card>
-            <h1 className="text-xl font-semibold">Inventario</h1>
-          </div>
-          <p className="text-sm text-muted-foreground">
-            Aquí puedes ver y administrar los productos disponibles en la
-            tienda.
-          </p>
-        </div>
-        <Link href="/admin/products/create">
-          <Button>
-            <PlusIcon size={16} />
-            Crear producto
-          </Button>
-        </Link>
-      </div>
+      <PageHeader
+        icon={PackageIcon}
+        title="Inventario"
+        description="Aquí puedes ver y administrar los productos disponibles en la tienda."
+        action={
+          <Link href="/admin/products/create">
+            <Button>
+              <PlusIcon size={16} />
+              Crear producto
+            </Button>
+          </Link>
+        }
+      />
 
       <div className="overflow-hidden rounded-lg border">
         <Table>

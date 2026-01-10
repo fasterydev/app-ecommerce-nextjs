@@ -1,6 +1,5 @@
 "use client";
 
-import { Card } from "@/components/ui/card";
 import {
   Table,
   TableBody,
@@ -9,12 +8,13 @@ import {
   TableRow,
   TableCell,
 } from "@/components/ui/table";
-import { UserIcon, ShieldBanIcon, PencilIcon } from "lucide-react";
+import { UserIcon, PencilIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useEffect } from "react";
 import { useUserStore } from "@/stores/admin/user-store";
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
+import { PageHeader } from "@/components/shared/page-header";
 
 export default function UserAdminPage() {
   const { fetchUsers, users } = useUserStore();
@@ -25,16 +25,11 @@ export default function UserAdminPage() {
 
   return (
     <div>
-      <div className="flex items-center gap-3">
-        <Card className="p-2 w-fit shadow-sm">
-          <UserIcon className="text-primary" size={28} />
-        </Card>
-        <h1 className="text-xl font-semibold">Usuarios</h1>
-      </div>
-
-      <p className="mt-2 text-muted-foreground">
-        Gestión de usuarios registrados en la plataforma.
-      </p>
+      <PageHeader
+        icon={UserIcon}
+        title="Usuarios"
+        description="Gestión de usuarios registrados en la plataforma."
+      />
 
       <div className="overflow-hidden rounded-lg border mt-4">
         <Table>
@@ -43,9 +38,9 @@ export default function UserAdminPage() {
               <TableHead className="text-center">Nombre</TableHead>
               <TableHead>Apellido</TableHead>
               <TableHead>Correo</TableHead>
-              <TableHead>Role</TableHead>
-              <TableHead>Status</TableHead>
-              <TableHead>Actions</TableHead>
+              <TableHead>Roles</TableHead>
+              <TableHead>Estado</TableHead>
+              <TableHead>Acciones</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>

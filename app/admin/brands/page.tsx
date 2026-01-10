@@ -16,7 +16,7 @@ import { useBrandStore } from "@/stores/customer/brand-store";
 import { useEffect } from "react";
 import { toast } from "sonner";
 import { TagIcon } from "lucide-react";
-import { Card } from "@/components/ui/card";
+import { PageHeader } from "@/components/shared/page-header";
 
 export default function CategoriesPage() {
   const { brands, fetchBrands, deleteBrand } = useBrandStore();
@@ -61,20 +61,14 @@ export default function CategoriesPage() {
 
   return (
     <div>
-      <div className="flex items-center justify-between mb-4">
-        <div>
-          <div className="flex items-center gap-3">
-            <Card className="p-2 w-fit shadow-sm">
-              <TagIcon className="text-primary" size={28} />
-            </Card>
-            <h1 className="text-xl font-semibold">Marcas</h1>
-          </div>
-          <p className="text-sm text-muted-foreground">
-            Administra las marcas de tus productos aquí.
-          </p>
-        </div>
-        <BrandAlert onCancel={() => {}} onSave={(brand) => handleSave(brand)} />
-      </div>
+      <PageHeader
+        icon={TagIcon}
+        title="Marcas"
+        description="Administra las marcas de tus productos aquí."
+        action={
+          <BrandAlert onCancel={() => {}} onSave={(brand) => handleSave(brand)} />
+        }
+      />
 
       <div className="overflow-hidden rounded-lg border mt-4">
         <Table>

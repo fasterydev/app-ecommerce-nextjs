@@ -15,8 +15,8 @@ import {
 import { useCategoryStore } from "@/stores/customer/category-store";
 import { useEffect } from "react";
 import { toast } from "sonner";
-import { Card } from "@/components/ui/card";
 import { TagIcon } from "lucide-react";
+import { PageHeader } from "@/components/shared/page-header";
 
 export default function CategoriesPage() {
   const { categories, fetchCategories, deleteCategory } = useCategoryStore();
@@ -61,24 +61,17 @@ export default function CategoriesPage() {
 
   return (
     <div>
-      <div className="flex items-center justify-between mb-4">
-        <div>
-          <div className="flex items-center gap-3">
-            <Card className="p-2 w-fit shadow-sm">
-              <TagIcon className="text-primary" size={28} />
-            </Card>
-            <h1 className="text-xl font-semibold">Categorias</h1>
-          </div>
-          <p className="text-sm text-muted-foreground">
-            Aquí puedes ver todas las categorías de productos. Puedes editar o
-            eliminar cada categoría según sea necesario.
-          </p>
-        </div>
-        <CategoryAlert
-          onCancel={() => {}}
-          onSave={(category) => handleSave(category)}
-        />
-      </div>
+      <PageHeader
+        icon={TagIcon}
+        title="Categorias"
+        description="Aquí puedes ver todas las categorías de productos. Puedes editar o eliminar cada categoría según sea necesario."
+        action={
+          <CategoryAlert
+            onCancel={() => {}}
+            onSave={(category) => handleSave(category)}
+          />
+        }
+      />
 
       <div className="overflow-hidden rounded-lg border mt-4">
         <Table>
