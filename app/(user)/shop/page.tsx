@@ -39,7 +39,7 @@ import { Filter, Search, Star, X } from "lucide-react";
 import ProductCard from "@/components/product/product-card";
 import ProductCardSkeleton from "@/components/product/product-card-skeleton";
 import { useProductStore } from "@/stores/customer/product-store";
-import { Product } from "@/components/interfaces/interface";
+import { Product } from "@/components/interfaces/product";
 import { useBrandStore } from "@/stores/customer/brand-store";
 import { useCategoryStore } from "@/stores/customer/category-store";
 
