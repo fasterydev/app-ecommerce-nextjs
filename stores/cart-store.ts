@@ -7,7 +7,7 @@ import {
   createSale,
 } from "@/actions";
 import { toast } from "sonner";
-import { Product } from "@/components/interfaces/interface";
+import { Product } from "@/components/interfaces/product";
 
 type TypeShipping = "local_delivery" | "national_delivery" | "pickup";
 

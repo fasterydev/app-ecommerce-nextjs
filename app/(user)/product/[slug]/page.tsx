@@ -2,7 +2,7 @@
 import { useProductStore } from "@/stores/customer/product-store";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
-import { Product } from "@/components/interfaces/interface";
+import { Product } from "@/components/interfaces/product";
 import ProductIdView from "@/components/product/product-id-view";
 
 export default function ProductIdPage() {

@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import { Product } from "@/components/interfaces/interface";
+import { Product } from "@/components/interfaces/product";
 import { Button } from "@/components/ui/button";
 import {
   BadgeCheckIcon,

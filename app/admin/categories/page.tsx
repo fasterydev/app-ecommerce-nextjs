@@ -1,7 +1,7 @@
 "use client";
 import { createCategory, updateCategory } from "@/actions";
 import CategoryAlert from "@/components/product/form-category";
-import { Category } from "@/components/interfaces/interface";
+import { Category } from "@/components/interfaces/category";
 import { DeleteAlert } from "@/components/shared/delete-alert";
 import { Badge } from "@/components/ui/badge";
 import {

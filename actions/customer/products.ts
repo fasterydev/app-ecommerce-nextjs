@@ -1,6 +1,6 @@
 "use server";
 
-import { Product } from "@/components/interfaces/interface";
+import { Product } from "@/components/interfaces/product";
 import { envs } from "@/env";
 import { auth } from "@clerk/nextjs/server";
 
