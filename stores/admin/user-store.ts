@@ -1,5 +1,5 @@
 "use client";
-import { getUserById, updateUser, getUsers } from "@/actions";
+import { getUserById, updateUser, getUsers, FilterUsersParams } from "@/actions";
 import { User } from "@/components/interfaces/user";
 import { create } from "zustand";
 
@@ -12,17 +12,27 @@ interface UpdateUserData {
   roles?: string[];
 }
 
+interface Pagination {
+  page: number;
+  limit: number;
+  total: number;
+  totalPages: number;
+}
+
 type UserStore = {
   users: User[];
   currentUser: User | null;
   isLoading: boolean;
   isSaving: boolean;
+  pagination: Pagination | null;
+  filters: FilterUsersParams;
 
-  fetchUsers: () => Promise<void>;
+  fetchUsers: (params?: FilterUsersParams) => Promise<void>;
   fetchUserById: (userId: string) => Promise<User | null>;
   updateUser: (data: UpdateUserData) => Promise<{ success: boolean; message?: string }>;
   setUsers: (items: User[]) => void;
   setCurrentUser: (user: User | null) => void;
+  setFilters: (filters: FilterUsersParams) => void;
 };
 
 export const useUserStore = create<UserStore>((set, get) => ({
@@ -30,22 +40,40 @@ export const useUserStore = create<UserStore>((set, get) => ({
   currentUser: null,
   isLoading: false,
   isSaving: false,
+  pagination: null,
+  filters: {
+    page: 1,
+    limit: 10,
+  },
 
   setUsers: (items) => set({ users: items }),
   setCurrentUser: (user) => set({ currentUser: user }),
+  setFilters: (filters) => set({ filters }),
 
-  fetchUsers: async () => {
+  fetchUsers: async (params?: FilterUsersParams) => {
     set({ isLoading: true });
     try {
-      const res = await getUsers();
-      if (res?.statusCode === 200 && Array.isArray(res.users)) {
-        set({ users: res.users });
+      const filtersToUse = params || get().filters;
+      const res = await getUsers(filtersToUse);
+      console.log("Respuesta de getUsers:", res);
+      if (res?.statusCode === 200) {
+        if (res.users && Array.isArray(res.users)) {
+          set({ 
+            users: res.users,
+            pagination: res.pagination || null,
+            filters: filtersToUse,
+          });
+        } else {
+          console.warn("La respuesta no contiene un array de usuarios:", res);
+          set({ users: [], pagination: null });
+        }
       } else {
-        set({ users: [] });
+        console.error("Error en la respuesta:", res);
+        set({ users: [], pagination: null });
       }
     } catch (err) {
       console.error("Error al obtener los usuarios:", err);
-      set({ users: [] });
+      set({ users: [], pagination: null });
     } finally {
       set({ isLoading: false });
     }
