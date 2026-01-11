@@ -24,10 +24,11 @@ import Image from "next/image";
 import { currencyFormat } from "@/utils/currencyFormat";
 import { convertFromMilliunits } from "@/utils/covertAmountMiliunits";
 import { SaleStatusBadge } from "../sale/sale-status-badge";
-import { updateSale } from "@/actions";
+import { updateSaleAdmin } from "@/actions";
 import Link from "next/link";
 import { dateFormat } from "@/utils/dateFormat";
 import { useState } from "react";
+import { toast } from "sonner";
 
 type Props = {
   sale: Sale;
@@ -39,48 +40,66 @@ export function DetailsProduct({ sale, mode }: Props) {
   const isAdmin = mode === "edit";
 
   const handleCompleteSale = async (id: string) => {
+    if (!isAdmin) return;
     try {
       setIsLoading(true);
-      const result = await updateSale(id, {
+      const result = await updateSaleAdmin(id, {
         status: "completed",
       });
       if (result.statusCode === 200) {
-        console.log(result);
+        toast.success("Venta marcada como completada");
+        // Recargar la página para actualizar los datos
+        window.location.reload();
+      } else {
+        toast.error(result.message || "Error al actualizar la venta");
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
+      toast.error("Error al actualizar la venta");
     } finally {
       setIsLoading(false);
     }
   };
 
   const handleCancelSale = async (id: string) => {
+    if (!isAdmin) return;
     try {
       setIsLoading(true);
-      const result = await updateSale(id, {
+      const result = await updateSaleAdmin(id, {
         status: "canceled",
       });
       if (result.statusCode === 200) {
-        console.log(result);
+        toast.success("Venta cancelada");
+        // Recargar la página para actualizar los datos
+        window.location.reload();
+      } else {
+        toast.error(result.message || "Error al cancelar la venta");
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
+      toast.error("Error al cancelar la venta");
     } finally {
       setIsLoading(false);
     }
   };
 
   const handleResetSale = async (id: string) => {
+    if (!isAdmin) return;
     try {
       setIsLoading(true);
-      const result = await updateSale(id, {
+      const result = await updateSaleAdmin(id, {
         status: "pending",
       });
       if (result.statusCode === 200) {
-        console.log(result);
+        toast.success("Estado de venta reiniciado");
+        // Recargar la página para actualizar los datos
+        window.location.reload();
+      } else {
+        toast.error(result.message || "Error al actualizar la venta");
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
+      toast.error("Error al actualizar la venta");
     } finally {
       setIsLoading(false);
     }
@@ -215,12 +234,6 @@ export function DetailsProduct({ sale, mode }: Props) {
                 <span>Subtotal:</span>
                 <span>
                   {currencyFormat(convertFromMilliunits(sale.subtotal))}
-                </span>
-              </div>
-              <div className="flex justify-between">
-                <span>Envío:</span>
-                <span>
-                  {currencyFormat(convertFromMilliunits(sale.shippingFee))}
                 </span>
               </div>
               <div className="flex justify-between font-semibold">

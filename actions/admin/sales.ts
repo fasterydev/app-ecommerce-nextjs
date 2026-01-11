@@ -29,18 +29,6 @@ const getAuthToken = async () => {
 export type TypeShipping = "local_delivery" | "national_delivery" | "pickup";
 export type SaleStatus = "pending" | "completed" | "canceled";
 
-// DTO para crear una venta
-export interface CreateSaleDto {
-  typeShipping: TypeShipping;
-  phoneContact?: string;
-  street: string;
-  city: string;
-  state: string;
-  postalCode: string;
-  country: string;
-  addressLine2?: string;
-}
-
 // DTO para actualizar una venta
 export interface UpdateSaleDto {
   typeShipping?: TypeShipping;
@@ -54,12 +42,14 @@ export interface UpdateSaleDto {
   status?: SaleStatus;
 }
 
-// Obtener mis ventas (solo las ventas del usuario autenticado)
+// ========== SALES ==========
+
+// Admin: Obtener todas las ventas (admin ve todas las ventas de todos los usuarios)
 export const getSales = async () => {
   try {
     const token = await getAuthToken();
 
-    const response = await fetch(`${envs.BackendUrl}/sales/getMySales`, {
+    const response = await fetch(`${envs.BackendUrl}/sales/getSales`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -89,12 +79,12 @@ export const getSales = async () => {
   }
 };
 
-// Obtener mi venta por ID (solo las ventas del usuario autenticado)
+// Admin: Obtener una venta por ID (admin puede ver cualquier venta)
 export const getSale = async (id: string) => {
   try {
     const token = await getAuthToken();
 
-    const response = await fetch(`${envs.BackendUrl}/sales/getMySale/${id}`, {
+    const response = await fetch(`${envs.BackendUrl}/sales/getSale/${id}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -124,18 +114,18 @@ export const getSale = async (id: string) => {
   }
 };
 
-// Crear una venta (requiere autenticación)
-export const createSale = async (createSaleDto: CreateSaleDto) => {
+// Admin: Actualizar una venta (admin puede actualizar cualquier venta)
+export const updateSale = async (id: string, updateSaleDto: UpdateSaleDto) => {
   try {
     const token = await getAuthToken();
 
-    const response = await fetch(`${envs.BackendUrl}/sales/createSale`, {
-      method: "POST",
+    const response = await fetch(`${envs.BackendUrl}/sales/updateSale/${id}`, {
+      method: "PATCH",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify(createSaleDto),
+      body: JSON.stringify(updateSaleDto),
     });
 
     if (!response.ok) {
@@ -146,18 +136,48 @@ export const createSale = async (createSaleDto: CreateSaleDto) => {
 
     return {
       statusCode: response.status,
-      message: resData.message || "Venta creada exitosamente",
+      message: resData.message || "Venta actualizada exitosamente",
       sale: resData || {},
     };
   } catch (error) {
-    console.error("Error en createSale:", error);
+    console.error("Error en updateSale:", error);
     throw new Error(
       error instanceof Error
         ? error.message
-        : "Error desconocido al crear la venta"
+        : "Error desconocido al actualizar la venta"
     );
   }
 };
 
-// Nota: updateSale y deleteSale solo están disponibles para admin
-// Los usuarios no pueden actualizar ni eliminar ventas
+// Admin: Eliminar una venta (solo admin puede eliminar)
+export const deleteSale = async (id: string) => {
+  try {
+    const token = await getAuthToken();
+
+    const response = await fetch(`${envs.BackendUrl}/sales/deleteSale/${id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (!response.ok) {
+      return await handleResponseError(response);
+    }
+
+    const resData = await response.json();
+
+    return {
+      statusCode: response.status,
+      message: resData.message || "Venta eliminada exitosamente",
+    };
+  } catch (error) {
+    console.error("Error en deleteSale:", error);
+    throw new Error(
+      error instanceof Error
+        ? error.message
+        : "Error desconocido al eliminar la venta"
+    );
+  }
+};

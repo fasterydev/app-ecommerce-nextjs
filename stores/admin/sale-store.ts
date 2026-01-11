@@ -3,10 +3,9 @@ import { create } from "zustand";
 import { 
   getSales, 
   getSale, 
-  createSale,
-  CreateSaleDto,
+  updateSale, 
   UpdateSaleDto 
-} from "@/actions/customer/sales";
+} from "@/actions/admin/sales";
 import { Sale } from "@/components/sale/interface";
 import { toast } from "sonner";
 
@@ -18,15 +17,12 @@ type SaleStore = {
 
   fetchSales: () => Promise<void>;
   fetchSaleById: (id: string) => Promise<Sale | null>;
-  createSale: (createSaleDto: CreateSaleDto) => Promise<{ success: boolean; message?: string; sale?: Sale }>;
-  // Nota: updateSale y deleteSale solo están disponibles para admin
   updateSale: (id: string, updateSaleDto: UpdateSaleDto) => Promise<{ success: boolean; message?: string }>;
-  deleteSale: (id: string) => Promise<{ success: boolean; message?: string }>;
   setSales: (items: Sale[]) => void;
   setCurrentSale: (sale: Sale | null) => void;
 };
 
-export const useSaleStore = create<SaleStore>((set, get) => ({
+export const useAdminSaleStore = create<SaleStore>((set, get) => ({
   sales: [],
   currentSale: null,
   isLoading: false,
@@ -77,53 +73,51 @@ export const useSaleStore = create<SaleStore>((set, get) => ({
     }
   },
 
-  createSale: async (createSaleDto: CreateSaleDto) => {
+  updateSale: async (id: string, updateSaleDto: UpdateSaleDto) => {
     set({ isSaving: true });
     try {
-      const res = await createSale(createSaleDto);
-      if (res.statusCode === 201 || res.statusCode === 200) {
-        // Recargar la lista de ventas
+      const res = await updateSale(id, updateSaleDto);
+      if (res.statusCode === 200) {
+        // Actualizar la venta en la lista si existe
+        const { sales } = get();
+        const updatedSales = sales.map((s) => {
+          if (s.id === id) {
+            return { ...s, ...updateSaleDto } as Sale;
+          }
+          return s;
+        });
+        set({ sales: updatedSales });
+
+        // Si es la venta actual, actualizarla también
+        const { currentSale } = get();
+        if (currentSale && currentSale.id === id) {
+          set({ currentSale: { ...currentSale, ...updateSaleDto } as Sale });
+        }
+
+        // Recargar la lista para asegurar datos actualizados
         await get().fetchSales();
-        toast.success(res.message || "Venta creada exitosamente");
+
+        toast.success(res.message || "Venta actualizada exitosamente");
         return {
           success: true,
-          message: res.message || "Venta creada exitosamente",
-          sale: "sale" in res ? (res.sale as Sale) : undefined,
+          message: res.message || "Venta actualizada exitosamente",
         };
       } else {
-        toast.error(res.message || "Error al crear la venta");
+        toast.error(res.message || "Error al actualizar la venta");
         return {
           success: false,
-          message: res.message || "Error al crear la venta",
+          message: res.message || "Error al actualizar la venta",
         };
       }
     } catch (err) {
-      console.error("❌ Error al crear la venta:", err);
-      toast.error("Error al crear la venta");
+      console.error("❌ Error al actualizar la venta:", err);
+      toast.error("Error al actualizar la venta");
       return {
         success: false,
-        message: "Error al crear la venta",
+        message: "Error al actualizar la venta",
       };
     } finally {
       set({ isSaving: false });
     }
-  },
-
-  // Nota: updateSale y deleteSale solo están disponibles para admin
-  // Los usuarios no pueden actualizar ni eliminar ventas
-  updateSale: async (id: string, updateSaleDto: UpdateSaleDto) => {
-    toast.error("No tienes permiso para actualizar ventas");
-    return {
-      success: false,
-      message: "No tienes permiso para actualizar ventas",
-    };
-  },
-
-  deleteSale: async (id: string) => {
-    toast.error("No tienes permiso para eliminar ventas");
-    return {
-      success: false,
-      message: "No tienes permiso para eliminar ventas",
-    };
   },
 }));

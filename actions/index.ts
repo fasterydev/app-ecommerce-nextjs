@@ -39,3 +39,11 @@ export {
   getCategories as getCategoriesAdmin,
   getCategory as getCategoryAdmin,
 } from "./admin/categories";
+export {
+  getSales as getSalesAdmin,
+  getSale as getSaleAdmin,
+  updateSale as updateSaleAdmin,
+  type SaleStatus as SaleStatusAdmin,
+  type TypeShipping as TypeShippingAdmin,
+  type UpdateSaleDto as UpdateSaleDtoAdmin,
+} from "./admin/sales";

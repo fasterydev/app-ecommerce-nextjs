@@ -4,12 +4,11 @@ import {
   addItemToCart,
   removeItemFromCart,
   decreaseItemQuantity,
-  createSale,
+  createSale as createSaleAction,
+  CreateSaleDto,
 } from "@/actions";
 import { toast } from "sonner";
 import { Product } from "@/components/interfaces/product";
-
-type TypeShipping = "local_delivery" | "national_delivery" | "pickup";
 
 type ShoppingCartItem = {
   id: string;
@@ -26,7 +25,7 @@ type CartStore = {
   addItem: (productId: string) => Promise<void>;
   decreaseItem: (productId: string) => Promise<void>;
   removeItem: (productId: string) => Promise<void>;
-  createSale: (typeShipping: TypeShipping) => Promise<void>;
+  createSale: (createSaleDto: CreateSaleDto) => Promise<void>;
   totalPriceCart: () => number;
 };
 
@@ -138,10 +137,10 @@ export const useCartStore = create<CartStore>((set, get) => ({
     }
   },
 
-  createSale: async (typeShipping: TypeShipping) => {
+  createSale: async (createSaleDto: CreateSaleDto) => {
     set({ isLoading: true });
     try {
-      const res = await createSale(typeShipping);
+      const res = await createSaleAction(createSaleDto);
       await get().fetchCart();
       if (res.statusCode === 201) {
         toast.success(res.message || "✅ Venta creada exitosamente");
