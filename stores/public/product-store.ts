@@ -14,6 +14,7 @@ type ProductStore = {
   products: Product[];
   currentProduct: Product | null;
   isLoading: boolean;
+  isNotFound: boolean;
   pagination: PaginationInfo | null;
 
   fetchProducts: (params?: {
@@ -29,18 +30,22 @@ type ProductStore = {
   setProducts: (items: Product[]) => void;
   getProductBySlug: (slug: string) => Product | undefined;
   getProductsRandom: (count: number) => Product[];
+  resetNotFound: () => void;
 };
 
 export const usePublicProductStore = create<ProductStore>((set, get) => ({
   products: [],
   currentProduct: null,
   isLoading: false,
+  isNotFound: false,
   pagination: null,
 
   setProducts: (items) => set({ products: items }),
 
+  resetNotFound: () => set({ isNotFound: false }),
+
   fetchProducts: async (params) => {
-    set({ isLoading: true });
+    set({ isLoading: true, isNotFound: false });
     try {
       const res = await getProducts(params);
       if (res.statusCode === 200 && "products" in res) {
@@ -58,14 +63,19 @@ export const usePublicProductStore = create<ProductStore>((set, get) => ({
   },
 
   fetchProduct: async (idOrSlug: string) => {
-    set({ isLoading: true });
+    set({ isLoading: true, isNotFound: false, currentProduct: null });
     try {
       const res = await getProduct(idOrSlug);
-      if (res.statusCode === 200 && "product" in res) {
-        set({ currentProduct: res.product });
+      if (res.statusCode === 200 && "product" in res && res.product) {
+        set({ currentProduct: res.product, isNotFound: false });
+      } else if (res.statusCode === 404) {
+        set({ isNotFound: true, currentProduct: null });
+      } else {
+        set({ isNotFound: true, currentProduct: null });
       }
     } catch (err) {
       console.error("❌ Error al obtener el producto:", err);
+      set({ isNotFound: true, currentProduct: null });
       toast.error("Error al obtener el producto");
     } finally {
       set({ isLoading: false });
