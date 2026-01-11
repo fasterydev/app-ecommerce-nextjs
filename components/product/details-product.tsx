@@ -29,6 +29,7 @@ import Link from "next/link";
 import { dateFormat } from "@/utils/dateFormat";
 import { useState } from "react";
 import { toast } from "sonner";
+import PayphoneButton from "@/components/shared/payphone-button";
 
 type Props = {
   sale: Sale;
@@ -242,6 +243,39 @@ export function DetailsProduct({ sale, mode }: Props) {
               </div>
             </div>
           </div>
+
+          {!isAdmin && sale.status === "pending" && (
+            <>
+              <Separator />
+              <div className="space-y-2">
+                <h4 className="font-semibold">Pago del Pedido</h4>
+                <p className="text-sm text-muted-foreground">
+                  Complete el pago de su pedido para procesar su orden.
+                </p>
+                <PayphoneButton
+                  config={{
+                    // amount: convertFromMilliunits(sale.total),
+                    reference: `Pago Pedido #${sale.idNumer}`,
+                    amount: 315,
+                    amountWithoutTax: 200,
+                    amountWithTax: 100,
+                    tax: 15,
+                    currency: "USD",
+                  }}
+                  buttonText="Pagar Pedido"
+                  buttonVariant="default"
+                  buttonSize="lg"
+                  buttonClassName="w-full"
+                  onSuccess={() => {
+                    toast.success("Pago iniciado correctamente");
+                  }}
+                  onError={(error) => {
+                    toast.error(`Error al cargar el método de pago: ${error}`);
+                  }}
+                />
+              </div>
+            </>
+          )}
 
           {isAdmin && sale.status === "pending" && (
             <>
