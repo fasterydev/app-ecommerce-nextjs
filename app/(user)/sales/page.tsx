@@ -15,145 +15,183 @@ import { useSaleStore } from "@/stores/customer/sale-store";
 import { convertFromMilliunits } from "@/utils/covertAmountMiliunits";
 import { currencyFormat } from "@/utils/currencyFormat";
 import { dateFormat } from "@/utils/dateFormat";
-import { HashIcon, HomeIcon } from "lucide-react";
+import { 
+  HashIcon, 
+  HomeIcon, 
+  PackageIcon, 
+  CalendarIcon,
+  Loader2Icon,
+  ShoppingBagIcon
+} from "lucide-react";
 import Link from "next/link";
 import { useEffect } from "react";
 
 export default function SalesPage() {
-  const { sales, fetchSales } = useSaleStore();
+  const { sales, fetchSales, isLoading } = useSaleStore();
 
   useEffect(() => {
     fetchSales();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const totalProducts = (sale: any) => {
+    if (!sale.products || !Array.isArray(sale.products)) return 0;
+    return sale.products.reduce(
+      (acc: number, product: any) => acc + (product?.quantity ?? 1),
+      0
+    );
+  };
+
   return (
     <main className="flex-1 pb-12 pt-6">
-      <div className="container mx-auto">
+      <div className="container mx-auto px-4">
         {/* Breadcrumb */}
-        <div className="mb-6 flex items-center space-x-2 text-sm ">
-          <Link href="/" className="flex items-center ">
+        <div className="mb-6 flex items-center space-x-2 text-sm text-muted-foreground">
+          <Link href="/" className="flex items-center hover:text-foreground transition-colors">
             <HomeIcon className="mr-1 h-3 w-3" />
             Inicio
           </Link>
           <span>/</span>
-          <span className="font-medium ">Mis Pedidos</span>
+          <span className="font-medium text-foreground">Mis Pedidos</span>
         </div>
 
-        <div className="mb-4">
-          <h1 className="mb-2 text-2xl font-semibold sm:text-3xl">
+        {/* Header */}
+        <div className="mb-6">
+          <h1 className="mb-2 text-3xl font-bold tracking-tight">
             Mis Pedidos
           </h1>
-          <p className="">
+          <p className="text-muted-foreground">
             Revisa el estado de tus pedidos y gestiona tus compras.
           </p>
         </div>
-        {/* Desktop Table */}
 
-        {sales.length === 0 ? (
-          <div className="flex flex-col items-center justify-center py-16 text-center border rounded-lg bg-muted/30">
-            <p className="text-lg font-medium mb-4 text-muted-foreground">
-              No hay pedidos realizados aún.
-            </p>
-            <Button asChild>
-              <Link href="/">
-                <HomeIcon className="mr-2 h-4 w-4" />
-                Volver al inicio
-              </Link>
-            </Button>
-          </div>
+        {/* Loading State */}
+        {isLoading ? (
+          <Card>
+            <CardContent className="flex items-center justify-center py-16">
+              <Loader2Icon className="h-8 w-8 animate-spin text-muted-foreground" />
+            </CardContent>
+          </Card>
+        ) : sales.length === 0 ? (
+          /* Empty State */
+          <Card>
+            <CardContent className="flex flex-col items-center justify-center py-16 text-center">
+              <ShoppingBagIcon className="h-16 w-16 text-muted-foreground mb-4" />
+              <h3 className="text-xl font-semibold mb-2">
+                No hay pedidos realizados aún
+              </h3>
+              <p className="text-muted-foreground mb-6 max-w-md">
+                Cuando realices tu primera compra, aparecerá aquí junto con todos los detalles de tu pedido.
+              </p>
+              <Button asChild>
+                <Link href="/shop">
+                  <PackageIcon className="mr-2 h-4 w-4" />
+                  Explorar productos
+                </Link>
+              </Button>
+            </CardContent>
+          </Card>
         ) : (
-          <div className="hidden md:block overflow-hidden rounded-lg border">
-            <Table>
-              <TableHeader className="bg-muted">
-                <TableRow>
-                  <TableHead className="w-[100px]">Pedido</TableHead>
-                  <TableHead>Estado</TableHead>
-                  <TableHead>Fecha</TableHead>
-                  <TableHead>Subtotal</TableHead>
-                  <TableHead>Total</TableHead>
-                  <TableHead className="text-right">Ver</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {sales.map((sale) => (
-                  <TableRow key={sale.id}>
-                    <TableCell className="font-medium flex items-center">
-                      <div className="flex space-x-1 items-center my-auto pt-2">
-                        <HashIcon size={14} />
-                        <div>{sale.idNumer}</div>
-                      </div>
-                    </TableCell>
-                    <TableCell>
-                      <div className="items-center flex my-auto">
+          <>
+            {/* Desktop Table */}
+            <div className="hidden md:block overflow-hidden rounded-lg border bg-card shadow-sm">
+              <Table>
+                <TableHeader className="bg-muted/50">
+                  <TableRow>
+                    <TableHead className="w-[100px]">Pedido</TableHead>
+                    <TableHead>Estado</TableHead>
+                    <TableHead>Productos</TableHead>
+                    <TableHead>Fecha</TableHead>
+                    <TableHead className="text-right">Total</TableHead>
+                    <TableHead className="text-right w-[100px]">Acciones</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {sales.map((sale) => (
+                    <TableRow key={sale.id} className="hover:bg-muted/50 transition-colors">
+                      <TableCell className="font-medium">
+                        <div className="flex items-center gap-2">
+                          <HashIcon size={16} className="text-muted-foreground" />
+                          <span className="text-lg">#{sale.idNumer}</span>
+                        </div>
+                      </TableCell>
+                      <TableCell>
+                        <SaleStatusBadge status={sale.status} />
+                      </TableCell>
+                      <TableCell>
+                        <div className="flex items-center gap-2">
+                          <PackageIcon size={16} className="text-muted-foreground" />
+                          <span className="font-medium">{totalProducts(sale)} productos</span>
+                        </div>
+                      </TableCell>
+                      <TableCell>
+                        <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                          <CalendarIcon size={14} />
+                          <span>{dateFormat(sale.createdAt)}</span>
+                        </div>
+                      </TableCell>
+                      <TableCell className="text-right font-semibold text-lg">
+                        {currencyFormat(convertFromMilliunits(sale.total))}
+                      </TableCell>
+                      <TableCell className="text-right">
+                        <DetailsProduct sale={sale} mode="view" />
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </div>
+
+            {/* Mobile Cards */}
+            <div className="space-y-4 md:hidden">
+              {sales.map((sale) => (
+                <Card key={sale.id} className="shadow-sm">
+                  <CardContent className="pt-6">
+                    <div className="space-y-4">
+                      {/* Header */}
+                      <div className="flex items-start justify-between pb-3 border-b">
+                        <div className="flex items-center gap-2">
+                          <HashIcon size={18} className="text-muted-foreground" />
+                          <span className="text-xl font-bold">#{sale.idNumer}</span>
+                        </div>
                         <SaleStatusBadge status={sale.status} />
                       </div>
-                    </TableCell>
-                    <TableCell>{dateFormat(sale.createdAt)}</TableCell>
-                    <TableCell>
-                      {currencyFormat(convertFromMilliunits(sale.subtotal))}
-                    </TableCell>
-                    <TableCell>
-                      {currencyFormat(convertFromMilliunits(sale.total))}
-                    </TableCell>
-                    <TableCell className="text-right">
-                      <DetailsProduct sale={sale} mode={"view"} />
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </div>
-        )}
 
-        {/* Mobile Cards */}
-        <div className="space-y-4 md:hidden">
-          {sales.map((sale) => (
-            <Card key={sale.id}>
-              <CardContent>
-                <div className="space-y-2">
-                  <div className="flex justify-between items-center">
-                    <span className="text-sm font-medium text-muted-foreground">
-                      Pedido:
-                    </span>
-                    <span className="font-medium flex space-x-1 items-center">
-                      <HashIcon size={14} />
-                      <div>{sale.idNumer}</div>
-                    </span>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-sm font-medium text-muted-foreground">
-                      Estado:
-                    </span>
-                    <SaleStatusBadge status={sale.status} />
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-sm font-medium text-muted-foreground">
-                      Fecha:
-                    </span>
-                    <span>{dateFormat(sale.createdAt)}</span>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-sm font-medium text-muted-foreground">
-                      Total:
-                    </span>
-                    <span>
-                      {currencyFormat(convertFromMilliunits(sale.total))}
-                    </span>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-sm font-medium text-muted-foreground">
-                      Detalles:
-                    </span>
-                    <span>
-                      <DetailsProduct sale={sale} mode={"view"} />
-                    </span>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
+                      {/* Info Grid */}
+                      <div className="grid grid-cols-2 gap-4">
+                        <div>
+                          <p className="text-xs text-muted-foreground mb-1.5">Productos</p>
+                          <div className="flex items-center gap-2">
+                            <PackageIcon size={16} className="text-muted-foreground" />
+                            <span className="font-medium">{totalProducts(sale)}</span>
+                          </div>
+                        </div>
+                        <div>
+                          <p className="text-xs text-muted-foreground mb-1.5">Fecha</p>
+                          <div className="flex items-center gap-2">
+                            <CalendarIcon size={14} className="text-muted-foreground" />
+                            <span className="text-sm">{dateFormat(sale.createdAt)}</span>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Total and Actions */}
+                      <div className="flex items-center justify-between pt-3 border-t">
+                        <div>
+                          <p className="text-xs text-muted-foreground mb-1">Total</p>
+                          <p className="text-2xl font-bold">
+                            {currencyFormat(convertFromMilliunits(sale.total))}
+                          </p>
+                        </div>
+                        <DetailsProduct sale={sale} mode="view" />
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </>
+        )}
       </div>
     </main>
   );
