@@ -36,7 +36,7 @@ export default function SignInPage() {
                     </CardHeader>
 
                     <CardContent className="grid gap-y-4">
-                      <div className="grid grid-cols-3 gap-x-4">
+                      <div className="grid grid-cols-2 gap-x-4">
                         <Clerk.Connection name="apple" asChild>
                           <Button
                             size="sm"
@@ -73,27 +73,6 @@ export default function SignInPage() {
                                   <>
                                     <Clerk.Icon />
                                     <>Google</>
-                                  </>
-                                )
-                              }
-                            </Clerk.Loading>
-                          </Button>
-                        </Clerk.Connection>
-                        <Clerk.Connection name="facebook" asChild>
-                          <Button
-                            size="sm"
-                            variant="outline"
-                            type="button"
-                            disabled={isGlobalLoading}
-                          >
-                            <Clerk.Loading scope="provider:facebook">
-                              {(isLoading) =>
-                                isLoading ? (
-                                  <LoaderCircleIcon className="size-4 animate-spin" />
-                                ) : (
-                                  <>
-                                    <Clerk.Icon />
-                                    Facebook
                                   </>
                                 )
                               }

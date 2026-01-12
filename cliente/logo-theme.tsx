@@ -17,7 +17,7 @@ export function LogoTheme({ mode }: { mode?: "light" | "dark" }) {
   return (
     <>
       {effectiveMode === "dark" && (
-        <div className="flex-col ">
+        <div className="flex-col">
           <div className="font-bold text-2xl tracking-wider text-center">
             VILEZA
           </div>
