@@ -16,42 +16,61 @@ const MosaicCategory = () => {
     }
   }, [categories.length, fetchCategories]);
 
-  if (isLoading || categories.length === 0) {
+  // Filtrar solo las categorías que tienen inHome === true
+  const homeCategories = categories.filter((category) => category.inHome === true);
+
+  if (isLoading || homeCategories.length === 0) {
     return null;
   }
 
+  // Imágenes de fallback
+  const fallbackImages = [
+    "/assets/mosaic/1.png",
+    "/assets/mosaic/2.png",
+    "/assets/mosaic/3.png",
+    "/assets/mosaic/4.png",
+  ];
+
   return (
     <div className="grid grid-cols-2 mt-3 sm:grid-cols-2 lg:grid-cols-3 lg:grid-rows-2 xl:pt-1 gap-4 h-[85vh]">
-      <div className="lg:row-span-2 h-full">
+      {homeCategories[0] && (
+        <div className="lg:row-span-2 h-full">
+          <CategoryCard
+            label={homeCategories[0].name || ""}
+            image={homeCategories[0].urlImage || fallbackImages[0]}
+            align="center"
+            fullHeight
+            link={homeCategories[0].id ? `/shop?categoryId=${homeCategories[0].id}` : "/shop"}
+          />
+        </div>
+      )}
+      {homeCategories[1] && (
+        <div className="lg:row-span-2 h-full">
+          <CategoryCard
+            label={homeCategories[1].name || ""}
+            image={homeCategories[1].urlImage || fallbackImages[1]}
+            align="center"
+            fullHeight
+            link={homeCategories[1].id ? `/shop?categoryId=${homeCategories[1].id}` : "/shop"}
+          />
+        </div>
+      )}
+      {homeCategories[2] && (
         <CategoryCard
-          label={categories[0]?.name || ""}
-          image="/assets/mosaic/1.png"
+          label={homeCategories[2].name || ""}
+          image={homeCategories[2].urlImage || fallbackImages[2]}
           align="center"
-          fullHeight
-          link={categories[0]?.id ? `/shop?categoryId=${categories[0].id}` : "/shop"}
+          link={homeCategories[2].id ? `/shop?categoryId=${homeCategories[2].id}` : "/shop"}
         />
-      </div>
-      <div className="lg:row-span-2 h-full">
+      )}
+      {homeCategories[3] && (
         <CategoryCard
-          label={categories[1]?.name || ""}
-          image="/assets/mosaic/2.png"
+          label={homeCategories[3].name || ""}
+          image={homeCategories[3].urlImage || fallbackImages[3]}
           align="center"
-          fullHeight
-          link={categories[1]?.id ? `/shop?categoryId=${categories[1].id}` : "/shop"}
+          link={homeCategories[3].id ? `/shop?categoryId=${homeCategories[3].id}` : "/shop"}
         />
-      </div>
-      <CategoryCard
-        label={categories[2]?.name || ""}
-        image="/assets/mosaic/3.png"
-        align="center"
-        link={categories[2]?.id ? `/shop?categoryId=${categories[2].id}` : "/shop"}
-      />
-      <CategoryCard
-        label={categories[3]?.name || ""}
-        image="/assets/mosaic/4.png"
-        align="center"
-        link={categories[3]?.id ? `/shop?categoryId=${categories[3].id}` : "/shop"}
-      />
+      )}
     </div>
   );
 };

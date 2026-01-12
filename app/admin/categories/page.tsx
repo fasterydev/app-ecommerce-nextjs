@@ -17,6 +17,7 @@ import { useEffect } from "react";
 import { toast } from "sonner";
 import { TagIcon } from "lucide-react";
 import { PageHeader } from "@/components/shared/page-header";
+import Image from "next/image";
 
 export default function CategoriesPage() {
   const { categories, fetchCategories, deleteCategory } = useCategoryStore();
@@ -77,15 +78,33 @@ export default function CategoriesPage() {
         <Table>
           <TableHeader className="bg-muted sticky top-0 z-10">
             <TableRow>
+              <TableHead>Imagen</TableHead>
               <TableHead>Nombre</TableHead>
               <TableHead>Descripción</TableHead>
               <TableHead>Estado</TableHead>
+              <TableHead>En Inicio</TableHead>
               <TableHead>Acciones</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {categories.map((category) => (
               <TableRow key={category.id}>
+                <TableCell>
+                  {category.urlImage ? (
+                    <div className="relative w-16 h-16">
+                      <Image
+                        src={category.urlImage}
+                        alt={category.name}
+                        fill
+                        className="object-cover rounded-md border"
+                      />
+                    </div>
+                  ) : (
+                    <div className="w-16 h-16 bg-gray-100 rounded-md flex items-center justify-center">
+                      <TagIcon className="w-6 h-6 text-gray-400" />
+                    </div>
+                  )}
+                </TableCell>
                 <TableCell className="font-medium">{category.name}</TableCell>
                 <TableCell>{category.description}</TableCell>
                 <TableCell>
@@ -94,6 +113,14 @@ export default function CategoriesPage() {
                     className={`px-2 py-0.5 flex items-center gap-1`}
                   >
                     {category.isActive ? "Activo" : "Inactivo"}
+                  </Badge>
+                </TableCell>
+                <TableCell>
+                  <Badge
+                    variant={category.inHome ? "default" : "secondary"}
+                    className={`px-2 py-0.5 flex items-center gap-1`}
+                  >
+                    {category.inHome ? "Sí" : "No"}
                   </Badge>
                 </TableCell>
                 <TableCell className="space-x-2">
