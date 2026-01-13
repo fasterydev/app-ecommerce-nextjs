@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/sidebar";
 import {
   GlobeIcon,
+  LayoutIcon,
   ListTodoIcon,
   PackageIcon,
   ServerIcon,
@@ -30,9 +31,9 @@ const data = {
   },
   navMain: [
     {
-      title: "Pagina Web",
-      url: "/admin/web",
-      icon: GlobeIcon,
+      title: "Panel de Control",
+      url: "/admin",
+      icon: LayoutIcon,
     },
     {
       title: "Inventario",
@@ -68,7 +69,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
-            <Link className="mx-auto" href="/admin/products">
+            <Link className="m-auto flex justify-center" href="/">
               <LogoTheme mode="light"/>
             </Link>
           </SidebarMenuItem>

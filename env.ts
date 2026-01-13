@@ -13,6 +13,7 @@ const envSchema = z.object({
   NEXT_PUBLIC_BUSINESS_EMAIL: z.string().email(),
   NEXT_PUBLIC_BUSINESS_PHONE: z.string(),
   NEXT_PUBLIC_BUSINESS_ADDRESS: z.string(),
+  NEXT_PUBLIC_BUSINESS_SLUG: z.string(),
 
   NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: z.string(),
   CLERK_SECRET_KEY: z.string().optional(),
@@ -35,6 +36,7 @@ const envValues: Record<string, string | undefined> = {
   NEXT_PUBLIC_BUSINESS_EMAIL: process.env.NEXT_PUBLIC_BUSINESS_EMAIL,
   NEXT_PUBLIC_BUSINESS_PHONE: process.env.NEXT_PUBLIC_BUSINESS_PHONE,
   NEXT_PUBLIC_BUSINESS_ADDRESS: process.env.NEXT_PUBLIC_BUSINESS_ADDRESS,
+  NEXT_PUBLIC_BUSINESS_SLUG: process.env.NEXT_PUBLIC_BUSINESS_SLUG,
 
   NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY,
 
@@ -66,6 +68,7 @@ export const envs = {
     Email: parsed.NEXT_PUBLIC_BUSINESS_EMAIL,
     Phone: parsed.NEXT_PUBLIC_BUSINESS_PHONE,
     Address: parsed.NEXT_PUBLIC_BUSINESS_ADDRESS,
+    Slug: parsed.NEXT_PUBLIC_BUSINESS_SLUG,
   },
   Clerk: {
     PublicKey: parsed.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY,

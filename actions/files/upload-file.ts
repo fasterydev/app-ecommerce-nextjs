@@ -1,10 +1,11 @@
+import { envs } from "@/env";
+
 export const uploadFile = async (file: File) => {
   try {
     const formData = new FormData();
     formData.append("file", file);
     const response = await fetch(
-      // TODO: AÑADIR EN ENV
-      `https://api.nexus.fastery.dev/files/uploadToFolder/test-ecommerce`,
+      `https://api.nexus.fastery.dev/files/uploadToFolder/${envs.Business.Slug}`,
       {
         method: "POST",
         body: formData,

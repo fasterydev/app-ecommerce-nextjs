@@ -17,6 +17,7 @@ import ProductSkeleton from "./product-id-skeleton";
 import { Separator } from "../ui/separator";
 import { ScrollArea } from "../ui/scroll-area";
 import { useProductStore } from "@/stores/customer/product-store";
+import { useFavoriteStore } from "@/stores/customer/favorite-store";
 import ProductCard from "./product-card";
 import ButtonAddToCart from "./button-add-to-cart";
 
@@ -32,8 +33,16 @@ export default function ProductIdView({
   const [mainImage, setMainImage] = useState<string>();
   const [randomProducts, setRandomProducts] = useState<Product[]>([]);
   const [currentProduct, setCurrentProduct] = useState<Product>();
+  const [isHeartAnimating, setIsHeartAnimating] = useState(false);
 
   const { getProductsRandom, fetchProducts, getProductId } = useProductStore();
+  const { toggleFavorite, isFavorite, fetchFavorites } = useFavoriteStore();
+
+  // Cargar favoritos al montar el componente
+  useEffect(() => {
+    fetchFavorites();
+  }, [fetchFavorites]);
+
   const handleShare = async () => {
     if (navigator.share) {
       try {
@@ -173,8 +182,27 @@ export default function ProductIdView({
 
             {/* Grupo de acciones secundarias */}
             <div className="flex items-center justify-center gap-2 w-full">
-              <Button variant="outline" size="icon" className="rounded-full">
-                <HeartIcon className="w-5 h-5" />
+              <Button
+                variant="outline"
+                size="icon"
+                className="rounded-full relative"
+                onClick={async () => {
+                  setIsHeartAnimating(true);
+                  await toggleFavorite(currentProduct.id);
+                  setTimeout(() => setIsHeartAnimating(false), 600);
+                }}
+              >
+                <HeartIcon
+                  className={`w-5 h-5 transition-all duration-300 ${
+                    isFavorite(currentProduct.id)
+                      ? "fill-red-500 text-red-500"
+                      : "text-gray-600"
+                  } ${
+                    isHeartAnimating
+                      ? "scale-150 animate-bounce"
+                      : "scale-100"
+                  }`}
+                />
               </Button>
               <Button
                 onClick={handleShare}
