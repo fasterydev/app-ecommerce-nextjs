@@ -6,6 +6,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useCategoryStore } from "@/stores/customer/category-store";
 import { useBrandStore } from "@/stores/customer/brand-store";
+import { envs } from "@/env";
 
 const Footer = () => {
   const { categories, fetchCategories } = useCategoryStore();
@@ -27,17 +28,17 @@ const Footer = () => {
           <div className="text-sm space-y-3 mt-4">
             <div className="flex items-center">
               <MapPinIcon size={18} className="mr-2" />
-              <div>Calle 123 #456, Guayaquil, Ecuador</div>
+              <div>{envs.Business.Address}</div>
             </div>
             {/* EMAIL */}
             <div className="flex items-center">
               <MailIcon size={18} className="mr-2" />
-              <div>info@fastery.dev</div>
+              <div>{envs.Business.Email}</div>
             </div>
             {/* TELEFONO */}
             <div className="flex items-center">
               <PhoneIcon size={18} className="mr-2" />
-              <div>098 306 0927</div>
+              <div>{envs.Business.Phone}</div>
             </div>
           </div>
         </div>
@@ -131,7 +132,7 @@ const Footer = () => {
         rel="noopener noreferrer"
         className="py-4 text-center text-xs md:text-sm flex items-center justify-center gap-1"
       >
-        <span>© 2025 FasteryShop. Desarrollado por</span>
+        <span>© 2025 {envs.Business.Name}. Desarrollado por</span>
         <Image
           src="/fastery_logo_light.svg"
           alt="FasteryDev Logo"
