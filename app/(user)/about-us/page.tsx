@@ -93,27 +93,23 @@ export default function QuienesSomosPage() {
             {/* Texto + Logo */}
             <div className="flex flex-col items-center text-center md:items-start md:text-left">
               <Badge className="mb-4 bg-blue-100 text-blue-700 hover:bg-blue-100">
-                Desde 2020
+                Desde 2025
               </Badge>
 
               <div className="flex justify-center md:justify-start mb-6">
                 <Image
-                  src="/logo_color.webp"
-                  alt="logo-color"
-                  width={300}
-                  height={300}
+                  src="/logo_black.png"
+                  alt="logo_black.png"
+                  width={200}
+                  height={200}
                 />
               </div>
-              <p className="mb-2 max-w-xl text-lg text-justify">
-                En FasteryShop nos apasiona realzar tu belleza y cuidado
-                personal. Por eso, te ofrecemos una experiencia de compra en
-                línea fácil, segura y cercana, con una selección de productos de
-                la más alta calidad.
+              <p className="mb-2 max-w-xl text-base text-muted-foreground text-justify">
+                En VILEZA Market, nuestro crecimiento ha sido gradual, forjando conexiones solidas con algunos de los mejores proveedores en Asia, Europa y Estados Unidos.
               </p>
-              <p className="mb-8 max-w-xl text-lg text-justify">
-                Nuestro compromiso es brindarte un servicio al cliente cálido y
-                confiable, porque sabemos que cada detalle cuenta a la hora de
-                sentirte y verte bien.
+              <p className="mb-4 max-w-xl text-base text-muted-foreground text-justify">
+                Cada producto que ofrecemos ha pasado por un rigoroso proceso de evaluación para garantizar su calidad, y hoy nos enorgullece tener la confianza de una amplia base de clientes satisfechos,
+                Nos destacamos por ofrecer transparencia en cada paso, asegurando que nuestra clientela acceda únicamente a productos validados por los estandardes más exigentes.
               </p>
 
               <WhatsappButton>Contáctanos</WhatsappButton>
@@ -122,8 +118,8 @@ export default function QuienesSomosPage() {
             {/* Imagen */}
             <div className="flex justify-center md:justify-end ">
               <Image
-                src="/home-1.webp"
-                alt="home"
+                src="/home1.webp"
+                alt="home1.webp"
                 width={400}
                 height={400}
                 className="rounded-2xl shadow-lg"
@@ -248,7 +244,7 @@ export default function QuienesSomosPage() {
                         className="h-full w-full object-cover"
                         width={80}
                         height={80}
-                      /> 
+                      />
                     </div>
                     <h3 className="mb-1 text-lg font-semibold">
                       {member.name}
