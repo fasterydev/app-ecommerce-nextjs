@@ -2,8 +2,10 @@
 import React from "react";
 import { assets } from "@/assets/assets";
 import Image from "next/image";
+import Link from "next/link";
 import { Button } from "../ui/button";
 import { ChevronRightIcon } from "lucide-react";
+import { envs } from "@/env";
 
 const Banner = () => {
   return (
@@ -15,15 +17,17 @@ const Banner = () => {
       />
       <div className="flex flex-col items-center justify-center text-center space-y-2 px-4 md:px-0">
         <h2 className="text-2xl md:text-3xl font-semibold max-w-[290px]">
-          Transforma tu cabello con brillo solar
+          Descubre nuestra amplia variedad de productos
         </h2>
         <p className="max-w-[343px] font-medium text-muted-foreground">
-          Producto y servicios profesionales para el cuidado del cabello.
+          Encuentra los mejores productos de calidad con envío rápido y atención personalizada.
         </p>
-        <Button className="bg-primary">
-          Reserva tu cita
-          <ChevronRightIcon />
-        </Button>
+        <Link href="/shop">
+          <Button className="bg-primary">
+            Ver todos los productos
+            <ChevronRightIcon />
+          </Button>
+        </Link>
       </div>
       <Image
         className="hidden md:block max-w-80"
