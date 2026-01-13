@@ -21,6 +21,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { envs } from "@/env";
 
 export default function SoportePage() {
   return (
@@ -85,7 +86,7 @@ export default function SoportePage() {
                   <CardDescription>Atención personalizada</CardDescription>
                 </CardHeader>
                 <CardContent className="text-center">
-                  <p className="mb-4 text-lg font-medium">0983060927</p>
+                  <p className="mb-4 text-lg font-medium">{envs.Business.Phone}</p>
                   <div className="flex items-center justify-center gap-2 text-sm text-gray-500">
                     <Clock className="h-4 w-4" />
                     <span>Lun-Vie: 10:00 a 21:00</span>
@@ -103,7 +104,7 @@ export default function SoportePage() {
                 </CardHeader>
                 <CardContent className="text-center">
                   <p className="mb-4 text-lg font-medium">
-                    info@fastery.dev
+                    {envs.Business.Email}
                   </p>
                   <p className="text-sm text-gray-500">
                     Escríbenos en cualquier momento
