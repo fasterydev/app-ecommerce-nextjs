@@ -12,11 +12,11 @@ export default function Home() {
   return (
     <>
       <MosaicCategory />
-      <HeaderSlider />
+      {/* <HeaderSlider /> */}
       <HomeProducts />
       <FeaturedProduct />
       <Banner />
-      <NewsLetter />
+      {/* <NewsLetter /> */}
       <Information />
       <a
         href="https://wa.me/593983060927"
