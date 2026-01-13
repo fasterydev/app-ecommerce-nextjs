@@ -118,10 +118,10 @@ export default function QuienesSomosPage() {
             {/* Imagen */}
             <div className="flex justify-center md:justify-end ">
               <Image
-                src="/home1.webp"
-                alt="home1.webp"
-                width={400}
-                height={400}
+                src="/foto_negocio.jpg"
+                alt="foto_negocio"
+                width={500}
+                height={500}
                 className="rounded-2xl shadow-lg"
               />
             </div>
