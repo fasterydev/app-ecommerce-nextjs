@@ -113,7 +113,7 @@ export default function QuienesSomosPage() {
                 Nos destacamos por ofrecer transparencia en cada paso, asegurando que nuestra clientela acceda únicamente a productos validados por los estandardes más exigentes.
               </p>
 
-              <WhatsappButton>Contáctanos</WhatsappButton>
+              <WhatsappButton message="Hola! Quiero información sobre los productos que ofrecen.">Contáctanos</WhatsappButton>
             </div>
 
             {/* Imagen */}
