@@ -60,13 +60,6 @@ const data = {
       icon: UserIcon,
     },
   ],
-  navSecondary: [
-    {
-      title: "Pago de Mantenimiento",
-      url: "https://www.fastery.dev/",
-      icon: ServerIcon,
-    },
-  ],
 };
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
@@ -83,7 +76,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       </SidebarHeader>
       <SidebarContent>
         <NavMain items={data.navMain} />
-        <NavSecondary items={data.navSecondary} className="mt-auto" />
+        {/* <NavSecondary items={data.navSecondary} className="mt-auto" /> */}
       </SidebarContent>
       <SidebarFooter>
         <NavUser />
