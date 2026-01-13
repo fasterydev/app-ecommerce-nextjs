@@ -25,17 +25,17 @@ export default function QuienesSomosPage() {
     {
       icon: Users,
       label: "Clientes",
-      value: "25,000+",
+      value: "2,345+",
       color: "text-blue-600",
     },
     {
       icon: Truck,
       label: "Entregas",
-      value: "100,000+",
+      value: "4,537+",
       color: "text-green-600",
     },
-    { icon: StarIcon, label: "Reseñas", value: "4.6", color: "text-yellow-600" },
-    { icon: Award, label: "Años", value: "5+", color: "text-orange-600" },
+    { icon: StarIcon, label: "Reseñas", value: "4.7", color: "text-yellow-400 fill-yellow-400" },
+    { icon: Award, label: "Años", value: "2+", color: "text-orange-600" },
   ];
 
   const values = [
