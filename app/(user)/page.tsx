@@ -7,8 +7,17 @@ import Information from "@/components/home/Information";
 import MosaicCategory from "@/components/home/MosaicCategory";
 import NewsLetter from "@/components/home/NewsLetter";
 import { MessageCircle } from "lucide-react";
+import { envs } from "@/env";
+
+// Función para limpiar el número de teléfono (remover +, espacios, guiones, etc.)
+const cleanPhoneNumber = (phone: string): string => {
+  return phone.replace(/[+\s\-()]/g, "");
+};
 
 export default function Home() {
+  const phoneNumber = cleanPhoneNumber(envs.Business.Phone);
+  const whatsappUrl = `https://wa.me/${phoneNumber}`;
+
   return (
     <>
       <MosaicCategory />
@@ -19,7 +28,7 @@ export default function Home() {
       {/* <NewsLetter /> */}
       <Information />
       <a
-        href="https://wa.me/593983060927"
+        href={whatsappUrl}
         target="_blank"
         rel="noopener noreferrer"
         className="fixed bottom-4 right-4 z-50 bg-green-500 hover:bg-green-600 text-white p-3 rounded-full shadow-lg transition-colors duration-300"

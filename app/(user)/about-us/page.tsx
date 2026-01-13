@@ -19,6 +19,7 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import WhatsappButton from "@/components/shared/whatsapp-button";
+import { envs } from "@/env";
 
 export default function QuienesSomosPage() {
   const stats = [
@@ -306,9 +307,7 @@ export default function QuienesSomosPage() {
                     <MapPin className="mx-auto mb-3 h-8 w-8 text-blue-600" />
                     <h3 className="mb-2 font-semibold">Oficina Principal</h3>
                     <p className="text-sm ">
-                      Calle Comercio 123
-                      <br />
-                      28001 Madrid, España
+                      {envs.Business.Address}
                     </p>
                   </CardContent>
                 </Card>
@@ -318,7 +317,7 @@ export default function QuienesSomosPage() {
                     <Phone className="mx-auto mb-3 h-8 w-8 text-green-600" />
                     <h3 className="mb-2 font-semibold">Teléfono</h3>
                     <p className="text-sm ">
-                      0983060927
+                      {envs.Business.Phone}
                       <br />
                       Lun-Dom: 10:00 - 21:00
                     </p>

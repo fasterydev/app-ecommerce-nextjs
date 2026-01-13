@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { envs } from "@/env";
 
 type Props = {
   phone?: string; // formato internacional sin +, ej: "593999555444"
@@ -10,13 +11,20 @@ type Props = {
   children?: React.ReactNode;
 };
 
+// Función para limpiar el número de teléfono (remover +, espacios, guiones, etc.)
+const cleanPhoneNumber = (phone: string): string => {
+  return phone.replace(/[+\s\-()]/g, "");
+};
+
 export default function WhatsappButton({
-  phone = "593983060927", // cambia por tu número
+  phone,
   message = "Hola! Estoy interesado en comprar.",
   className = "",
   children,
 }: Props) {
-  const url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+  // Usar el teléfono del prop o el de envs.Business.Phone como fallback
+  const phoneNumber = phone || cleanPhoneNumber(envs.Business.Phone);
+  const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
 
   return (
     <Link href={url} target="_blank" rel="noopener noreferrer">
