@@ -1,0 +1,13 @@
+# 1. ir al repo
+cd vilezamarket-shop
+
+# 2. actualizar main
+git checkout main
+git pull origin main
+
+# 3. enviar al template
+git push template main:vilezamarket-main-to-template-dev
+
+# 4. crear PR → dev
+
+git push template main:dev --force
