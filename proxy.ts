@@ -32,20 +32,10 @@ const isUserRoute = createRouteMatcher([
 export default clerkMiddleware(async (auth, request) => {
   const session = await auth();
 
-  // Obtener el rol del usuario desde los claims de la sesión
-  const metadata = session.sessionClaims?.metadata as
-    | { role?: string; isRegistered?: boolean }
-    | undefined;
-  const publicMetadata = session.sessionClaims?.publicMetadata as
-    | { role?: string }
-    | undefined;
-
-  const role = metadata?.role || publicMetadata?.role || "user"; // Por defecto es "user" si no tiene rol asignado
-
-  // Verificar si el usuario está registrado (opcional, para futuras implementaciones)
-  const isRegistered = metadata?.isRegistered !== false;
-
-  const pathname = request.nextUrl.pathname;
+  const role =
+    session.sessionClaims?.metadata?.role ||
+    session.sessionClaims?.metadefault?.role ||
+    "user";
 
   // 🔓 Usuario no logeado
   if (!session.userId) {
@@ -54,20 +44,6 @@ export default clerkMiddleware(async (auth, request) => {
     }
     return NextResponse.redirect(new URL("/auth/sign-in", request.url));
   }
-
-  // ⚠️ Usuario logueado pero NO registrado (si implementas registro adicional)
-  // Esta lógica está comentada porque el proyecto actual no tiene /auth/register
-  // Descomenta y ajusta si necesitas esta funcionalidad
-  /*
-  if (!isRegistered) {
-    // Permitir rutas públicas y rutas de auth
-    if (isPublicRoute(request) || isAuthRoute(request)) {
-      return NextResponse.next();
-    }
-    // Bloquear todo lo demás → enviar a completar registro
-    return NextResponse.redirect(new URL("/auth/sign-up", request.url));
-  }
-  */
 
   // 🚫 Usuario ya logueado pero intenta entrar a /auth/*
   // Redirigir según su rol después de login/registro exitoso
