@@ -101,8 +101,8 @@ export default function QuienesSomosPage() {
                 <Image
                   src="/logo_black.png"
                   alt="logo_black.png"
-                  width={200}
-                  height={200}
+                  width={175}
+                  height={175}
                 />
               </div>
               <p className="mb-2 max-w-xl text-base text-muted-foreground text-justify">
