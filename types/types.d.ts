@@ -1,5 +1,3 @@
-export {};
-
 export type Roles = "admin" | "user";
 
 declare global {
@@ -7,6 +5,7 @@ declare global {
     metadata: {
       role?: Roles;
       isRegistered?: boolean;
+      isBanned?: boolean;
     };
     metadefault: {
       role: Roles;
