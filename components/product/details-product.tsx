@@ -36,9 +36,42 @@ type Props = {
   mode: "view" | "edit";
 };
 
+const shippingLabel = (type?: string) => {
+  switch (type) {
+    case "local_delivery":
+      return "Envío Ciudad";
+    case "national_delivery":
+      return "Envío Nacional";
+    case "pickup":
+      return "Retiro en Sucursal";
+    default:
+      return "No especificado";
+  }
+};
+
 export function DetailsProduct({ sale, mode }: Props) {
   const [isLoading, setIsLoading] = useState(false);
   const isAdmin = mode === "edit";
+
+  // Payphone maneja montos en centavos:
+  // amount = amountWithoutTax + amountWithTax + tax
+  // Requisito: primero sumar 7% al monto base y luego aplicar IVA (15%) sobre ese nuevo monto.
+  const PAYPHONE_TAX_PERCENT = 15;
+  const PAYPHONE_EXTRA_PERCENT = 7;
+  const payphoneBaseAmount = Math.max(0, Math.round(sale.total ?? 0));
+  const payphoneExtraFee = Math.round(
+    (payphoneBaseAmount * PAYPHONE_EXTRA_PERCENT) / 100
+  );
+  // El +7% debe quedar dentro del monto gravado para que el IVA se aplique después.
+  const payphoneAmountWithTax = payphoneBaseAmount + Math.max(0, payphoneExtraFee);
+  const payphoneAmountWithoutTax = 0;
+  // Payphone espera `tax` como MONTO (centavos), no como porcentaje.
+  const payphoneTaxAmount = Math.round(
+    (payphoneAmountWithTax * PAYPHONE_TAX_PERCENT) / 100
+  );
+  // Validación Payphone: amount === amountWithTax + amountWithoutTax + tax
+  const payphoneTotalAmount =
+    payphoneAmountWithTax + payphoneAmountWithoutTax + payphoneTaxAmount;
 
   const handleCompleteSale = async (id: string) => {
     if (!isAdmin) return;
@@ -167,6 +200,44 @@ export function DetailsProduct({ sale, mode }: Props) {
             </>
           )}
 
+          {isAdmin && (
+            <>
+              <div className="space-y-2">
+                <h4 className="font-semibold flex items-center gap-2">
+                  <Package className="h-4 w-4" />
+                  Envío y Dirección
+                </h4>
+                <div className="grid grid-cols-1 gap-2 text-sm">
+                  <div>
+                    <span className="font-medium">Método:</span>{" "}
+                    {shippingLabel((sale as any).typeShipping)}
+                  </div>
+                  <div>
+                    <span className="font-medium">Costo de envío:</span>{" "}
+                    {currencyFormat(convertFromMilliunits(sale.shippingFee))}
+                  </div>
+                  <div>
+                    <span className="font-medium">Teléfono:</span>{" "}
+                    {(sale as any).phoneContact || "—"}
+                  </div>
+                  <div>
+                    <span className="font-medium">Dirección:</span>{" "}
+                    {(sale as any).street
+                      ? `${(sale as any).street}, ${(sale as any).city || ""} ${(sale as any).state || ""} ${(sale as any).postalCode || ""} ${(sale as any).country || ""}`.trim()
+                      : "—"}
+                  </div>
+                  {(sale as any).addressLine2 && (
+                    <div>
+                      <span className="font-medium">Dirección 2:</span>{" "}
+                      {(sale as any).addressLine2}
+                    </div>
+                  )}
+                </div>
+              </div>
+              <Separator />
+            </>
+          )}
+
           <div className="space-y-3">
             <h4 className="font-semibold flex items-center gap-2">
               <Package className="h-4 w-4" />
@@ -237,6 +308,12 @@ export function DetailsProduct({ sale, mode }: Props) {
                   {currencyFormat(convertFromMilliunits(sale.subtotal))}
                 </span>
               </div>
+              <div className="flex justify-between">
+                <span>Envío:</span>
+                <span>
+                  {currencyFormat(convertFromMilliunits(sale.shippingFee))}
+                </span>
+              </div>
               <div className="flex justify-between font-semibold">
                 <span>Total:</span>
                 <span>{currencyFormat(convertFromMilliunits(sale.total))}</span>
@@ -254,12 +331,11 @@ export function DetailsProduct({ sale, mode }: Props) {
                 </p>
                 <PayphoneButton
                   config={{
-                    // amount: convertFromMilliunits(sale.total),
                     reference: `Pago Pedido #${sale.idNumer}`,
-                    amount: 315,
-                    amountWithoutTax: 200,
-                    amountWithTax: 100,
-                    tax: 15,
+                    amount: payphoneTotalAmount,
+                    amountWithoutTax: payphoneAmountWithoutTax,
+                    amountWithTax: payphoneAmountWithTax,
+                    tax: payphoneTaxAmount,
                     currency: "USD",
                   }}
                   buttonText="Pagar Pedido"

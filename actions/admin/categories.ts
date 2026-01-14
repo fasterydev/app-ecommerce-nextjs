@@ -147,12 +147,33 @@ export const deleteCategory = async (id: string) => {
   }
 };
 
-// Admin/Usuario: Obtener todas las categorías
-export const getCategories = async () => {
+// Admin/Usuario: Obtener todas las categorías (soporta filtros/paginación)
+export const getCategories = async (params?: {
+  page?: number;
+  limit?: number;
+  search?: string;
+  isActive?: boolean;
+  inHome?: boolean;
+  sortBy?: string;
+}) => {
   try {
     const token = await getAuthToken();
 
-    const response = await fetch(`${envs.BackendUrl}/products/getCategories`, {
+    const queryParams = new URLSearchParams();
+    if (params?.page) queryParams.append("page", params.page.toString());
+    if (params?.limit) queryParams.append("limit", params.limit.toString());
+    if (params?.search) queryParams.append("search", params.search);
+    if (params?.isActive !== undefined)
+      queryParams.append("isActive", params.isActive ? "true" : "false");
+    if (params?.inHome !== undefined)
+      queryParams.append("inHome", params.inHome ? "true" : "false");
+    if (params?.sortBy) queryParams.append("sortBy", params.sortBy);
+
+    const url = `${envs.BackendUrl}/products/getCategories${
+      queryParams.toString() ? `?${queryParams.toString()}` : ""
+    }`;
+
+    const response = await fetch(url, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -170,7 +191,10 @@ export const getCategories = async () => {
     return {
       statusCode: response.status,
       message: resData.message || "Categorías obtenidas correctamente",
-      categories: Array.isArray(resData) ? resData : resData.categories || resData.data || [],
+      categories: Array.isArray(resData)
+        ? resData
+        : resData.categories || resData.data || [],
+      pagination: resData.pagination,
     };
   } catch (error) {
     console.error("Error en getCategories:", error);

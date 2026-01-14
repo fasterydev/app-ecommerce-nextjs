@@ -15,8 +15,19 @@ type BrandStore = {
   currentBrand: Brand | null;
   isLoading: boolean;
   isSaving: boolean;
+  pagination?: {
+    page: number;
+    limit: number;
+    total: number;
+    totalPages: number;
+  };
+  filters: {
+    page: number;
+    limit: number;
+    search?: string;
+  };
 
-  fetchBrands: () => Promise<void>;
+  fetchBrands: (params?: Partial<BrandStore["filters"]>) => Promise<void>;
   fetchBrandById: (brandId: string) => Promise<Brand | null>;
   createBrand: (brand: Partial<Brand>) => Promise<{ success: boolean; message?: string }>;
   updateBrand: (brand: Partial<Brand>) => Promise<{ success: boolean; message?: string }>;
@@ -30,23 +41,34 @@ export const useAdminBrandStore = create<BrandStore>((set, get) => ({
   currentBrand: null,
   isLoading: false,
   isSaving: false,
+  pagination: undefined,
+  filters: { page: 1, limit: 10, search: undefined },
 
   setBrands: (items) => set({ brands: items }),
   setCurrentBrand: (brand) => set({ currentBrand: brand }),
 
-  fetchBrands: async () => {
+  fetchBrands: async (params) => {
     set({ isLoading: true });
     try {
-      const res = await getBrands();
+      const current = get().filters;
+      const next = {
+        ...current,
+        ...params,
+        page: params?.page ?? (params && params.search !== undefined ? 1 : current.page),
+      };
+
+      set({ filters: next });
+
+      const res = await getBrands(next);
       if (res.statusCode === 200 && "brands" in res) {
-        set({ brands: res.brands });
+        set({ brands: res.brands, pagination: (res as any).pagination });
       } else {
-        set({ brands: [] });
+        set({ brands: [], pagination: undefined });
         toast.error(res.message || "Error al obtener las marcas");
       }
     } catch (err) {
       console.error("❌ Error al obtener las marcas:", err);
-      set({ brands: [] });
+      set({ brands: [], pagination: undefined });
       toast.error("Error al obtener las marcas");
     } finally {
       set({ isLoading: false });

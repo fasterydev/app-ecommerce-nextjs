@@ -1,7 +1,6 @@
 "use client";
 import { create } from "zustand";
-import { getSales } from "@/actions";
-import { deleteSale } from "@/actions/sales/delete-sale";
+import { getSales, deleteSaleAdmin } from "@/actions";
 import { Sale } from "@/components/sale/interface";
 import { toast } from "sonner";
 
@@ -58,7 +57,7 @@ export const useSaleStore = create<SaleStore>((set, get) => ({
 
     set({ isDeleting: true });
     try {
-      const res = await deleteSale(id);
+      const res = await deleteSaleAdmin(id);
       if (res.statusCode === 200 || res.statusCode === 204) {
         await get().fetchSales();
         toast.success(res.message || "✅ Venta eliminada exitosamente");

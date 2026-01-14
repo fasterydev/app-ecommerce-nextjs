@@ -14,17 +14,76 @@ import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { EditIcon, EyeIcon, PackageIcon, PlusIcon } from "lucide-react";
-import { useEffect } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { PageHeader } from "@/components/shared/page-header";
+import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { getBrandsAdmin, getCategoriesAdmin } from "@/actions";
+import type { Brand } from "@/components/interfaces/brand";
+import type { Category } from "@/components/interfaces/category";
 
 export default function ProductsAdmin() {
-  const { products, fetchProducts, isLoading } = useAdminProductStore();
+  const { products, fetchProducts, isLoading, pagination, filters } =
+    useAdminProductStore();
+
+  const [brands, setBrands] = useState<Brand[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
+
+  const [search, setSearch] = useState(filters.search || "");
+  const [brandId, setBrandId] = useState<string>(filters.brandId || "all");
+  const [categoryId, setCategoryId] = useState<string>(
+    filters.categoryId || "all"
+  );
+  const [limit, setLimit] = useState<string>(String(filters.limit || 10));
 
   useEffect(() => {
-    fetchProducts();
+    // cargar opciones para filtros (admin: incluye inactivos si el backend los devuelve)
+    (async () => {
+      try {
+        const [b, c] = await Promise.all([
+          getBrandsAdmin({ page: 1, limit: 1000 }),
+          getCategoriesAdmin({ page: 1, limit: 1000 }),
+        ]);
+        setBrands("brands" in b ? b.brands : []);
+        setCategories("categories" in c ? c.categories : []);
+      } catch (e) {
+        console.error("Error cargando filtros de marcas/categorías:", e);
+      }
+    })();
+
+    fetchProducts({ page: 1, limit: Number(limit) || 10 });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const appliedBrandId = useMemo(
+    () => (brandId === "all" ? undefined : brandId),
+    [brandId]
+  );
+  const appliedCategoryId = useMemo(
+    () => (categoryId === "all" ? undefined : categoryId),
+    [categoryId]
+  );
+  const appliedSearch = useMemo(() => {
+    const s = search.trim();
+    return s.length ? s : undefined;
+  }, [search]);
+
+  const applyFilters = async (opts?: { page?: number }) => {
+    await fetchProducts({
+      page: opts?.page ?? 1,
+      limit: Number(limit) || 10,
+      search: appliedSearch,
+      brandId: appliedBrandId,
+      categoryId: appliedCategoryId,
+    });
+  };
 
   return (
     <div>
@@ -41,6 +100,93 @@ export default function ProductsAdmin() {
           </Link>
         }
       />
+
+      {/* Filtros + paginación */}
+      <div className="mb-4 flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
+        <div className="flex w-full flex-col gap-2 md:w-auto md:flex-row md:flex-wrap md:items-center">
+          <Input
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            placeholder="Buscar por nombre..."
+            className="w-full md:w-72"
+          />
+
+          <Select value={brandId} onValueChange={setBrandId}>
+            <SelectTrigger className="w-full md:w-56">
+              <SelectValue placeholder="Marca" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">Todas las marcas</SelectItem>
+              {brands.map((b) => (
+                <SelectItem key={b.id} value={b.id}>
+                  {b.name}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+
+          <Select value={categoryId} onValueChange={setCategoryId}>
+            <SelectTrigger className="w-full md:w-56">
+              <SelectValue placeholder="Categoría" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">Todas las categorías</SelectItem>
+              {categories.map((c) => (
+                <SelectItem key={c.id} value={c.id}>
+                  {c.name}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+
+          <Select value={limit} onValueChange={setLimit}>
+            <SelectTrigger className="w-full md:w-32">
+              <SelectValue placeholder="10" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="10">10</SelectItem>
+              <SelectItem value="20">20</SelectItem>
+              <SelectItem value="50">50</SelectItem>
+            </SelectContent>
+          </Select>
+
+          <Button
+            variant="outline"
+            onClick={() => applyFilters({ page: 1 })}
+            disabled={isLoading}
+            className="w-full md:w-auto"
+          >
+            Aplicar
+          </Button>
+        </div>
+
+        <div className="flex w-full flex-col gap-2 sm:flex-row sm:items-center sm:justify-between md:w-auto md:justify-end">
+          <Button
+            variant="outline"
+            disabled={isLoading || (pagination?.page ?? 1) <= 1}
+            onClick={() => applyFilters({ page: (pagination?.page ?? 1) - 1 })}
+            className="w-full sm:w-auto"
+          >
+            Anterior
+          </Button>
+          <span className="text-sm text-muted-foreground text-center sm:text-left">
+            Página {pagination?.page ?? filters.page} de{" "}
+            {pagination?.totalPages ?? "—"}
+          </span>
+          <Button
+            variant="outline"
+            disabled={
+              isLoading ||
+              !pagination?.totalPages ||
+              (pagination?.page ?? 1) >= pagination.totalPages
+            }
+            onClick={() => applyFilters({ page: (pagination?.page ?? 1) + 1 })}
+            className="w-full sm:w-auto"
+          >
+            Siguiente
+          </Button>
+        </div>
+      </div>
 
       <div className="overflow-hidden rounded-lg border">
         <Table>
@@ -128,7 +274,7 @@ export default function ProductsAdmin() {
                   <DeleteProductAlert
                     productId={product.id}
                     onDelete={() => {
-                      fetchProducts();
+                      applyFilters({ page: pagination?.page ?? filters.page });
                     }}
                   />
                 </TableCell>

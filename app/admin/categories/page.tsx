@@ -1,5 +1,4 @@
 "use client";
-import { createCategory, updateCategory } from "@/actions";
 import CategoryAlert from "@/components/product/form-category";
 import { Category } from "@/components/interfaces/category";
 import { DeleteAlert } from "@/components/shared/delete-alert";
@@ -12,25 +11,46 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { useCategoryStore } from "@/stores/customer/category-store";
-import { useEffect } from "react";
+import { useAdminCategoryStore } from "@/stores/admin/category-store";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { TagIcon } from "lucide-react";
 import { PageHeader } from "@/components/shared/page-header";
 import Image from "next/image";
+import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Button } from "@/components/ui/button";
 
 export default function CategoriesPage() {
-  const { categories, fetchCategories, deleteCategory } = useCategoryStore();
+  const {
+    categories,
+    fetchCategories,
+    deleteCategory,
+    createCategory,
+    updateCategory,
+    pagination,
+    filters,
+    isLoading,
+  } = useAdminCategoryStore();
+
+  const [search, setSearch] = useState(filters.search || "");
+  const [limit, setLimit] = useState<string>(String(filters.limit || 10));
 
   useEffect(() => {
-    fetchCategories();
+    fetchCategories({ page: 1, limit: Number(limit) || 10 });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleSave = async (category: Partial<Category>) => {
     try {
       const res = await createCategory(category);
-      if (res.statusCode === 201) {
+      if (res.success) {
         toast.success(res.message || "Categoría creada correctamente");
         fetchCategories();
       }
@@ -40,14 +60,13 @@ export default function CategoriesPage() {
           ? error.message
           : "Error desconocido al actualizar el producto"
       );
-    } finally {
     }
   };
 
   const handleEdit = async (category: Partial<Category>) => {
     try {
       const res = await updateCategory(category);
-      if (res.statusCode === 200) {
+      if (res.success) {
         toast.success(res.message || "Categoría actualizada correctamente");
         fetchCategories();
       }
@@ -58,6 +77,14 @@ export default function CategoriesPage() {
           : "Error desconocido al actualizar la categoría"
       );
     }
+  };
+
+  const applyFilters = async (opts?: { page?: number }) => {
+    await fetchCategories({
+      page: opts?.page ?? 1,
+      limit: Number(limit) || 10,
+      search: search.trim() || undefined,
+    });
   };
 
   return (
@@ -73,6 +100,54 @@ export default function CategoriesPage() {
           />
         }
       />
+
+      <div className="mt-4 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+        <div className="flex flex-col gap-2 md:flex-row md:items-center">
+          <Input
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            placeholder="Buscar categoría..."
+            className="md:w-72"
+          />
+          <Select value={limit} onValueChange={setLimit}>
+            <SelectTrigger className="w-full md:w-32">
+              <SelectValue placeholder="10" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="10">10</SelectItem>
+              <SelectItem value="20">20</SelectItem>
+              <SelectItem value="50">50</SelectItem>
+            </SelectContent>
+          </Select>
+          <Button variant="outline" onClick={() => applyFilters({ page: 1 })} disabled={isLoading}>
+            Aplicar
+          </Button>
+        </div>
+
+        <div className="flex items-center gap-2 justify-end">
+          <Button
+            variant="outline"
+            disabled={isLoading || (pagination?.page ?? 1) <= 1}
+            onClick={() => applyFilters({ page: (pagination?.page ?? 1) - 1 })}
+          >
+            Anterior
+          </Button>
+          <span className="text-sm text-muted-foreground">
+            Página {pagination?.page ?? filters.page} de {pagination?.totalPages ?? "—"}
+          </span>
+          <Button
+            variant="outline"
+            disabled={
+              isLoading ||
+              !pagination?.totalPages ||
+              (pagination?.page ?? 1) >= pagination.totalPages
+            }
+            onClick={() => applyFilters({ page: (pagination?.page ?? 1) + 1 })}
+          >
+            Siguiente
+          </Button>
+        </div>
+      </div>
 
       <div className="overflow-hidden rounded-lg border mt-4">
         <Table>
@@ -134,6 +209,7 @@ export default function CategoriesPage() {
                     name={category.name}
                     onDelete={(id) => {
                       deleteCategory(id);
+                      applyFilters({ page: pagination?.page ?? filters.page });
                     }}
                   />
                 </TableCell>

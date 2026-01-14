@@ -4,7 +4,8 @@ import {
   getSales, 
   getSale, 
   updateSale, 
-  UpdateSaleDto 
+  UpdateSaleDto,
+  type SalesPagination,
 } from "@/actions/admin/sales";
 import { Sale } from "@/components/sale/interface";
 import { toast } from "sonner";
@@ -14,12 +15,17 @@ type SaleStore = {
   currentSale: Sale | null;
   isLoading: boolean;
   isSaving: boolean;
+  pagination: SalesPagination;
+  lastError: string | null;
+  lastStatusCode: number | null;
 
-  fetchSales: () => Promise<void>;
+  fetchSales: (opts?: { page?: number; limit?: number }) => Promise<void>;
   fetchSaleById: (id: string) => Promise<Sale | null>;
   updateSale: (id: string, updateSaleDto: UpdateSaleDto) => Promise<{ success: boolean; message?: string }>;
   setSales: (items: Sale[]) => void;
   setCurrentSale: (sale: Sale | null) => void;
+  setPage: (page: number) => void;
+  setLimit: (limit: number) => void;
 };
 
 export const useAdminSaleStore = create<SaleStore>((set, get) => ({
@@ -27,23 +33,44 @@ export const useAdminSaleStore = create<SaleStore>((set, get) => ({
   currentSale: null,
   isLoading: false,
   isSaving: false,
+  lastError: null,
+  lastStatusCode: null,
+  pagination: { page: 1, limit: 10, total: 0, totalPages: 1 },
 
   setSales: (items) => set({ sales: items }),
   setCurrentSale: (sale) => set({ currentSale: sale }),
+  setPage: (page) => set({ pagination: { ...get().pagination, page } }),
+  setLimit: (limit) =>
+    set({ pagination: { ...get().pagination, limit, page: 1 } }),
 
-  fetchSales: async () => {
-    set({ isLoading: true });
+  fetchSales: async (opts) => {
+    set({ isLoading: true, lastError: null });
     try {
-      const res = await getSales();
-      if (res.statusCode === 200 && "sales" in res) {
-        set({ sales: Array.isArray(res.sales) ? res.sales : [] });
+      const { page, limit } = get().pagination;
+      const res = await getSales({
+        page: opts?.page ?? page,
+        limit: opts?.limit ?? limit,
+      });
+
+      if (res.statusCode === 200) {
+        set({
+          sales: Array.isArray(res.sales) ? res.sales : [],
+          pagination: res.pagination
+            ? res.pagination
+            : { ...get().pagination, total: Array.isArray(res.sales) ? res.sales.length : 0 },
+          lastStatusCode: res.statusCode,
+        });
       } else {
-        set({ sales: [] });
+        set({
+          sales: [],
+          lastError: res.message || "Error al obtener las ventas",
+          lastStatusCode: res.statusCode,
+        });
         toast.error(res.message || "Error al obtener las ventas");
       }
     } catch (err) {
       console.error("❌ Error al obtener las ventas:", err);
-      set({ sales: [] });
+      set({ sales: [], lastError: "Error al obtener las ventas", lastStatusCode: null });
       toast.error("Error al obtener las ventas");
     } finally {
       set({ isLoading: false });

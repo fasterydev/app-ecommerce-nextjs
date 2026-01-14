@@ -12,6 +12,8 @@ import { CreditCardIcon, Loader2Icon } from "lucide-react"
 import type { VariantProps } from "class-variance-authority"
 
 interface PayphoneConfig {
+  // Todos los valores son enteros en centavos: $20.00 => 2000
+  // Regla de validación (Payphone): amount = amountWithTax + amountWithoutTax + tax
   amount: number
   amountWithoutTax?: number
   amountWithTax?: number
