@@ -31,12 +31,21 @@ export function SectionCards({
   const current = analytics?.kpis.currentMonth
   const prev = analytics?.kpis.previousMonth
 
-  const revenuePct = pctChange(current?.revenue ?? 0, prev?.revenue ?? null)
-  const salesPct = pctChange(current?.salesCount ?? 0, prev?.salesCount ?? null)
-  const profitPct = pctChange(current?.profit ?? 0, prev?.profit ?? null)
+  // Mostrar métricas de pedidos COMPLETADOS (más realista para finanzas)
+  const currentGmv = (current as any)?.gmvCompleted ?? (current as any)?.gmv ?? 0
+  const prevGmv = prev ? ((prev as any)?.gmvCompleted ?? (prev as any)?.gmv ?? 0) : null
+  const gmvPct = pctChange(currentGmv, prevGmv)
 
-  const revenueUp = (revenuePct ?? 0) >= 0
-  const salesUp = (salesPct ?? 0) >= 0
+  const currentOrders = (current as any)?.completedOrders ?? 0
+  const prevOrders = prev ? ((prev as any)?.completedOrders ?? 0) : null
+  const ordersPct = pctChange(currentOrders, prevOrders)
+
+  const currentProfit = (current as any)?.profitCompleted ?? (current as any)?.profit ?? (current as any)?.ganancia ?? 0
+  const prevProfit = prev ? ((prev as any)?.profitCompleted ?? (prev as any)?.profit ?? (prev as any)?.ganancia ?? 0) : null
+  const profitPct = pctChange(currentProfit, prevProfit)
+
+  const gmvUp = (gmvPct ?? 0) >= 0
+  const ordersUp = (ordersPct ?? 0) >= 0
   const profitUp = (profitPct ?? 0) >= 0
 
   return (
@@ -47,15 +56,15 @@ export function SectionCards({
           <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
             {isLoading
               ? "—"
-              : currencyFormat(convertFromMilliunits(current?.revenue ?? 0))}
+              : currencyFormat(convertFromMilliunits(currentGmv))}
           </CardTitle>
           <CardAction>
-            {revenuePct === null ? (
+            {gmvPct === null ? (
               <Badge variant="outline">—</Badge>
             ) : (
               <Badge variant="outline">
-                {revenueUp ? <IconTrendingUp /> : <IconTrendingDown />}
-                {`${revenuePct >= 0 ? "+" : ""}${revenuePct.toFixed(1)}%`}
+                {gmvUp ? <IconTrendingUp /> : <IconTrendingDown />}
+                {`${gmvPct >= 0 ? "+" : ""}${gmvPct.toFixed(1)}%`}
               </Badge>
             )}
           </CardAction>
@@ -63,26 +72,24 @@ export function SectionCards({
         <CardFooter className="flex-col items-start gap-1.5 text-sm">
           <div className="line-clamp-1 flex gap-2 font-medium">
             Comparado con el mes anterior{" "}
-            {revenueUp ? <IconTrendingUp className="size-4" /> : <IconTrendingDown className="size-4" />}
+            {gmvUp ? <IconTrendingUp className="size-4" /> : <IconTrendingDown className="size-4" />}
           </div>
-          <div className="text-muted-foreground">
-            Montos en centavos (backend) → formateado en USD
-          </div>
+          <div className="text-muted-foreground">&nbsp;</div>
         </CardFooter>
       </Card>
       <Card className="@container/card">
         <CardHeader>
-          <CardDescription>Ventas (mes actual)</CardDescription>
+          <CardDescription>Pedidos completados (mes actual)</CardDescription>
           <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-            {isLoading ? "—" : (current?.salesCount ?? 0).toLocaleString("es-EC")}
+            {isLoading ? "—" : (currentOrders ?? 0).toLocaleString("es-EC")}
           </CardTitle>
           <CardAction>
-            {salesPct === null ? (
+            {ordersPct === null ? (
               <Badge variant="outline">—</Badge>
             ) : (
               <Badge variant="outline">
-                {salesUp ? <IconTrendingUp /> : <IconTrendingDown />}
-                {`${salesPct >= 0 ? "+" : ""}${salesPct.toFixed(1)}%`}
+                {ordersUp ? <IconTrendingUp /> : <IconTrendingDown />}
+                {`${ordersPct >= 0 ? "+" : ""}${ordersPct.toFixed(1)}%`}
               </Badge>
             )}
           </CardAction>
@@ -90,10 +97,7 @@ export function SectionCards({
         <CardFooter className="flex-col items-start gap-1.5 text-sm">
           <div className="line-clamp-1 flex gap-2 font-medium">
             Cambio mensual{" "}
-            {salesUp ? <IconTrendingUp className="size-4" /> : <IconTrendingDown className="size-4" />}
-          </div>
-          <div className="text-muted-foreground">
-            Total de ventas activas (no canceladas/reintegradas)
+            {ordersUp ? <IconTrendingUp className="size-4" /> : <IconTrendingDown className="size-4" />}
           </div>
         </CardFooter>
       </Card>
@@ -111,9 +115,7 @@ export function SectionCards({
           <div className="line-clamp-1 flex gap-2 font-medium">
             Usuarios registrados en el sistema
           </div>
-          <div className="text-muted-foreground">
-            {error ? `Error: ${error}` : "Fuente: endpoint /sales/analytics"}
-          </div>
+          <div className="text-muted-foreground">{error ? `Error: ${error}` : "\u00A0"}</div>
         </CardFooter>
       </Card>
       <Card className="@container/card">
@@ -122,7 +124,7 @@ export function SectionCards({
           <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
             {isLoading
               ? "—"
-              : currencyFormat(convertFromMilliunits(current?.profit ?? 0))}
+              : currencyFormat(convertFromMilliunits(currentProfit))}
           </CardTitle>
           <CardAction>
             {profitPct === null ? (
@@ -140,9 +142,7 @@ export function SectionCards({
             Comparado con el mes anterior{" "}
             {profitUp ? <IconTrendingUp className="size-4" /> : <IconTrendingDown className="size-4" />}
           </div>
-          <div className="text-muted-foreground">
-            Ganancia = sum(product.revenue * qty)
-          </div>
+          <div className="text-muted-foreground">&nbsp;</div>
         </CardFooter>
       </Card>
     </div>

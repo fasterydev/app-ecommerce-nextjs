@@ -38,13 +38,48 @@ export type SalesPagination = {
 
 export type SalesAnalyticsPoint = {
   period: string; // YYYY-MM o YYYY-MM-DD
-  salesCount: number;
-  revenue: number; // centavos
-  profit: number; // centavos
+  // conteos
+  totalOrders: number;
+  completedOrders: number;
+
+  // dinero (centavos)
+  gmv: number; // ingresos items-only (sum(itemPrice * qty))
+  profit: number; // ganancia items-only (sum((itemPrice - itemCost) * qty))
+  gmvCompleted: number;
+  profitCompleted: number;
+
+  // totales del pedido (puede incluir shippingFee)
+  orderTotal: number;
+  orderTotalCompleted: number;
+
+  // compat/backwards (si existe)
+  ganancia?: number;
+};
+
+export type SalesAnalyticsTotals = {
+  // counts
+  totalOrdersAllStatuses: number;
+  totalOrdersActive: number;
+  completedOrdersActive: number;
+
+  // money (cents)
+  gmvActive: number;
+  profitActive: number;
+  orderTotalActive: number;
+
+  gmvCompleted: number;
+  profitCompleted: number;
+  orderTotalCompleted: number;
 };
 
 export type SalesAnalyticsResponse = {
   usersTotal: number;
+  summary?: {
+    usersTotal: number;
+    totals: SalesAnalyticsTotals;
+    currentMonth: Omit<SalesAnalyticsPoint, "period"> | null;
+    previousMonth: Omit<SalesAnalyticsPoint, "period"> | null;
+  };
   kpis: {
     currentMonth: SalesAnalyticsPoint;
     previousMonth: SalesAnalyticsPoint | null;
