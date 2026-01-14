@@ -78,14 +78,16 @@ export default function ForgotPasswordPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-muted px-4">
-      <Card className="w-full max-w-md">
-        <CardHeader className="text-center">
-          <div className="flex justify-center mb-2">
+    <div className="min-h-screen flex items-center justify-center bg-muted p-4 md:p-6">
+      <Card className="w-full max-w-md shadow-xl border border-border/20 bg-white/95 backdrop-blur-sm animate-in fade-in-0 zoom-in-95 duration-300">
+        <CardHeader className="text-center space-y-3">
+          <div className="flex justify-center mb-2 animate-in slide-in-from-top-2 duration-500">
             <LogoTheme mode="light" />
           </div>
-          <CardTitle>¿Olvidaste tu contraseña?</CardTitle>
-          <CardDescription>
+          <CardTitle className="animate-in slide-in-from-top-3 duration-700">
+            ¿Olvidaste tu contraseña?
+          </CardTitle>
+          <CardDescription className="text-sm md:text-base animate-in slide-in-from-top-4 duration-700 delay-100">
             {successfulCreation
               ? "Ingresa el nuevo password y el código que se envió a tu correo."
               : "Escribe tu correo para enviar un código de recuperación."}
@@ -93,11 +95,13 @@ export default function ForgotPasswordPage() {
         </CardHeader>
 
         <form onSubmit={!successfulCreation ? create : reset}>
-          <CardContent className="grid gap-4">
+          <CardContent className="grid gap-4 animate-in slide-in-from-bottom-4 duration-500">
             {!successfulCreation ? (
               <>
-                <div className="grid gap-2">
-                  <Label htmlFor="email">Correo electrónico</Label>
+                <div className="grid gap-2 animate-in slide-in-from-left-2 duration-500">
+                  <Label htmlFor="email" className="text-sm font-medium">
+                    Correo electrónico
+                  </Label>
                   <Input
                     id="email"
                     type="email"
@@ -105,53 +109,69 @@ export default function ForgotPasswordPage() {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     required
+                    className="transition-all duration-200 focus:scale-[1.02]"
                   />
                 </div>
               </>
             ) : (
               <>
-                <div className="grid gap-2">
-                  <Label htmlFor="password">Nueva contraseña</Label>
+                <div className="grid gap-2 animate-in slide-in-from-left-2 duration-500">
+                  <Label htmlFor="password" className="text-sm font-medium">
+                    Nueva contraseña
+                  </Label>
                   <Input
                     id="password"
                     type="password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     required
+                    className="transition-all duration-200 focus:scale-[1.02]"
                   />
                 </div>
 
-                <div className="grid gap-2">
-                  <Label htmlFor="code">Código de verificación</Label>
+                <div className="grid gap-2 animate-in slide-in-from-right-2 duration-500 delay-75">
+                  <Label htmlFor="code" className="text-sm font-medium">
+                    Código de verificación
+                  </Label>
                   <Input
                     id="code"
                     type="text"
                     value={code}
                     onChange={(e) => setCode(e.target.value)}
                     required
+                    className="transition-all duration-200 focus:scale-[1.02]"
                   />
                 </div>
               </>
             )}
 
             {error && (
-              <p className="text-sm text-destructive text-center">{error}</p>
+              <p className="text-sm text-destructive text-center animate-in slide-in-from-bottom-2 duration-300">
+                {error}
+              </p>
             )}
             {secondFactor && (
-              <p className="text-sm text-muted-foreground text-center">
-                Se requiere 2FA. Esta interfaz aún no lo maneja.
+              <p className="text-sm text-muted-foreground text-center animate-in slide-in-from-bottom-2 duration-300">
+                Se requiere autenticación de dos factores. Esta interfaz aún no
+                lo maneja.
               </p>
             )}
           </CardContent>
 
-          <CardFooter className="flex flex-col gap-3 pt-3">
-            <Button type="submit" className="w-full">
+          <CardFooter className="flex flex-col gap-3 pt-4 animate-in slide-in-from-bottom-4 duration-500 delay-200">
+            <Button
+              type="submit"
+              className="w-full transition-all duration-200 hover:scale-105 hover:shadow-lg"
+            >
               {!successfulCreation
                 ? "Enviar código de recuperación"
                 : "Restablecer contraseña"}
             </Button>
             <Link href="/auth/sign-in" className="w-full">
-              <Button variant="link" className="w-full text-center">
+              <Button
+                variant="link"
+                className="w-full text-center transition-all duration-200 hover:underline"
+              >
                 Volver al inicio de sesión
               </Button>
             </Link>
