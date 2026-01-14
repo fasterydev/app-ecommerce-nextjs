@@ -29,6 +29,13 @@ const getAuthToken = async () => {
 export type TypeShipping = "local_delivery" | "national_delivery" | "pickup";
 export type SaleStatus = "pending" | "completed" | "canceled";
 
+export type SalesPagination = {
+  page: number;
+  limit: number;
+  total: number;
+  totalPages: number;
+};
+
 // DTO para actualizar una venta
 export interface UpdateSaleDto {
   typeShipping?: TypeShipping;
@@ -45,11 +52,16 @@ export interface UpdateSaleDto {
 // ========== SALES ==========
 
 // Admin: Obtener todas las ventas (admin ve todas las ventas de todos los usuarios)
-export const getSales = async () => {
+export const getSales = async (params?: { page?: number; limit?: number }) => {
   try {
     const token = await getAuthToken();
 
-    const response = await fetch(`${envs.BackendUrl}/sales/getSales`, {
+    const searchParams = new URLSearchParams();
+    if (params?.page) searchParams.set("page", String(params.page));
+    if (params?.limit) searchParams.set("limit", String(params.limit));
+    const query = searchParams.toString();
+
+    const response = await fetch(`${envs.BackendUrl}/sales/getSales${query ? `?${query}` : ""}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -59,15 +71,23 @@ export const getSales = async () => {
     });
 
     if (!response.ok) {
-      return await handleResponseError(response);
+      const err = await handleResponseError(response);
+      return { ...err, sales: [], pagination: undefined as SalesPagination | undefined };
     }
 
     const resData = await response.json();
 
+    const sales = Array.isArray(resData)
+      ? resData
+      : Array.isArray(resData?.sales)
+        ? resData.sales
+        : [];
+
     return {
       statusCode: response.status,
       message: resData.message || "Ventas obtenidas exitosamente",
-      sales: Array.isArray(resData) ? resData : resData.sales || [],
+      sales,
+      pagination: (resData?.pagination as SalesPagination | undefined) || undefined,
     };
   } catch (error) {
     console.error("Error en getSales:", error);

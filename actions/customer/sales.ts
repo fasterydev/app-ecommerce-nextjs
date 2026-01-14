@@ -33,11 +33,13 @@ export type SaleStatus = "pending" | "completed" | "canceled";
 export interface CreateSaleDto {
   typeShipping: TypeShipping;
   phoneContact?: string;
-  street: string;
-  city: string;
-  state: string;
-  postalCode: string;
-  country: string;
+  // Para `pickup` estos campos pueden omitirse.
+  // Para delivery, el backend valida que vengan completos.
+  street?: string;
+  city?: string;
+  state?: string;
+  postalCode?: string;
+  country?: string;
   addressLine2?: string;
 }
 

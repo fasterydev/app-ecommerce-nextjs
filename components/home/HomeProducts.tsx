@@ -18,7 +18,8 @@ const HomeProducts = () => {
     <div className="flex flex-col items-center pt-14">
       <div className="flex flex-col items-center mb-4">
         <p className="text-2xl font-medium">
-          Productos <span className="font-medium text-primary">Destacados</span>
+          Productos{" "}
+          <span className="font-medium text-primary">Destacados</span>
         </p>
         <div className="w-28 h-0.5 bg-primary mt-2"></div>
       </div>

@@ -47,6 +47,18 @@ export function CartSummary() {
   const { totalPriceCart, fetchCart } = useCartStore();
   const { createSale, isSaving } = useSaleStore();
 
+  const shippingFeeCents =
+    deliveryMethod === "pickup"
+      ? 0
+      : deliveryMethod === "local_delivery"
+        ? 200
+        : deliveryMethod === "national_delivery"
+          ? 500
+          : 0;
+
+  const cartSubtotalCents = totalPriceCart();
+  const orderTotalCents = cartSubtotalCents + shippingFeeCents;
+
   const handleDeliveryMethodChange = (value: string) => {
     setDeliveryMethod(value as TypeShipping);
   };
@@ -77,12 +89,16 @@ export function CartSummary() {
     try {
       const createSaleDto: CreateSaleDto = {
         typeShipping: deliveryMethod,
-        street: address.street,
-        city: address.city,
-        state: address.state,
-        postalCode: address.postalCode,
-        country: address.country,
-        addressLine2: address.addressLine2 || undefined,
+        // Si es pickup, no enviamos dirección (backend la omite/valida por tipo de envío)
+        street: deliveryMethod === "pickup" ? undefined : address.street,
+        city: deliveryMethod === "pickup" ? undefined : address.city,
+        state: deliveryMethod === "pickup" ? undefined : address.state,
+        postalCode: deliveryMethod === "pickup" ? undefined : address.postalCode,
+        country: deliveryMethod === "pickup" ? undefined : address.country,
+        addressLine2:
+          deliveryMethod === "pickup"
+            ? undefined
+            : address.addressLine2 || undefined,
         phoneContact: address.phoneContact || undefined,
       };
 
@@ -126,7 +142,7 @@ export function CartSummary() {
                       <div>
                         <p className="font-medium">Envío Ciudad</p>
                         <p className="text-sm text-muted-foreground">
-                          24 horas
+                      24 horas · {currencyFormat(convertFromMilliunits(200))}
                         </p>
                       </div>
                     </div>
@@ -149,7 +165,7 @@ export function CartSummary() {
                       <div>
                         <p className="font-medium">Envío Nacional</p>
                         <p className="text-sm text-muted-foreground">
-                          1-3 días hábiles
+                          1-3 días hábiles · {currencyFormat(convertFromMilliunits(500))}
                         </p>
                       </div>
                     </div>
@@ -165,7 +181,7 @@ export function CartSummary() {
                     <div>
                       <p className="font-medium">Retirar en Sucursal</p>
                       <p className="text-sm text-muted-foreground">
-                        Sin costo adicional
+                        Sin costo adicional · {currencyFormat(convertFromMilliunits(0))}
                       </p>
                     </div>
                   </div>
@@ -283,10 +299,18 @@ export function CartSummary() {
         </CardHeader>
         <CardContent className="space-y-2">
           <Separator />
+          <div className="flex justify-between text-sm text-muted-foreground">
+            <span>Subtotal:</span>
+            <span>{currencyFormat(convertFromMilliunits(cartSubtotalCents))}</span>
+          </div>
+          <div className="flex justify-between text-sm text-muted-foreground">
+            <span>Envío:</span>
+            <span>{currencyFormat(convertFromMilliunits(shippingFeeCents))}</span>
+          </div>
           <div className="flex justify-between font-medium">
             <span>Total:</span>
             <span>
-              {currencyFormat(convertFromMilliunits(totalPriceCart()))}
+              {currencyFormat(convertFromMilliunits(orderTotalCents))}
             </span>
           </div>
         </CardContent>

@@ -32,3 +32,4 @@ export const uploadFile = async (file: File) => {
     throw new Error("Error al subir el archivo");
   }
 };
+

@@ -4,6 +4,8 @@ import PayphoneButton from "@/components/shared/payphone-button";
 
 export default function PayphonePage() {
   const payphoneConfig = {
+    // Todos los valores deben ser enteros en centavos: $20.00 => 2000
+    // Regla: amount = amountWithTax + amountWithoutTax + tax
     amount: 315,
     amountWithoutTax: 200,
     amountWithTax: 100,

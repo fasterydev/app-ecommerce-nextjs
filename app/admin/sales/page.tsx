@@ -25,9 +25,11 @@ import {
 } from "lucide-react";
 import { useEffect } from "react";
 import { PageHeader } from "@/components/shared/page-header";
+import { envs } from "@/env";
 
 export default function SalesAdminPage() {
-  const { sales, fetchSales, isLoading } = useAdminSaleStore();
+  const { sales, fetchSales, isLoading, pagination, setPage, setLimit, lastError, lastStatusCode } =
+    useAdminSaleStore();
 
   useEffect(() => {
     fetchSales();
@@ -50,6 +52,58 @@ export default function SalesAdminPage() {
         description="Administra todas las ventas del sistema. Puedes ver detalles y actualizar estados de las ventas."
       />
 
+      <div className="flex flex-col sm:flex-row gap-3 sm:items-center sm:justify-between">
+        <div className="text-sm text-muted-foreground">
+          Mostrando <span className="font-medium text-foreground">{sales.length}</span>{" "}
+          de <span className="font-medium text-foreground">{pagination.total}</span> ventas
+        </div>
+
+        <div className="flex items-center gap-2">
+          <select
+            className="h-9 rounded-md border bg-background px-3 text-sm"
+            value={String(pagination.limit)}
+            onChange={(e) => {
+              const limit = Number(e.target.value);
+              setLimit(limit);
+              fetchSales({ page: 1, limit });
+            }}
+          >
+            <option value="5">5 por página</option>
+            <option value="10">10 por página</option>
+            <option value="20">20 por página</option>
+          </select>
+
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => {
+              const next = Math.max(1, pagination.page - 1);
+              setPage(next);
+              fetchSales({ page: next });
+            }}
+            disabled={isLoading || pagination.page <= 1}
+          >
+            Anterior
+          </Button>
+          <div className="text-sm text-muted-foreground">
+            Página <span className="font-medium text-foreground">{pagination.page}</span> /{" "}
+            <span className="font-medium text-foreground">{Math.max(1, pagination.totalPages)}</span>
+          </div>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => {
+              const next = Math.min(pagination.totalPages || 1, pagination.page + 1);
+              setPage(next);
+              fetchSales({ page: next });
+            }}
+            disabled={isLoading || pagination.page >= (pagination.totalPages || 1)}
+          >
+            Siguiente
+          </Button>
+        </div>
+      </div>
+
       {isLoading ? (
         <div className="flex items-center justify-center py-12">
           <Loader2Icon className="h-8 w-8 animate-spin text-muted-foreground" />
@@ -62,8 +116,23 @@ export default function SalesAdminPage() {
               No hay ventas registradas
             </p>
             <p className="text-sm text-muted-foreground">
-              Las ventas aparecerán aquí cuando los clientes realicen compras.
+              {lastError
+                ? lastError
+                : "Las ventas aparecerán aquí cuando los clientes realicen compras."}
             </p>
+            <div className="mt-4 text-xs text-muted-foreground space-y-1">
+              <div>
+                <span className="font-medium">Backend:</span> {envs.BackendUrl}
+              </div>
+              <div>
+                <span className="font-medium">Status:</span>{" "}
+                {lastStatusCode ?? "—"}
+              </div>
+              <div>
+                <span className="font-medium">Paginación:</span>{" "}
+                page={pagination.page}, limit={pagination.limit}, total={pagination.total}, totalPages={pagination.totalPages}
+              </div>
+            </div>
           </CardContent>
         </Card>
       ) : (

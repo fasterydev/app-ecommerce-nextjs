@@ -13,7 +13,7 @@ export * from "./customer/favorites";
 export * from "./customer/profile";
 
 // FILES
-export * from "./files/upload-file";
+export * from "./customer/files/upload-file";
 
 // ADMIN
 export * from "./admin/users";
@@ -43,6 +43,7 @@ export {
   getSales as getSalesAdmin,
   getSale as getSaleAdmin,
   updateSale as updateSaleAdmin,
+  deleteSale as deleteSaleAdmin,
   type SaleStatus as SaleStatusAdmin,
   type TypeShipping as TypeShippingAdmin,
   type UpdateSaleDto as UpdateSaleDtoAdmin,

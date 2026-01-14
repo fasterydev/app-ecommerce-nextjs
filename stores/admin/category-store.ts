@@ -15,8 +15,19 @@ type CategoryStore = {
   currentCategory: Category | null;
   isLoading: boolean;
   isSaving: boolean;
+  pagination?: {
+    page: number;
+    limit: number;
+    total: number;
+    totalPages: number;
+  };
+  filters: {
+    page: number;
+    limit: number;
+    search?: string;
+  };
 
-  fetchCategories: () => Promise<void>;
+  fetchCategories: (params?: Partial<CategoryStore["filters"]>) => Promise<void>;
   fetchCategoryById: (categoryId: string) => Promise<Category | null>;
   createCategory: (category: Partial<Category>) => Promise<{ success: boolean; message?: string }>;
   updateCategory: (category: Partial<Category>) => Promise<{ success: boolean; message?: string }>;
@@ -30,23 +41,34 @@ export const useAdminCategoryStore = create<CategoryStore>((set, get) => ({
   currentCategory: null,
   isLoading: false,
   isSaving: false,
+  pagination: undefined,
+  filters: { page: 1, limit: 10, search: undefined },
 
   setCategories: (items) => set({ categories: items }),
   setCurrentCategory: (category) => set({ currentCategory: category }),
 
-  fetchCategories: async () => {
+  fetchCategories: async (params) => {
     set({ isLoading: true });
     try {
-      const res = await getCategories();
+      const current = get().filters;
+      const next = {
+        ...current,
+        ...params,
+        page: params?.page ?? (params && params.search !== undefined ? 1 : current.page),
+      };
+
+      set({ filters: next });
+
+      const res = await getCategories(next);
       if (res.statusCode === 200 && "categories" in res) {
-        set({ categories: res.categories });
+        set({ categories: res.categories, pagination: (res as any).pagination });
       } else {
-        set({ categories: [] });
+        set({ categories: [], pagination: undefined });
         toast.error(res.message || "Error al obtener las categorías");
       }
     } catch (err) {
       console.error("❌ Error al obtener las categorías:", err);
-      set({ categories: [] });
+      set({ categories: [], pagination: undefined });
       toast.error("Error al obtener las categorías");
     } finally {
       set({ isLoading: false });

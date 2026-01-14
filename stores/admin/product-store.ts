@@ -15,8 +15,21 @@ type ProductStore = {
   currentProduct: Product | null;
   isLoading: boolean;
   isSaving: boolean;
+  pagination?: {
+    page: number;
+    limit: number;
+    total: number;
+    totalPages: number;
+  };
+  filters: {
+    page: number;
+    limit: number;
+    search?: string;
+    brandId?: string;
+    categoryId?: string;
+  };
 
-  fetchProducts: () => Promise<void>;
+  fetchProducts: (params?: Partial<ProductStore["filters"]>) => Promise<void>;
   fetchProductById: (productId: string) => Promise<Product | null>;
   createProduct: (product: Partial<Product>) => Promise<{ success: boolean; message?: string }>;
   updateProduct: (product: Partial<Product>) => Promise<{ success: boolean; message?: string }>;
@@ -30,23 +43,40 @@ export const useAdminProductStore = create<ProductStore>((set, get) => ({
   currentProduct: null,
   isLoading: false,
   isSaving: false,
+  pagination: undefined,
+  filters: {
+    page: 1,
+    limit: 10,
+    search: undefined,
+    brandId: undefined,
+    categoryId: undefined,
+  },
 
   setProducts: (items) => set({ products: items }),
   setCurrentProduct: (product) => set({ currentProduct: product }),
 
-  fetchProducts: async () => {
+  fetchProducts: async (params) => {
     set({ isLoading: true });
     try {
-      const res = await getProducts();
+      const current = get().filters;
+      const next = {
+        ...current,
+        ...params,
+        page: params?.page ?? (params && (params.search || params.brandId || params.categoryId) ? 1 : current.page),
+      };
+
+      set({ filters: next });
+
+      const res = await getProducts(next);
       if (res.statusCode === 200 && "products" in res) {
-        set({ products: res.products });
+        set({ products: res.products, pagination: (res as any).pagination });
       } else {
-        set({ products: [] });
+        set({ products: [], pagination: undefined });
         toast.error(res.message || "Error al obtener los productos");
       }
     } catch (err) {
       console.error("❌ Error al obtener los productos:", err);
-      set({ products: [] });
+      set({ products: [], pagination: undefined });
       toast.error("Error al obtener los productos");
     } finally {
       set({ isLoading: false });
