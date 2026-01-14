@@ -120,7 +120,7 @@ export default function SignUpPage() {
                         <Clerk.FieldError className="block text-sm text-destructive" />
                       </Clerk.Field>
                     </CardContent>
-                    <CardFooter className="-mt-6">
+                    <CardFooter className="-mt-3">
                       <div className="grid w-full gap-y-4 animate-in slide-in-from-bottom-4 duration-500 delay-200">
                         <SignUp.Captcha className="empty:hidden" />
                         <SignUp.Action submit asChild>
