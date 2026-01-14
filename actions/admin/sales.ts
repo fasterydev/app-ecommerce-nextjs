@@ -36,6 +36,28 @@ export type SalesPagination = {
   totalPages: number;
 };
 
+export type SalesAnalyticsPoint = {
+  period: string; // YYYY-MM o YYYY-MM-DD
+  salesCount: number;
+  revenue: number; // centavos
+  profit: number; // centavos
+};
+
+export type SalesAnalyticsResponse = {
+  usersTotal: number;
+  kpis: {
+    currentMonth: SalesAnalyticsPoint;
+    previousMonth: SalesAnalyticsPoint | null;
+  };
+  series: {
+    last3Months: SalesAnalyticsPoint[];
+    last30Days: SalesAnalyticsPoint[];
+    last7Days: SalesAnalyticsPoint[];
+    lastMonths: SalesAnalyticsPoint[];
+  };
+  note?: string;
+};
+
 // DTO para actualizar una venta
 export interface UpdateSaleDto {
   typeShipping?: TypeShipping;
@@ -95,6 +117,48 @@ export const getSales = async (params?: { page?: number; limit?: number }) => {
       error instanceof Error
         ? error.message
         : "Error desconocido al obtener las ventas"
+    );
+  }
+};
+
+// Admin: Analytics de ventas
+export const getSalesAnalytics = async (params?: { months?: number }) => {
+  try {
+    const token = await getAuthToken();
+
+    const searchParams = new URLSearchParams();
+    if (params?.months) searchParams.set("months", String(params.months));
+    const query = searchParams.toString();
+
+    const response = await fetch(
+      `${envs.BackendUrl}/sales/analytics${query ? `?${query}` : ""}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        cache: "no-store",
+      }
+    );
+
+    if (!response.ok) {
+      return await handleResponseError(response);
+    }
+
+    const resData = (await response.json()) as SalesAnalyticsResponse;
+
+    return {
+      statusCode: response.status,
+      message: "Analytics obtenida exitosamente",
+      analytics: resData,
+    };
+  } catch (error) {
+    console.error("Error en getSalesAnalytics:", error);
+    throw new Error(
+      error instanceof Error
+        ? error.message
+        : "Error desconocido al obtener analytics"
     );
   }
 };

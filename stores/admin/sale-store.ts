@@ -6,6 +6,8 @@ import {
   updateSale, 
   UpdateSaleDto,
   type SalesPagination,
+  getSalesAnalytics,
+  type SalesAnalyticsResponse,
 } from "@/actions/admin/sales";
 import { Sale } from "@/components/sale/interface";
 import { toast } from "sonner";
@@ -15,11 +17,15 @@ type SaleStore = {
   currentSale: Sale | null;
   isLoading: boolean;
   isSaving: boolean;
+  isAnalyticsLoading: boolean;
   pagination: SalesPagination;
   lastError: string | null;
   lastStatusCode: number | null;
+  analytics: SalesAnalyticsResponse | null;
+  analyticsError: string | null;
 
   fetchSales: (opts?: { page?: number; limit?: number }) => Promise<void>;
+  fetchSalesAnalytics: (opts?: { months?: number }) => Promise<void>;
   fetchSaleById: (id: string) => Promise<Sale | null>;
   updateSale: (id: string, updateSaleDto: UpdateSaleDto) => Promise<{ success: boolean; message?: string }>;
   setSales: (items: Sale[]) => void;
@@ -33,9 +39,12 @@ export const useAdminSaleStore = create<SaleStore>((set, get) => ({
   currentSale: null,
   isLoading: false,
   isSaving: false,
+  isAnalyticsLoading: false,
   lastError: null,
   lastStatusCode: null,
   pagination: { page: 1, limit: 10, total: 0, totalPages: 1 },
+  analytics: null,
+  analyticsError: null,
 
   setSales: (items) => set({ sales: items }),
   setCurrentSale: (sale) => set({ currentSale: sale }),
@@ -74,6 +83,27 @@ export const useAdminSaleStore = create<SaleStore>((set, get) => ({
       toast.error("Error al obtener las ventas");
     } finally {
       set({ isLoading: false });
+    }
+  },
+
+  fetchSalesAnalytics: async (opts) => {
+    set({ isAnalyticsLoading: true, analyticsError: null });
+    try {
+      const res = await getSalesAnalytics({ months: opts?.months ?? 6 });
+      if (res.statusCode === 200 && "analytics" in res) {
+        set({ analytics: res.analytics as SalesAnalyticsResponse });
+      } else {
+        set({
+          analytics: null,
+          analyticsError: res.message || "Error al obtener analytics",
+        });
+      }
+    } catch (err) {
+      console.error("❌ Error al obtener analytics:", err);
+      set({ analytics: null, analyticsError: "Error al obtener analytics" });
+      toast.error("Error al obtener analytics");
+    } finally {
+      set({ isAnalyticsLoading: false });
     }
   },
 

@@ -9,92 +9,140 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
+import { currencyFormat } from "@/utils/currencyFormat"
+import { convertFromMilliunits } from "@/utils/covertAmountMiliunits"
+import type { SalesAnalyticsResponse } from "@/actions/admin/sales"
 
-export function SectionCards() {
+function pctChange(current: number, previous: number | null) {
+  if (previous === null) return null
+  if (previous === 0) return current === 0 ? 0 : 100
+  return ((current - previous) / previous) * 100
+}
+
+export function SectionCards({
+  analytics,
+  isLoading,
+  error,
+}: {
+  analytics: SalesAnalyticsResponse | null
+  isLoading?: boolean
+  error?: string | null
+}) {
+  const current = analytics?.kpis.currentMonth
+  const prev = analytics?.kpis.previousMonth
+
+  const revenuePct = pctChange(current?.revenue ?? 0, prev?.revenue ?? null)
+  const salesPct = pctChange(current?.salesCount ?? 0, prev?.salesCount ?? null)
+  const profitPct = pctChange(current?.profit ?? 0, prev?.profit ?? null)
+
+  const revenueUp = (revenuePct ?? 0) >= 0
+  const salesUp = (salesPct ?? 0) >= 0
+  const profitUp = (profitPct ?? 0) >= 0
+
   return (
     <div className="*:data-[slot=card]:from-primary/5 *:data-[slot=card]:to-card dark:*:data-[slot=card]:bg-card grid grid-cols-1 gap-4 px-4 *:data-[slot=card]:bg-gradient-to-t *:data-[slot=card]:shadow-xs lg:px-2 @xl/main:grid-cols-2 @5xl/main:grid-cols-4">
       <Card className="@container/card">
         <CardHeader>
-          <CardDescription>Total Revenue</CardDescription>
+          <CardDescription>Ingresos (mes actual)</CardDescription>
           <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-            $1,250.00
+            {isLoading
+              ? "—"
+              : currencyFormat(convertFromMilliunits(current?.revenue ?? 0))}
           </CardTitle>
           <CardAction>
-            <Badge variant="outline">
-              <IconTrendingUp />
-              +12.5%
-            </Badge>
+            {revenuePct === null ? (
+              <Badge variant="outline">—</Badge>
+            ) : (
+              <Badge variant="outline">
+                {revenueUp ? <IconTrendingUp /> : <IconTrendingDown />}
+                {`${revenuePct >= 0 ? "+" : ""}${revenuePct.toFixed(1)}%`}
+              </Badge>
+            )}
           </CardAction>
         </CardHeader>
         <CardFooter className="flex-col items-start gap-1.5 text-sm">
           <div className="line-clamp-1 flex gap-2 font-medium">
-            Trending up this month <IconTrendingUp className="size-4" />
+            Comparado con el mes anterior{" "}
+            {revenueUp ? <IconTrendingUp className="size-4" /> : <IconTrendingDown className="size-4" />}
           </div>
           <div className="text-muted-foreground">
-            Visitors for the last 6 months
+            Montos en centavos (backend) → formateado en USD
           </div>
         </CardFooter>
       </Card>
       <Card className="@container/card">
         <CardHeader>
-          <CardDescription>New Customers</CardDescription>
+          <CardDescription>Ventas (mes actual)</CardDescription>
           <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-            1,234
+            {isLoading ? "—" : (current?.salesCount ?? 0).toLocaleString("es-EC")}
           </CardTitle>
           <CardAction>
-            <Badge variant="outline">
-              <IconTrendingDown />
-              -20%
-            </Badge>
+            {salesPct === null ? (
+              <Badge variant="outline">—</Badge>
+            ) : (
+              <Badge variant="outline">
+                {salesUp ? <IconTrendingUp /> : <IconTrendingDown />}
+                {`${salesPct >= 0 ? "+" : ""}${salesPct.toFixed(1)}%`}
+              </Badge>
+            )}
           </CardAction>
         </CardHeader>
         <CardFooter className="flex-col items-start gap-1.5 text-sm">
           <div className="line-clamp-1 flex gap-2 font-medium">
-            Down 20% this period <IconTrendingDown className="size-4" />
+            Cambio mensual{" "}
+            {salesUp ? <IconTrendingUp className="size-4" /> : <IconTrendingDown className="size-4" />}
           </div>
           <div className="text-muted-foreground">
-            Acquisition needs attention
+            Total de ventas activas (no canceladas/reintegradas)
           </div>
         </CardFooter>
       </Card>
       <Card className="@container/card">
         <CardHeader>
-          <CardDescription>Active Accounts</CardDescription>
+          <CardDescription>Usuarios (total)</CardDescription>
           <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-            45,678
+            {isLoading ? "—" : (analytics?.usersTotal ?? 0).toLocaleString("es-EC")}
           </CardTitle>
           <CardAction>
-            <Badge variant="outline">
-              <IconTrendingUp />
-              +12.5%
-            </Badge>
+            <Badge variant="outline">—</Badge>
           </CardAction>
         </CardHeader>
         <CardFooter className="flex-col items-start gap-1.5 text-sm">
           <div className="line-clamp-1 flex gap-2 font-medium">
-            Strong user retention <IconTrendingUp className="size-4" />
+            Usuarios registrados en el sistema
           </div>
-          <div className="text-muted-foreground">Engagement exceed targets</div>
+          <div className="text-muted-foreground">
+            {error ? `Error: ${error}` : "Fuente: endpoint /sales/analytics"}
+          </div>
         </CardFooter>
       </Card>
       <Card className="@container/card">
         <CardHeader>
-          <CardDescription>Growth Rate</CardDescription>
+          <CardDescription>Ganancia (mes actual)</CardDescription>
           <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-            4.5%
+            {isLoading
+              ? "—"
+              : currencyFormat(convertFromMilliunits(current?.profit ?? 0))}
           </CardTitle>
           <CardAction>
-            <Badge variant="outline">
-              <IconTrendingUp />
-              +4.5%
-            </Badge>
+            {profitPct === null ? (
+              <Badge variant="outline">—</Badge>
+            ) : (
+              <Badge variant="outline">
+                {profitUp ? <IconTrendingUp /> : <IconTrendingDown />}
+                {`${profitPct >= 0 ? "+" : ""}${profitPct.toFixed(1)}%`}
+              </Badge>
+            )}
           </CardAction>
         </CardHeader>
         <CardFooter className="flex-col items-start gap-1.5 text-sm">
           <div className="line-clamp-1 flex gap-2 font-medium">
-            Steady performance increase <IconTrendingUp className="size-4" />
+            Comparado con el mes anterior{" "}
+            {profitUp ? <IconTrendingUp className="size-4" /> : <IconTrendingDown className="size-4" />}
           </div>
-          <div className="text-muted-foreground">Meets growth projections</div>
+          <div className="text-muted-foreground">
+            Ganancia = sum(product.revenue * qty)
+          </div>
         </CardFooter>
       </Card>
     </div>
