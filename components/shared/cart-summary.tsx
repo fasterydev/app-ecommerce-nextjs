@@ -269,6 +269,7 @@ export function CartSummary() {
                 <Input
                   id="country"
                   placeholder="País"
+                  disabled
                   value={address.country}
                   onChange={(e) =>
                     setAddress({ ...address, country: e.target.value })

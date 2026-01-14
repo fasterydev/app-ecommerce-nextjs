@@ -50,24 +50,24 @@ function MoneyTooltip({
   label?: string;
 }) {
   if (!active || !payload?.length) return null;
-  const revenue = payload.find((p) => p.dataKey === "revenue")?.value ?? 0;
+  const gmv = payload.find((p) => p.dataKey === "gmv")?.value ?? 0;
   const profit = payload.find((p) => p.dataKey === "profit")?.value ?? 0;
-  const salesCount = payload.find((p) => p.dataKey === "salesCount")?.payload?.salesCount ?? 0;
+  const completedOrders = payload.find((p) => p.dataKey === "profit")?.payload?.completedOrders ?? 0;
 
   return (
     <div className="rounded-md border bg-background p-2 text-xs shadow-sm">
       <div className="font-medium mb-1">{label}</div>
       <div className="flex justify-between gap-4">
         <span>Ingresos:</span>
-        <span className="font-medium">{currencyFormat(convertFromMilliunits(revenue))}</span>
+        <span className="font-medium">{currencyFormat(convertFromMilliunits(gmv))}</span>
       </div>
       <div className="flex justify-between gap-4">
         <span>Ganancia:</span>
         <span className="font-medium">{currencyFormat(convertFromMilliunits(profit))}</span>
       </div>
       <div className="flex justify-between gap-4">
-        <span>Ventas:</span>
-        <span className="font-medium">{salesCount}</span>
+        <span>Completadas:</span>
+        <span className="font-medium">{completedOrders}</span>
       </div>
     </div>
   );
@@ -93,9 +93,10 @@ export function ChartAreaInteractive({
     const raw = seriesForRange(analytics, timeRange);
     return raw.map((p) => ({
       period: formatPeriod(p.period),
-      revenue: p.revenue,
-      profit: p.profit,
-      salesCount: p.salesCount,
+      // Usamos métricas COMPLETADAS para graficar finanzas
+      gmv: (p as any).gmvCompleted ?? (p as any).gmv ?? 0,
+      profit: (p as any).profitCompleted ?? (p as any).profit ?? (p as any).ganancia ?? 0,
+      completedOrders: (p as any).completedOrders ?? 0,
     }));
   }, [analytics, timeRange]);
 
@@ -190,7 +191,7 @@ export function ChartAreaInteractive({
                 <Tooltip content={<MoneyTooltip />} />
                 <Area
                   type="monotone"
-                  dataKey="revenue"
+                  dataKey="gmv"
                   name="Ingresos"
                   stroke="hsl(var(--primary))"
                   fill="url(#fillRevenue)"

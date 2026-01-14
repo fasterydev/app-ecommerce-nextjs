@@ -20,5 +20,9 @@ export interface Sale {
     subtotal:  number;
     total:     number;
     shippingFee: number;
+    // Analítica (centavos) - opcional en respuestas antiguas
+    itemsGmv?: number;
+    itemsCost?: number;
+    profit?: number;
 }
 

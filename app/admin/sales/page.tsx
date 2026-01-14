@@ -120,19 +120,6 @@ export default function SalesAdminPage() {
                 ? lastError
                 : "Las ventas aparecerán aquí cuando los clientes realicen compras."}
             </p>
-            <div className="mt-4 text-xs text-muted-foreground space-y-1">
-              <div>
-                <span className="font-medium">Backend:</span> {envs.BackendUrl}
-              </div>
-              <div>
-                <span className="font-medium">Status:</span>{" "}
-                {lastStatusCode ?? "—"}
-              </div>
-              <div>
-                <span className="font-medium">Paginación:</span>{" "}
-                page={pagination.page}, limit={pagination.limit}, total={pagination.total}, totalPages={pagination.totalPages}
-              </div>
-            </div>
           </CardContent>
         </Card>
       ) : (
